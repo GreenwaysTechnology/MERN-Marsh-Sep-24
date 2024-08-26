@@ -1,0 +1,21 @@
+
+.....................................................................................
+		   	    MERN Stack
+		   M-Mongo E-Express,R-React-N-Node
+Back End And Front End - Full Stack Development
+ - Javascript
+.....................................................................................
+Topics
+MongoDB- 16 hrs
+js -4 hrs
+Node
+Express
+Nest.js
+React,Redux
+Next.js
+.....................................................................................
+Software setup:
+
+1.MongoDB
+2.Node.js 18+
+3.vscode

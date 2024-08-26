@@ -1,0 +1,332 @@
+				Mongodb
+.....................................................................................
+
+What is MongoDb?
+   Mongodb is one of the database.
+
+Software structures:
+
+1.Front End- User interface
+   Web based /Browser based User interface - React
+   Mobile apps 
+   Desktop apps
+   Device apps
+2.Back end - Distributed application
+    Application which is connected over network(local,internet)
+  Distributed apps are built using two methodology
+  1.Monolithic - Express.js,Node.js
+  2.Microservices - Nest.js 
+
+3.Data sources- Databases,storage
+    Databases:
+        DBMS
+        RDBMS
+        NOSQL
+
+.....................................................................................
+			 Mongodb -NQSQL
+.....................................................................................
+
+We have learned
+
+1.What is sql and why not sql
+2.History of nosql 
+3.Types of nosql databases
+  -1.Key-value
+  -2.column-family
+  -3.Document
+  -4.Graph
+4.aggregate 
+   Object or group of objects which stored into storage
+  In Document oriented database Aggregate is "Document".
+
+
+What is Mongodb?
+  Mongodb is one of the Document oriented nosql database.
+  Mongodb stores data in the form of documents.
+.....................................................................................
+			  Core Concepts of Mongodb
+.....................................................................................
+
+Database:
+........
+  In MongoDB, databases hold one or more collections of documents. 
+  In Relational Databases hold one or more "database objects" -  tables,views,storedprocedures
+
+Document:
+  Mongodb stores data records as BSON document, just like json document but binary repreentation of JSON.
+
+json:
+ {
+   "key":2,
+   "key":"test" 
+ }
+Bson:
+ {
+   key:12,
+   key:"test"
+ }
+field:value
+
+In relational databases, "document is eq" to "Row"
+
+In relational databases, "Field/key is eq" to "Column"
+
+
+Collection:
+   Grouping of Documents / collection of Documents.
+
+At core, database is group of "collections" , where as collections are group of documents.
+
+Mongodb is schema less or schema flexiable, Every document is highly independant each other.
+
+eg:
+
+ Collection-test
+     {name:'x',age:34} - document-1
+     {name:'x',age:45,city:'somecity'} - document-2
+
+What if i want to enforce that every document inside a collection must have same set of key and values?
+
+  Yes, Mongodb provides a feature called "Schema Validation" rules, through which you can achive like tables in relational database.
+
+
+Unique Identifiers:
+...................
+  Collection is group of document,you must identify each document for query,update,remove, so mongodb assigns an field called "_id" .
+
+"_id":
+ It is a field is added automatically or manually , which values are unique.
+
+if you dont provide, mongo automatically assigns "_id"  and its value.
+
+..................................................................................
+			 Getting started with Mongodb
+....................................................................................
+
+There are two roles
+
+1.Developer
+2.Administorator
+
+As a Mongodb developer what should i know.
+
+1.How to create database
+2.How to create collection
+3.Collection Processing - CURD operations
+4.Indexes
+5.Transactions
+6.Aggreagtions
+7.Data Modeling
+
+....................................................................................
+			 Setting up Mongodb
+.....................................................................................
+
+There are different ways to setup monogdb
+
+You can create a MongoDB database in the following environments:
+
+1.MongoDB Atlas: The fully managed service for MongoDB deployments in the cloud
+
+2.MongoDB Enterprise: The subscription-based, self-managed version of MongoDB
+
+3.MongoDB Community: The source-available, free-to-use, and self-managed version of MongoDB
+
+4.Mongodb Docker: This is containerized way of setting up mongodb, it is for development and also for production.
+...................................................................................
+
+1.MongoDB Atlas:
+    The fully managed service for MongoDB deployments in the cloud
+
+2.MongoDB Enterprise: 
+    The subscription-based, self-managed version of MongoDB
+   MongoDB Enterprise is available for MongoDB Enterprise subscribers and includes several additional features including LDAP authentication, Kerberos authentication, and System Event Auditing.
+
+3.MongoDB Community:
+    The source-available, free-to-use, and self-managed version of MongoDB
+  Which does not offer many features, like multi node support,tools...
+
+
+How to install mongodb on windows?
+
+https://www.mongodb.com/docs/manual/tutorial/install-mongodb-on-windows/#std-label-install-mdb-community-windows.
+https://www.mongodb.com/try/download/community
+
+Community Edition Offers:
+
+1.Database process
+  mongod
+C:\Program Files\MongoDB\Server\7.0\bin
+  It is a primary daemon process for the mongodb system
+2.MongodbCompose
+    -It is gui tool to manage mongodb.
+
+
+How to connect to mongodb process?
+
+There are many client tools and programming languages offers drivers to connect.
+
+1.MongodbCompose
+2.Mongoshell -https://www.mongodb.com/try/download/shell
+
+How to connect via mongoshell
+C:\Users\subu\Downloads\mongosh-2.3.0-win32-x64\bin
+
+Note: you can this in the environment variable.
+so that you can access monogsh command any where.
+
+3.Programming languages
+  node.js(js)
+  java
+  C#/.net
+  Python
+ etc...
+
+4.Atals cli
+
+....
+Testing Mongosh:
+
+>mongosh --help
+
+Connecting to Mongodb:
+
+>mongosh 
+Current Mongosh Log ID: 66cc6d4c29183100ae2710bb
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.0
+Using MongoDB:          7.0.12
+Using Mongosh:          2.3.0
+
+For mongosh info see: https://www.mongodb.com/docs/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2024-08-20T18:49:49.704+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+test>
+
+Here :
+ mongodb://127.0.0.1:27017
+   |         |          |
+ protocal ip(localhost) port (Which is default port)
+ 
+test is default database is selected.      
+....................................................................................
+	       Storage Engines for self/community Managed Deployments
+....................................................................................
+
+The storage engine is the component of the database that is responsible for managing how data is stored both in memory and on disk.
+Monodb supports mulitple storage engines, as different storage engines perform differently.
+
+There are two engines:
+
+1.WiredTier Storage engine(default)
+2.InMemory Storage Engine
+.....................................................................................
+			Databases operations
+
+
+1.List available databases
+2.create database
+
+
+List Db:
+test> show dbs;
+admin   40.00 KiB
+config  72.00 KiB
+local   72.00 KiB
+
+Mongodb by default has three databases called "admin", "config", "local".
+
+Create Database:
+  
+test> use 
+
+switched to db myNewDb
+myNewDb> show dbs;
+admin    40.00 KiB
+config  108.00 KiB
+local    72.00 KiB
+
+Here we have created db but it is not visible or listed in the database
+
+   Every Database we create must have one collection.
+
+How to create Collection?
+
+Collection is created using mongosh in two ways
+
+1.using apis
+  In mongosh "mongodb" is referenced by the implicit global variable called "db".
+  db is represented by "Database" Object
+ Datbase Object has many methods
+
+ db.apiName 
+
+eg:
+ db.createCollection("message")
+
+myNewDb> db.createCollection("message")
+  here db refers "myNewDb"
+
+eg:
+
+myNewDb> db.createCollection("message")
+{ ok: 1 }
+
+myNewDb> show dbs;
+admin     40.00 KiB
+config   108.00 KiB
+local     72.00 KiB
+myNewDb    8.00 KiB
+myNewDb>
+
+2.When you insert document into collection which is not yet created
+.....................................................................................
+
+How to drop database?
+
+myNewDb> db.dropDatabase()
+{ ok: 1, dropped: 'myNewDb' }
+.....................................................................................
+			 Collections
+.....................................................................................
+
+How to list collection?
+
+mynewDb> show collections;
+test
+
+How to create collection?
+
+mynewDb> db.createCollection("foo")
+{ ok: 1 }
+mynewDb> db.createCollection("bar")
+{ ok: 1 }
+
+mynewDb> show collections;
+bar
+foo
+test
+mynewDb>
+
+How to drop collection?
+
+mynewDb> db.foo.drop()
+true
+mynewDb> show collections;
+test
+.....................................................................................
+			 Documents CURD
+....................................................................................
+
+
+
+
+
+
+
+
+
