@@ -173,7 +173,7 @@ There are many client tools and programming languages offers drivers to connect.
 How to connect via mongoshell
 C:\Users\subu\Downloads\mongosh-2.3.0-win32-x64\bin
 
-Note: you can this in the environment variable.
+Note: you can set this in the environment variable.
 so that you can access monogsh command any where.
 
 3.Programming languages
@@ -261,7 +261,7 @@ Collection is created using mongosh in two ways
 1.using apis
   In mongosh "mongodb" is referenced by the implicit global variable called "db".
   db is represented by "Database" Object
- Datbase Object has many methods
+ Database Object has many methods
 
  db.apiName 
 
@@ -322,10 +322,1065 @@ test
 			 Documents CURD
 ....................................................................................
 
+CURD Operations such as create,update,and delete documents.
+
+Create Operations:
+
+Before insert document into collection, we need collection.
+
+There are two ways to create collection
+
+1.create collection
+  db.createCollection("foo")
+2.during insert operation
+
+ if the collection does not exists,during insert operation, first collection is created then insert begins.
+
+How to insert document?
+
+Note:
+ In Mongodb , mongodb offers lot of apis called methods.
+ apis are available on database objects
+
+Syntax:
+  databaseReference.Dbmethods
+  databaseReference.collection.collectionMethods  
+
+There are two basic api to insert document
+
+db.collection.insertOne(document)
+  inserts a single document into a collection
+db.collection.insertMany(ArrayOfDocuments)
+   inserts multiple documents into a collection
+
+Document Structure:
+...................
+Document structure inspired from json syntax.
+{key:value}
+[{key:value}]
+
+key is field, value is the actual data we store.
+
+Every document must have key called "_id" and its value can be integer or hexa decimal.
+
+You can supply key with value, if you dont, mongodb automatically insert "_id" with value.
+
+eg:
+myDb> db.greeting.insertOne({_id:1,message:'Hello'})
+{ acknowledged: true, insertedId: 1 }
+
+Since insertOne is method which returns "another document".
+
+Returned Document contain:
+ 1.A boolean acknowledged: true if operation ran with write concern or false if write    concern was disabled
+ 2.A field insertedId with _id value of inserted document.
+
+
+How to insert another document?
+
+myDb> db.greeting.insertOne({_id:2,message:'Hai'})
+{ acknowledged: true, insertedId: 2 }
+myDb> db.greeting.insertOne({_id:3,message:'Weclome'})
+{ acknowledged: true, insertedId: 3 }
+
+What if  you dont provide _id?
+  myDb> db.greeting.insertOne({message:'greet'})
+{
+  acknowledged: true,
+  insertedId: ObjectId('66cda0f414b2342a562710bc')
+}
+
+if y dont provide  _id , mongodb inserts _id and its value which is based on some algorthim.
+
+What if you try insert same id for more than one document?
+
+myDb> db.greeting.insertOne({_id:3,message:'Weclome'})
+MongoServerError: E11000 duplicate key error collection: myDb.greeting index: _id_ dup key: { _id: 3 }
+
+
+Data types:
+...........
+
+ Mongo represents JSON format, so json has its own data types.
+
+Mongo stores values into database as BSON type system.
+https://bsonspec.org/
+
+What is Bson?
+BSON, short for Bin­ary JSON, is a bin­ary-en­coded seri­al­iz­a­tion of JSON-like doc­u­ments. Like JSON, BSON sup­ports the em­bed­ding of doc­u­ments and ar­rays with­in oth­er doc­u­ments and ar­rays.
+
+Mongo has implemented Bson types for stroing data,when you retrive data it returns json format.
+
+Mongo supports all json types + extra types
+
+
+Type  Number  Alias 
+
+Double 1     "double"
+String 2     "string"
+Object 3     "object"
+Array  4     "array"
+Binary data 5 "binData"
+Undefined 6  "undefined"
+ObjectId 7   "objectId"
+Boolean 8    "bool"
+Date  9       "date"
+Null  10     "null"
+Regular Expression 11 "regex"
+DBPointer  12  "dbPointer"
+JavaScript 13 "javascript"
+Symbol   14 "symbol"
+32-bit integer 16 "int"
+Timestamp 17 "timestamp" 
+64-bit integer 18 "long"
+Decimal128 19 "decimal"
+Min key -1 "minKey"
+Max key 127 "maxKey"
 
 
 
+When you insert document, you can insert with implicit type.
 
+myDb> db.greeting.insertOne({message:'greet'})
+
+Here typeof message is "string"
+
+How to insert document with Explicit Data type?
+
+myDb> db.types.insertOne({ _id:1, value:1})
+{ acknowledged: true, insertedId: 1 }
+
+db.types.insertOne({ _id:2, value:1})
+db.types.insertOne({_id:3,value:Long("100")})
+db.types.insertOne({_id:4,value:1.02})
+db.types.insertOne({_id:5,value:Decimal128("1.01")})
+db.types.insertOne({_id:ObjectId(),value:new Date()})
+
+
+What is ObjectId in MongoDB
+
+In MongoDB, every document within a collection contains an “_id” field that uniquely identifies it, serving as the primary key. The default format for this field is the ObjectId, a 12-byte BSON type that ensures uniqueness and embeds useful metadata, such as the creation timestamp.
+
+
+An ObjectID is a 12-byte Field Of BSON type
+
+The first 4 bytes represent the Unix Timestamp of the document.
+The next 3 bytes are the machine ID on which the MongoDB server is running.
+The next 2 bytes are of the process ID.
+The last Field is 3 bytes used for incrementing the objectid.
+
+Format of ObjectId:
+
+ObjectId(<hexadecimal>)
+
+ObjectId accepts one parameter which is optional Hexadecimal ObjectId in String.
+
+We can give our own ObjectId to the document but it must be unique.
+
+Key Characteristics of MongoDB ObjectId:
+.........................................
+
+Uniqueness: Ensures each document has a unique identifier within a collection.
+
+Timestamp: Embeds a timestamp, allowing you to extract the creation time of the document.
+
+Efficiency: Provides a compact, efficient way to generate unique identifiers without requiring coordination across servers.
+
+Date
+mongosh provides various methods to return the date, either as a string or as a Date object:
+
+Date() method which returns the current date as a string.
+
+new Date() constructor which returns a Date object using the ISODate() wrapper.
+
+ISODate() constructor which returns a Date object using the ISODate() wrapper.
+.....................................................................................
+			How to insert Multiple documents 
+.....................................................................................
+
+db.collection.insertMany([{},{},{}])
+
+myDb> db.names.insertMany([
+... {name:'Subramaian'},
+... {name:'Murugan'},
+... {name:'Karthik'}
+... ]
+... )
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('66cda8be14b2342a562710bf'),
+    '1': ObjectId('66cda8be14b2342a562710c0'),
+    '2': ObjectId('66cda8be14b2342a562710c1')
+  }
+}
+.....................................................................................
+			 Value Types
+.....................................................................................
+
+Core Value types:
+
+1.numbers - int,long,double,decimal
+2.strings  - string
+3.boolean - true or false
+
+Object value Types:
+
+1.Object - js literal object syntax - {} - Embeded Document/Nested Document
+2.Date
+
+Arrays Value Types
+
+1.Array with primtive values
+2.Array with objects
+
+
+eg: Core types:
+myDb> db.coretypes.insertOne({ value1:1,value2:'str',value3:true})
+{
+  acknowledged: true,
+  insertedId: ObjectId('66cdaa0c14b2342a562710c2')
+}
+
+eg: Embeded Object/Nested Object:
+
+myDb> db.customers.insertOne({
+... name:'Subramanian',
+... address:{
+... city:'coimbatore',
+... state:'Tamil Nadu'
+... }
+... })
+{
+  acknowledged: true,
+  insertedId: ObjectId('66cdaaec14b2342a562710c3')
+}
+
+eg: Primitive Array
+myDb> db.employees.insertOne({
+... name:'Subramanian',
+... skills:[
+... 'java',
+... 'mongo',
+... 'nodejs'
+... ]
+... })
+{
+  acknowledged: true,
+  insertedId: ObjectId('66cdab7d14b2342a562710c4')ction: myDb.types index: _id_ dup key: { _id: 1 }
+}
+
+eg: Complex Array
+
+myDb> db.orders.insertOne({
+... name:'p1',
+... products:[ {pid:1,pname:'p2'},
+... {pid:2,pname:'p3'}
+... ]})
+{
+  acknowledged: true,
+  insertedId: ObjectId('66cdac0714b2342a562710c5')
+}
+....................................................................................
+			  Query
+....................................................................................
+
+Insert some Mock data:
+....................
+db.inventory.insertMany([
+   { item: "journal", qty: 25, size: { h: 14, w: 21, uom: "cm" }, status: "A" },
+   { item: "notebook", qty: 50, size: { h: 8.5, w: 11, uom: "in" }, status: "A" },
+   { item: "paper", qty: 100, size: { h: 8.5, w: 11, uom: "in" }, status: "D" },
+   { item: "planner", qty: 75, size: { h: 22.85, w: 30, uom: "cm" }, status: "D" },
+   { item: "postcard", qty: 45, size: { h: 10, w: 15.25, uom: "cm" }, status: "A" }
+]);
+
+How to read documents from the collection?
+
+syntax:
+ db.collection.find(query,projection,options)
+
+query
+  selectional filter using query operators -  optional
+
+projection
+  specifies the fields to return in the documents,fields formating
+
+options
+   specifies the options which change query behaviour and how results are returned
+
+InSQL:
+  SELECT *FROM tableName;
+
+eg:
+ myDb> db.inventory.find()
+[
+  {
+    _id: ObjectId('66cdb31214b2342a562710c6'),
+    item: 'journal',
+    qty: 25,
+    size: { h: 14, w: 21, uom: 'cm' },
+    status: 'A'
+  },
+  {
+    _id: ObjectId('66cdb31214b2342a562710c7'),
+    item: 'notebook',
+    qty: 50,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'A'
+  },
+  {
+    _id: ObjectId('66cdb31214b2342a562710c8'),
+    item: 'paper',
+    qty: 100,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'D'
+  }
+]
+
+myDb> db.inventory.find({})
+[
+  {
+    _id: ObjectId('66cdb31214b2342a562710c6'),
+    item: 'journal',
+    qty: 25,
+    size: { h: 14, w: 21, uom: 'cm' },
+    status: 'A'
+  },
+  {
+    _id: ObjectId('66cdb31214b2342a562710c7'),
+    item: 'notebook',
+    qty: 50,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'A'
+  },
+  {
+    _id: ObjectId('66cdb31214b2342a562710c8'),
+    item: 'paper',
+    qty: 100,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'D'
+  }
+]
+.....................................................................................
+			Spcify Equality Condition
+...................................................................................
+
+To specify equality condition, use <field:<value> expressions in the query filter document.
+
+myDb> db.inventory.find({status:"D"})
+[
+  {
+    _id: ObjectId('66cdb31214b2342a562710c8'),
+    item: 'paper',
+    qty: 100,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'D'
+  },
+  {
+    _id: ObjectId('66cdb31214b2342a562710c9'),
+    item: 'planner',
+    qty: 75,
+    size: { h: 22.85, w: 30, uom: 'cm' },
+    status: 'D'
+  }
+]
+
+IN sql:
+ SELECT *FROM inventory WHERE status="D"
+
+More fields:
+................
+
+myDb> db.inventory.find({status:"D",item:'paper'})
+[
+  {
+    _id: ObjectId('66cdb31214b2342a562710c8'),
+    item: 'paper',
+    qty: 100,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'D'
+  }
+]
+
+IN sql:
+ SELECT *FROM inventory WHERE status="D" AND item="Paper"
+.....................................................................................
+			Operators
+.....................................................................................
+
+In mongodb operators are classifed into various category
+
+1.comparsion Operators
+2.Logical Operators
+3.Element operators
+4.Array operators
+5.Project operators
+6.other operators
+
+Note:
+ All operators are behind the mongo is just functions only.
+ All operators are represented by "$operatorName"
+
+eg:
+ $eq
+ $gt
+ $lt
+
+Comparison
+...........
+
+$eq
+Matches values that are equal to a specified value.
+
+$gt
+Matches values that are greater than a specified value.
+
+$gte
+Matches values that are greater than or equal to a specified value.
+
+$in
+Matches any of the values specified in an array.
+
+$lt
+Matches values that are less than a specified value.
+
+$lte
+Matches values that are less than or equal to a specified value.
+
+$ne
+Matches all values that are not equal to a specified value.
+
+$nin
+Matches none of the values specified in an array.
+
+Logical
+........
+
+$and
+Joins query clauses with a logical AND returns all documents that match the conditions of both clauses.
+
+$not
+Inverts the effect of a query expression and returns documents that do not match the query expression.
+
+$nor
+Joins query clauses with a logical NOR returns all documents that fail to match both clauses.
+
+$or
+Joins query clauses with a logical OR returns all documents that match the conditions of either clause.
+
+Element:
+........
+$exists
+Matches documents that have the specified field.
+$type
+Selects documents if a field is of the specified type.
+
+Array
+......
+$all
+Matches arrays that contain all elements specified in the query.
+
+$elemMatch
+Selects documents if element in the array field matches all the specified $elemMatch conditions.
+
+$size
+Selects documents if the array field is a specified size.
+
+Projection Operators
+.......................
+$
+Projects the first element in an array that matches the query condition.
+
+$elemMatch
+Projects the first element in an array that matches the specified $elemMatch condition.
+
+$meta
+Projects the document's score assigned during the $text operation.
+
+Miscellaneous Operators
+
+$comment
+Adds a comment to a query predicate.
+$rand
+Generates a random float between 0 and 1.
+
+.....................................................................................
+How to select documents based on based operators
+
+Selection Using Operators:
+..........................
+
+{ <field1>: { <operator1>: <value1> }, ... }
+
+The following example retrieves all documents from the inventory collection where status equals either "A" or "D":
+
+myDb> db.inventory.find({ status: { $in: ["A", "D"] } })
+[
+  {
+    _id: ObjectId('66cdb31214b2342a562710c6'),
+    item: 'journal',
+    qty: 25,
+    size: { h: 14, w: 21, uom: 'cm' },
+    status: 'A'
+  },
+  {
+    _id: ObjectId('66cdb31214b2342a562710c7'),
+    item: 'notebook',
+    qty: 50,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'A'
+  },
+  {
+    _id: ObjectId('66cdb31214b2342a562710c8'),
+    item: 'paper',
+    qty: 100,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'D'
+  }
+]
+The operation uses a filter predicate of { status: { $in: [ "A", "D" ] } }, which corresponds to the following SQL statement:
+
+SELECT * FROM inventory WHERE status in ("A", "D")
+....................................................................................
+Specify AND Conditions
+A
+ compound query can specify conditions for more than one field in the collection's documents. Implicitly, a logical AND conjunction connects the clauses of a compound query so that the query selects the documents in the collection that match all the conditions.
+
+The following example retrieves all documents in the inventory collection where the status equals "A" and qty is less than ($lt) 30:
+
+
+myDb> db.inventory.find({
+... status:"A",
+... qty:{$lt:30}
+... }
+... )
+[
+  {
+    _id: ObjectId('66cdb31214b2342a562710c6'),
+    item: 'journal',
+    qty: 25,
+    size: { h: 14, w: 21, uom: 'cm' },
+    status: 'A'
+  }
+]
+
+The operation uses a filter predicate of { status: "A", qty: { $lt: 30 } }, which corresponds to the following SQL statement:
+
+SELECT * FROM inventory WHERE status = "A" AND qty < 30
+
+....................................................................................
+Specify OR Conditions
+Using the $or operator, you can specify a compound query that joins each clause with a logical OR conjunction so that the query selects the documents in the collection that match at least one condition.
+
+The following example retrieves all documents in the collection where the status equals "A" or qty is less than ($lt) 30:
+
+
+The operation uses a filter predicate of { $or: [ { status: 'A' }, { qty: { $lt: 30 } } ] }, which corresponds to the following SQL statement:
+
+SELECT * FROM inventory WHERE status = "A" OR qty < 30
+
+myDb> db.inventory.find({ $or: [{status: "A"}, {qty: { $lt: 30 }} ] } )
+[
+  {
+    _id: ObjectId('66cdb31214b2342a562710c6'),
+    item: 'journal',
+    qty: 25,
+    size: { h: 14, w: 21, uom: 'cm' },
+    status: 'A'
+  },
+  {
+    _id: ObjectId('66cdb31214b2342a562710c7'),
+    item: 'notebook',
+    qty: 50,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'A'
+  },
+  {
+    _id: ObjectId('66cdb31214b2342a562710ca'),
+    item: 'postcard',
+    qty: 45,
+    size: { h: 10, w: 15.25, uom: 'cm' },
+    status: 'A'
+  }
+]
+....................................................................................
+Specify AND as well as OR Conditions
+
+In the following example, the compound query document selects all documents in the collection where the status equals "A" and either qty is less than ($lt) 30 or item starts with the character p.
+
+myDb> db.inventory.find({
+... status:"A",
+... $or:[
+... {qty: {$lt:30}},
+... {item:/^p/} ]
+... })
+[
+  {
+    _id: ObjectId('66cdb31214b2342a562710c6'),
+    item: 'journal',
+    qty: 25,
+    size: { h: 14, w: 21, uom: 'cm' },
+    status: 'A'
+  },
+  {
+    _id: ObjectId('66cdb31214b2342a562710ca'),
+    item: 'postcard',
+    qty: 45,
+    size: { h: 10, w: 15.25, uom: 'cm' },
+    status: 'A'
+  }
+]
+
+Using Regular expression Data type:
+....................................
+myDb> db.inventory.find({ status: "A", $or: [ { qty: { $lt: 30 } }, { item: {$regex:'^p'} }] })
+[
+  {
+    _id: ObjectId('66cdb31214b2342a562710c6'),
+    item: 'journal',
+    qty: 25,
+    size: { h: 14, w: 21, uom: 'cm' },
+    status: 'A'
+  },
+  {
+    _id: ObjectId('66cdb31214b2342a562710ca'),
+    item: 'postcard',
+    qty: 45,
+    size: { h: 10, w: 15.25, uom: 'cm' },
+    status: 'A'
+  }
+]
+....................................................................................
+			   Projection
+...................................................................................
+
+Projection means, control field informations.
+
+1.include and exculde fields
+2.adding extra fields which is not there in the original collection
+3.data formating.
+
+1.Include and Exclude
+
+ Generally all fields are returned as part of result.
+
+ db.collection.find({},{field1:Value,field2:value})
+
+ field1: <1 or true>
+   It means the inclusion of a field,you can specify any non-zero value for projection.
+
+ field1: <0 or false>
+ It means the exclusion of a field
+
+Use Case: Exculde _id
+
+myDb> db.inventory.find({},{"_id":0})
+[
+  {
+    item: 'journal',
+    qty: 25,
+    size: { h: 14, w: 21, uom: 'cm' },
+    status: 'A'
+  },
+  {
+    item: 'notebook',
+    qty: 50,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'A'
+  },
+  {
+    item: 'paper',
+    qty: 100,
+    size: { h: 8.5, w: 11, uom: 'in' },
+    status: 'D'
+  }
+]
+
+How to exclude other fields:
+...........................
+myDb> db.inventory.find({},{"_id":0,size:0})
+[
+  { item: 'journal', qty: 25, status: 'A' },
+  { item: 'notebook', qty: 50, status: 'A' },
+  { item: 'paper', qty: 100, status: 'D' }
+]
+
+Rules For Inclusion or Exclusion
+.................................
+
+A projection cannot contain both include and exclude specifications, with the exception of the _id field:
+
+In projections that explicitly include fields, the _id field is the only field that you can explicitly exclude.
+
+In projections that explicitly excludes fields, the _id field is the only field that you can explicitly include; however, the _id field is included by default.
+.....................................................................................
+
+	Adding extra fields which is not there in the original collection
+			data formating
+
+
+Before that have some mock data:
+
+db.bios.insertMany([
+   {
+       "_id" : 1,
+       "name" : {
+           "first" : "John",
+           "last" : "Backus"
+       },
+       "birth" : ISODate("1924-12-03T05:00:00Z"),
+       "death" : ISODate("2007-03-17T04:00:00Z"),
+       "contribs" : [
+           "Fortran",
+           "ALGOL",
+           "Backus-Naur Form",
+           "FP"
+       ],
+       "awards" : [
+           {
+               "award" : "W.W. McDowell Award",
+               "year" : 1967,
+               "by" : "IEEE Computer Society"
+           },
+           {
+               "award" : "National Medal of Science",
+               "year" : 1975,
+               "by" : "National Science Foundation"
+           },
+           {
+               "award" : "Turing Award",
+               "year" : 1977,
+               "by" : "ACM"
+           },
+           {
+               "award" : "Draper Prize",
+               "year" : 1993,
+               "by" : "National Academy of Engineering"
+           }
+       ]
+   },
+   {
+       "_id" : ObjectId("51df07b094c6acd67e492f41"),
+       "name" : {
+           "first" : "John",
+           "last" : "McCarthy"
+       },
+       "birth" : ISODate("1927-09-04T04:00:00Z"),
+       "death" : ISODate("2011-12-24T05:00:00Z"),
+       "contribs" : [
+           "Lisp",
+           "Artificial Intelligence",
+           "ALGOL"
+       ],
+       "awards" : [
+           {
+               "award" : "Turing Award",
+               "year" : 1971,
+               "by" : "ACM"
+           },
+           {
+               "award" : "Kyoto Prize",
+               "year" : 1988,
+               "by" : "Inamori Foundation"
+           },
+           {
+               "award" : "National Medal of Science",
+               "year" : 1990,
+               "by" : "National Science Foundation"
+           }
+       ]
+   },
+   {
+       "_id" : 3,
+       "name" : {
+           "first" : "Grace",
+           "last" : "Hopper"
+       },
+       "title" : "Rear Admiral",
+       "birth" : ISODate("1906-12-09T05:00:00Z"),
+       "death" : ISODate("1992-01-01T05:00:00Z"),
+       "contribs" : [
+           "UNIVAC",
+           "compiler",
+           "FLOW-MATIC",
+           "COBOL"
+       ],
+       "awards" : [
+           {
+               "award" : "Computer Sciences Man of the Year",
+               "year" : 1969,
+               "by" : "Data Processing Management Association"
+           },
+           {
+               "award" : "Distinguished Fellow",
+               "year" : 1973,
+               "by" : " British Computer Society"
+           },
+           {
+               "award" : "W. W. McDowell Award",
+               "year" : 1976,
+               "by" : "IEEE Computer Society"
+           },
+           {
+               "award" : "National Medal of Technology",
+               "year" : 1991,
+               "by" : "United States"
+           }
+       ]
+   },
+   {
+       "_id" : 4,
+       "name" : {
+           "first" : "Kristen",
+           "last" : "Nygaard"
+       },
+       "birth" : ISODate("1926-08-27T04:00:00Z"),
+       "death" : ISODate("2002-08-10T04:00:00Z"),
+       "contribs" : [
+           "OOP",
+           "Simula"
+       ],
+       "awards" : [
+           {
+               "award" : "Rosing Prize",
+               "year" : 1999,
+               "by" : "Norwegian Data Association"
+           },
+           {
+               "award" : "Turing Award",
+               "year" : 2001,
+               "by" : "ACM"
+           },
+           {
+               "award" : "IEEE John von Neumann Medal",
+               "year" : 2001,
+               "by" : "IEEE"
+           }
+       ]
+   },
+   {
+       "_id" : 5,
+       "name" : {
+           "first" : "Ole-Johan",
+           "last" : "Dahl"
+       },
+       "birth" : ISODate("1931-10-12T04:00:00Z"),
+       "death" : ISODate("2002-06-29T04:00:00Z"),
+       "contribs" : [
+           "OOP",
+           "Simula"
+       ],
+       "awards" : [
+           {
+               "award" : "Rosing Prize",
+               "year" : 1999,
+               "by" : "Norwegian Data Association"
+           },
+           {
+               "award" : "Turing Award",
+               "year" : 2001,
+               "by" : "ACM"
+           },
+           {
+               "award" : "IEEE John von Neumann Medal",
+               "year" : 2001,
+               "by" : "IEEE"
+           }
+       ]
+   },
+   {
+       "_id" : 6,
+       "name" : {
+           "first" : "Guido",
+           "last" : "van Rossum"
+       },
+       "birth" : ISODate("1956-01-31T05:00:00Z"),
+       "contribs" : [
+           "Python"
+       ],
+       "awards" : [
+           {
+               "award" : "Award for the Advancement of Free Software",
+               "year" : 2001,
+               "by" : "Free Software Foundation"
+           },
+           {
+               "award" : "NLUUG Award",
+               "year" : 2003,
+               "by" : "NLUUG"
+           }
+       ]
+   },
+   {
+       "_id" : ObjectId("51e062189c6ae665454e301d"),
+       "name" : {
+           "first" : "Dennis",
+           "last" : "Ritchie"
+       },
+       "birth" : ISODate("1941-09-09T04:00:00Z"),
+       "death" : ISODate("2011-10-12T04:00:00Z"),
+       "contribs" : [
+           "UNIX",
+           "C"
+       ],
+       "awards" : [
+           {
+               "award" : "Turing Award",
+               "year" : 1983,
+               "by" : "ACM"
+           },
+           {
+               "award" : "National Medal of Technology",
+               "year" : 1998,
+               "by" : "United States"
+           },
+           {
+               "award" : "Japan Prize",
+               "year" : 2011,
+               "by" : "The Japan Prize Foundation"
+           }
+       ]
+   },
+   {
+       "_id" : 8,
+       "name" : {
+           "first" : "Yukihiro",
+           "aka" : "Matz",
+           "last" : "Matsumoto"
+       },
+       "birth" : ISODate("1965-04-14T04:00:00Z"),
+       "contribs" : [
+           "Ruby"
+       ],
+       "awards" : [
+           {
+               "award" : "Award for the Advancement of Free Software",
+               "year" : "2011",
+               "by" : "Free Software Foundation"
+           }
+       ]
+   },
+   {
+       "_id" : 9,
+       "name" : {
+           "first" : "James",
+           "last" : "Gosling"
+       },
+       "birth" : ISODate("1955-05-19T04:00:00Z"),
+       "contribs" : [
+           "Java"
+       ],
+       "awards" : [
+           {
+               "award" : "The Economist Innovation Award",
+               "year" : 2002,
+               "by" : "The Economist"
+           },
+           {
+               "award" : "Officer of the Order of Canada",
+               "year" : 2007,
+               "by" : "Canada"
+           }
+       ]
+   },
+   {
+       "_id" : 10,
+       "name" : {
+           "first" : "Martin",
+           "last" : "Odersky"
+       },
+       "contribs" : [
+           "Scala"
+       ]
+   }
+
+] )
+...
+
+Projection:
+
+myDb> db.bios.find({},{name:1,contribs:1})
+[
+  {
+    _id: 1,
+    name: { first: 'John', last: 'Backus' },
+    contribs: [ 'Fortran', 'ALGOL', 'Backus-Naur Form', 'FP' ]
+  },
+  {
+    _id: ObjectId('51df07b094c6acd67e492f41'),
+    name: { first: 'John', last: 'McCarthy' },
+    contribs: [ 'Lisp', 'Artificial Intelligence', 'ALGOL' ]
+  },
+  {
+    _id: 3,
+    name: { first: 'Grace', last: 'Hopper' },
+    contribs: [ 'UNIVAC', 'compiler', 'FLOW-MATIC', 'COBOL' ]
+  }
+]
+
+Use Aggregation Expression:
+...........................
+
+Use Aggregation Expression
+...........................
+
+db.collection.find() projection can accept aggregation expressions and syntax.
+
+ With the use of aggregation expressions and syntax, you can project new fields or project existing fields with new values.
+
+ For example, the following operation uses aggregation expressions to override the value of the name and awards fields as well as to include new fields reportDate, reportBy, and reportNumber.
+
+
+eg:
+myDb> db.bios.find(
+...    { },
+...    {
+...      _id: 0,
+...      name: {
+...         $concat: [
+...            { $ifNull: [ "$name.aka", "$name.first" ] },
+...            " ",
+...            "$name.last"
+...         ]
+...      },
+...      birth: 1,
+...      contribs: 1,
+...      awards: { $cond: { if: { $isArray: "$awards" }, then: { $size: "$awards" }, else: 0 } },
+...      reportDate: { $dateToString: {  date: new Date(), format: "%Y-%m-%d" } },
+...      reportBy: "subu",
+...      reportNumber: { $literal: 1 }
+...    }
+... )
+[
+  {
+    birth: ISODate('1924-12-03T05:00:00.000Z'),
+    contribs: [ 'Fortran', 'ALGOL', 'Backus-Naur Form', 'FP' ],
+    name: 'John Backus',
+    awards: 4,
+    reportDate: '2024-08-27',
+    reportBy: 'subu',
+    reportNumber: 1
+  },
+  {
+    birth: ISODate('1927-09-04T04:00:00.000Z'),277)$ifNull:["$name.aka","$name.first"] },"","$name.last" ] }, birth:1, contribs:1, awar
+    contribs: [ 'Lisp', 'Artificial Intelligence', 'ALGOL' ],},else:0}}, reportDate:{$dateToString: {date:new Date()},format:'%Y-%m-%d'
+    name: 'John McCarthy',id:0, name:{ $concat: [ {$ifNull:["$name.aka","$name.first"] },"","$name.last" ] }, birth:1, contribs:1, awar
+    awards: 3,$if: {$isArray:"$awards"},then:{$size:"$awards"},else:0}}, reportDate:{$dateToString: {date:new Date()},format:'%Y-%m-%d'
+    reportDate: '2024-08-27',eportNumber:222} } cls
+    reportBy: 'subu',
+    reportNumber: 1
+  },         ^
+  { |
+    birth: ISODate('1906-12-09T05:00:00.000Z'),
+    contribs: [ 'UNIVAC', 'compiler', 'FLOW-MATIC', 'COBOL' ],
+    name: 'Grace Hopper',
+    awards: 4,
+    reportDate: '2024-08-27',
+    reportBy: 'subu',
+    reportNumber: 1
+  }
+]
 
 
 
