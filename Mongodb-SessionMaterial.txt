@@ -2581,8 +2581,333 @@ myDb> db.orders.aggregate( [
 .....................................................................................
 			Complex Pipelines
 .....................................................................................
+When To Use $set & $unset
+ 
+   You should use $set & $unset stages when you need to "retain most of the fields" in the input records, and you want to add, modify or remove a minority subset of fields. This is the case for most uses of aggregation pipelines.
+
+For example, imagine there is a collection of credit card payment documents similar to the following:
+
+{
+  _id: ObjectId("6044faa70b2c21f8705d8954"),
+  card_name: "Mrs. Jane A. Doe",
+  card_num: "1234567890123456",
+  card_expiry: "2023-08-31T23:59:59.736Z",
+  card_sec_code: "123",
+  card_provider_name: "Credit MasterCard Gold",
+  transaction_id: "eb1bd77836e8713656d9bf2debba8900",
+  transaction_date: ISODate("2021-01-13T09:32:07.000Z"),
+  transaction_curncy_code: "GBP",
+  transaction_amount: NumberDecimal("501.98"),
+  reported: true
+}
+....
+
+[
+  {"$set": {
+    // Modified + new field
+    "card_expiry": {"$dateFromString": {"dateString": "$card_expiry"}},
+    "card_type": "CREDIT",        
+  }},
+  
+  {"$unset": [
+    // Remove _id field
+    "_id",
+  ]},
+]
+..........................
+
+When To Use $project:
+
+  It is best to use a $project stage when the required shape of output documents is very different from the input documents' shape. This situation often arises when you do not need to include most of the original fields.
+
+   This time for the same input payments collection, let us imagine you require a new aggregation pipeline to produce result documents. You need each output document's structure to be very different from the input structure, and you need to retain far fewer original fields, similar to the following:
 
 
+[
+  {"$project": {
+    // Add some fields
+    "transaction_info.date": "$transaction_date",
+    "transaction_info.amount": "$transaction_amount",
+    "status": {"$cond": {"if": "$reported", "then": "REPORTED", "else": 	      "UNREPORTED"}},
+    
+    // Remove _id field
+    "_id": 0,
+  }},
+]
+.....................................................................................
+
+Aggregation Expressions:
+.....................................
+
+Expressions give aggregation pipelines their data manipulation power.
+
+However, they tend to be something. Proficiency in aggregation pipelines demands a deeper understanding of expressions.
+
+Aggregation expressions come in one of three primary flavours:
+
+Operators. 
+.........
+Accessed as an object with a $ prefix followed by the operator function name. The "dollar-operator-name" is used as the main key for the object.  Examples: {$arrayElemAt: ...}, {$cond: ...}, {$dateToString: ...}
+
+Field Paths.
+...........
+ Accessed as a string with a $ prefix followed by the field's path in each record being processed.  Examples: "$account.sortcode", "$addresses.address.city"
+
+Variables.
+..........
+ Accessed as a string with a $$ prefix followed by the fixed name and falling into three sub-categories:
+
+1.Context System Variables.
+    With values coming from the system environment rather than each input record an aggregation stage is processing.  Examples: "$$NOW", "$$CLUSTER_TIME"
+
+2.Marker Flag System Variables.
+   To indicate desired behaviour to pass back to the aggregation runtime.  Examples: "$$ROOT", "$$REMOVE", "$$PRUNE"
+
+3.Bind User Variables.
+ For storing values you declare with a $let operator (or with the let option of a $lookup stage, or as option of a $map or $filter stage).  Examples: "$$product_name_var", "$$orderIdVal"
+
+  "customer_info": {"$cond": {
+                    "if":   {"$eq": ["$customer_info.category", "SENSITIVE"]}, 
+                    "then": "$$REMOVE", 
+                    "else": "$customer_info",
+                 }}
+
+What do expressions Return?/Produce?
+
+In all these cases, an expression is just something that dynamically populates and returns a new JSON/BSON data type element, which can be one of:
+
+a Number  (including integer, long, float, double, decimal128)
+a String  (UTF-8)
+a Boolean
+a DateTime  (UTC)
+an Array
+an Object
+...................................................................................
+		   Expressions For Array Processing
+....................................................................................
+"If-Else" Conditional Comparison:
+.................................
+
+let order = {"product" : "WizzyWidget", "price": 25.99, "qty": 8};
+
+// Procedural style JavaScript
+if (order.qty > 5) {
+  order.cost = order.price * order.qty * 0.9;
+} else {
+  order.cost = order.price * order.qty;
+}
+In a procedural style of JavaScript, you might write the following code to calculate the total order cost:
+
+output:
+{product: 'WizzyWidget', qty: 8, price: 25.99, cost: 187.128}
+
+....
+
+let order = {"product" : "WizzyWidget", "price": 25.99, "qty": 8};
+
+db.customer_orders.insertOne(order);
+
+Add new field - $set
+Condition: $cond,$gte,$multiply
+
+var pipeline = [
+  {"$set": {
+    "cost": {
+      "$cond": { 
+        "if":   {"$gte": ["$qty", 5]}, 
+        "then": {"$multiply": ["$price", "$qty", 0.9]},
+        "else": {"$multiply": ["$price", "$qty"]},
+      }    
+    },
+  }},
+];
+
+db.customer_orders.aggregate(pipeline);
+
+..................................................................................
+
+Array Transformation:
+......................
+"For-Each" Looping To Transform An Array
+
+
+Use case:
+  Imagine you wanted to process a list of the products ordered by a customer and convert the array of product names to uppercase.
+
+let order = {
+  "orderId": "AB12345",
+  "products": ["Laptop", "Kettle", "Phone", "Microwave"]
+};
+ 
+// Procedural style JavaScript
+for (let pos in order.products) {
+  order.products[pos] = order.products[pos].toUpperCase();
+}
+
+{
+  "orderId": "AB12345",
+  "products": ["Laptop", "Kettle", "Phone", "Microwave"]
+};
+
+db.orders.insertOne(order);
+
+var pipeline = [
+  {"$set": {
+    "products": {
+      "$map": {
+        "input": "$products",
+        "as": "product", //declare variable
+        "in": {"$toUpper": "$$product"}
+      }
+    }
+  }}
+];
+
+db.orders.aggregate(pipeline);
+.....................................................................................
+Complex Examples:
+
+Scenario:
+You want to query a collection of people to find the three youngest people who have a job in engineering, sorted by the youngest person first.
+
+
+Mock data:
+
+// Create an index for a persons collection
+db.persons.createIndex({"vocation": 1, "dateofbirth": 1});
+
+// Insert records into the persons collection
+db.persons.insertMany([
+  {
+    "person_id": "6392529400",
+    "firstname": "Elise",
+    "lastname": "Smith",
+    "dateofbirth": ISODate("1972-01-13T09:32:07Z"),
+    "vocation": "ENGINEER",
+    "address": { 
+        "number": 5625,
+        "street": "Tipa Circle",
+        "city": "Wojzinmoj",
+    },
+  },
+  {
+    "person_id": "1723338115",
+    "firstname": "Olive",
+    "lastname": "Ranieri",
+    "dateofbirth": ISODate("1985-05-12T23:14:30Z"),    
+    "gender": "FEMALE",
+    "vocation": "ENGINEER",
+    "address": {
+        "number": 9303,
+        "street": "Mele Circle",
+        "city": "Tobihbo",
+    },
+  },
+  {
+    "person_id": "8732762874",
+    "firstname": "Toni",
+    "lastname": "Jones",
+    "dateofbirth": ISODate("1991-11-23T16:53:56Z"),    
+    "vocation": "POLITICIAN",
+    "address": {
+        "number": 1,
+        "street": "High Street",
+        "city": "Upper Abbeywoodington",
+    },
+  },
+  {
+    "person_id": "7363629563",
+    "firstname": "Bert",
+    "lastname": "Gooding",
+    "dateofbirth": ISODate("1941-04-07T22:11:52Z"),    
+    "vocation": "FLORIST",
+    "address": {
+        "number": 13,
+        "street": "Upper Bold Road",
+        "city": "Redringtonville",
+    },
+  },
+  {
+    "person_id": "1029648329",
+    "firstname": "Sophie",
+    "lastname": "Celements",
+    "dateofbirth": ISODate("1959-07-06T17:35:45Z"),    
+    "vocation": "ENGINEER",
+    "address": {
+        "number": 5,
+        "street": "Innings Close",
+        "city": "Basilbridge",
+    },
+  },
+  {
+    "person_id": "7363626383",
+    "firstname": "Carl",
+    "lastname": "Simmons",
+    "dateofbirth": ISODate("1998-12-26T13:13:55Z"),    
+    "vocation": "ENGINEER",
+    "address": {
+        "number": 187,
+        "street": "Hillside Road",
+        "city": "Kenningford",
+    },
+  },
+]);
+.....................................................................................
+
+How to write Pipline?
+
+$match:
+https://www.mongodb.com/docs/manual/reference/operator/aggregation/match/
+
+var pipeline= [ 
+ //stage-1: Match Engineers only
+  {"$match": {
+    "vocation": "ENGINEER",
+  }},
+  //stage-2:Sort by youngest Person first
+  {
+    "$sort":{
+      "dateofbirth":-1
+     }
+  },
+
+  //State-3:only include the first 3 youngest people
+  {
+    "$limit":3
+  },
+  //Stage-4: Exclude unrequired fields from each person record
+  {
+    "$unset": [
+       "_id",
+       "vocation",
+       "address"
+     ]
+  }
+
+]
+
+myDb> db.persons.aggregate(pipeline);
+[
+  {
+    person_id: '7363626383',
+    firstname: 'Carl',
+    lastname: 'Simmons',
+    dateofbirth: ISODate('1998-12-26T13:13:55.000Z')
+  },
+  {
+    person_id: '1723338115',
+    firstname: 'Olive',
+    lastname: 'Ranieri',
+    dateofbirth: ISODate('1985-05-12T23:14:30.000Z'),
+    gender: 'FEMALE'
+  },
+  {
+    person_id: '6392529400',
+    firstname: 'Elise',
+    lastname: 'Smith',
+    dateofbirth: ISODate('1972-01-13T09:32:07.000Z')
+  }
+]
 
 
 
