@@ -3005,6 +3005,61 @@ Excepted Result:
     ]
   }
 ]
+.....................................................................................
+			Bulk Operations
+....................................................................................
+
+MongoDB provides clients the ability to perform write operations in bulk. Bulk write operations affect a single collection. MongoDB allows applications to determine the acceptable level of acknowledgment required for bulk write operations.
+
+The db.collection.bulkWrite() method provides the ability to perform bulk insert, update, and delete operations.
+
+MongoDB also supports bulk insert through the db.collection.insertMany() method.
+
+bulkWrite() Methods
+
+bulkWrite() supports the following write operations:
+
+insertOne
+updateOne
+updateMany
+replaceOne
+deleteOne
+deleteMany
+
+Mock data:
+db.pizzas.insertMany( [
+   { _id: 0, type: "pepperoni", size: "small", price: 4 },
+   { _id: 1, type: "cheese", size: "medium", price: 7 },
+   { _id: 2, type: "vegan", size: "large", price: 8 }
+] )
+
+The following bulkWrite() example runs these operations on the pizzas collection:
+
+Adds two documents using insertOne.
+
+Updates a document using updateOne.
+
+Deletes a document using deleteOne.
+
+Replaces a document using replaceOne.
+
+try {
+   db.pizzas.bulkWrite( [
+      { insertOne: { document: { _id: 3, type: "beef", size: "medium", price: 6 } } },
+      { insertOne: { document: { _id: 4, type: "sausage", size: "large", price: 10 } } },
+      { updateOne: {
+         filter: { type: "cheese" },
+         update: { $set: { price: 8 } }
+      } },
+      { deleteOne: { filter: { type: "pepperoni"} } },
+      { replaceOne: {
+         filter: { type: "vegan" },
+         replacement: { type: "tofu", size: "small", price: 4 }
+      } }
+   ] )
+} catch( error ) {
+   print( error )
+}
 
 
 
