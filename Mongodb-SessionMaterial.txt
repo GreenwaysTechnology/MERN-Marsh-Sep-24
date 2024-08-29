@@ -3060,15 +3060,81 @@ try {
 } catch( error ) {
    print( error )
 }
+.....................................................................................
+			   Data Modeling
+.....................................................................................
+
+	 "Data that is accssed togther should be stored together"
+
+Schema Design Process:
+......................
+
+The schema design process helps you prepare an effective schema for your application.
+
+ Following the schema design process helps you identify what data your application needs and how to best organize your data to optimize performance.
+			
+Use Cases:
+...........
+  Planning and designing your schema is best done early in your application development process.
+
+ Starting your application with good data modeling practices helps prevent schema and performance issues as your application grows.
+
+ When you follow schema design practices early and appropriately, you can achieve better performance and make it easier to scale your application in the future.
+
+  You can design your schema iteratively and modify your schema as the needs of your application change.
+
+ MongoDB provides ways to seamlessly modify your schema without downtime. However, it can still be difficult to modify large-scale schemas that are used in production.
+
+  When you design your schema, you may need to strike a balance between performance and simplicity. 
+
+   Sometimes, the most performant schema takes many iterations and a great deal of testing to achieve.
+
+   Depending on your application and the importance of optimization, you may want to establish a simple schema to cover basic functionality, before spending time on optimizations.
 
 
+Plan Your schema:
+   There are three process are applied to design design schema.
 
 
+1.Identify the data your application work load
 
+ To identify the data that your application needs, consider the following factors:
+   
+   1.1.Your application's users and the information they need.
+   1.2.Your business domain.
+   1.3.Application logs and frequently-run queries.
 
+see presentation:
 
+Map Schema Relationships: / Map relationships between objects in Your collections
 
+ When you design your schema, consider how your application needs to query and return related data. 
+   How you map relationships between data entities affects your application's performance and scalability.
 
+   "The recommended way to handle related data is to embed it in a sub-document"
+ 
+   "Embedding related data lets your application query the data it needs with a single read operation and avoid slow $lookup operations"
 
+Steps:
+1.Identify related data in your schema
+2.Create a schema map for your related data
+3.Choose whether to embed related data or use references
+
+Relationship Types:
+
+1.Embeding References
+2.References
+
+1.Embeding References
+
+1.One to one
+2.One to Many
+3.Many to Many
+
+1.References
+
+1.One to one
+2.One to Many
+3.Many to Many
 
 
