@@ -3347,4 +3347,218 @@ Excepted Result:
     product_category: 'ELECTRONICS'
   }
 ]
+....................................................................................
+			   One to Many
+....................................................................................
+One to many relation using references:
+.....................................
+myDb> db.orders.insertOne({_id:1,date:new Date(),pId:[123,124]})
+{ acknowledged: true, insertedId: 1 }
+myDb> db.orders.insertOne({_id:2,date:new Date(),pId:[123,126]})
+{ acknowledged: true, insertedId: 2 }
+myDb> db.orders.insertOne({_id:3,date:new Date(),pId:[143,128]})
+{ acknowledged: true, insertedId: 3 }
+myDb> db.orders.insertOne({_id:4,date:new Date(),pId:[145,129]})
+{ acknowledged: true, insertedId: 4 }
+
+myDb> db.orders.find()
+[
+  {
+    _id: 1,
+    date: ISODate('2024-08-28T13:12:01.640Z'),
+    pId: [ 123, 124 ]
+  },
+  {
+    _id: 2,
+    date: ISODate('2024-08-28T13:12:38.191Z'),
+    pId: [ 123, 126 ]
+  },
+  {
+    _id: 3,
+    date: ISODate('2024-08-28T13:13:06.751Z'),
+    pId: [ 143, 128 ]
+  },
+  {
+    _id: 4,
+    date: ISODate('2024-08-28T13:16:53.002Z'),
+    pId: [ 145, 129 ]
+  }
+]
+
+customers:
+myDb> db.customers.insertOne({_id:1, name:'Subramanian',orders:[1,2]})
+{ acknowledged: true, insertedId: 1 }
+myDb> db.customers.insertOne({_id:2, name:'Murugan',orders:[3,4]})
+{ acknowledged: true, insertedId: 2 }
+myDb>
+
+myDb> db.customers.find()
+[
+  { _id: 1, name: 'Subramanian', orders: [ 1, 2 ] },
+  { _id: 2, name: 'Murugan', orders: [ 3, 4 ] }
+]
+
+Show orders data along with customer:
+
+dmyDb> db.customers.aggregate({$lookup: {from:'orders',localField:"orders",foreignField:"_id",as:"orderDetails"}})
+[
+  {
+    _id: 1,
+    name: 'Subramanian',
+    orders: [ 1, 2 ],
+    orderDetails: [
+      {
+        _id: 2,
+        date: ISODate('2024-08-28T13:12:38.191Z'),
+        pId: [ 123, 126 ]
+      },
+      {
+        _id: 1,
+        date: ISODate('2024-08-28T13:12:01.640Z'),
+        pId: [ 123, 124 ]
+      }
+    ]
+  },
+  {
+    _id: 2,
+    name: 'Murugan',
+    orders: [ 3, 4 ],
+    orderDetails: [
+      {
+        _id: 3,
+        date: ISODate('2024-08-28T13:13:06.751Z'),
+        pId: [ 143, 128 ]
+      },
+      {
+        _id: 4,
+        date: ISODate('2024-08-28T13:16:53.002Z'),
+        pId: [ 145, 129 ]
+      }
+    ]
+  }
+]
+.............
+Scenario
+You want to generate a report to list all the orders made for each product in 2020. To achieve this, you need to take a shop's products collection and join each product record to all its orders stored in an orders collection. There is a 1:many relationship between both collections, based on a match of two fields on each side. Rather than joining on a single field like product_id (which doesn't exist in this data set), you need to use two common fields to join (product_name and product_variation).
+
+
+
+// Insert 6 records into the products collection
+db.products.insertMany([
+  {
+    "name": "Asus Laptop",
+    "variation": "Ultra HD",
+    "category": "ELECTRONICS",
+    "description": "Great for watching movies",
+  },
+  {
+    "name": "Asus Laptop",
+    "variation": "Normal Display",
+    "category": "ELECTRONICS",
+    "description": "Good value laptop for students",
+  },
+  {
+    "name": "The Day Of The Triffids",
+    "variation": "1st Edition",
+    "category": "BOOKS",
+    "description": "Classic post-apocalyptic novel",
+  },
+  {
+    "name": "The Day Of The Triffids",
+    "variation": "2nd Edition",
+    "category": "BOOKS",
+    "description": "Classic post-apocalyptic novel",
+  },
+  {
+    "name": "Morphy Richards Food Mixer",
+    "variation": "Deluxe",
+    "category": "KITCHENWARE",
+    "description": "Luxury mixer turning good cakes into great",
+  },
+  {
+    "name": "Karcher Hose Set",
+    "variation": "Full Monty",
+    "category": "GARDEN",
+    "description": "Hose + nosels + winder for tidy storage",
+  },
+]); 
+....
+
+// Insert 4 records into the orders collection
+db.orders.insertMany([
+  {
+    "customer_id": "elise_smith@myemail.com",
+    "orderdate": ISODate("2020-05-30T08:35:52Z"),
+    "product_name": "Asus Laptop",
+    "product_variation": "Normal Display",
+    "value": NumberDecimal("431.43"),
+  },
+  {
+    "customer_id": "tj@wheresmyemail.com",
+    "orderdate": ISODate("2019-05-28T19:13:32Z"),
+    "product_name": "The Day Of The Triffids",
+    "product_variation": "2nd Edition",
+    "value": NumberDecimal("5.01"),
+  },  
+  {
+    "customer_id": "oranieri@warmmail.com",
+    "orderdate": ISODate("2020-01-01T08:25:37Z"),
+    "product_name": "Morphy Richards Food Mixer",
+    "product_variation": "Deluxe",
+    "value": NumberDecimal("63.13"),
+  },
+  {
+    "customer_id": "jjones@tepidmail.com",
+    "orderdate": ISODate("2020-12-26T08:55:46Z"),
+    "product_name": "Asus Laptop",
+    "product_variation": "Normal Display",
+    "value": NumberDecimal("429.65"),
+  },
+]);
+
+Excepted Result:
+................
+
+[
+  {
+    name: 'Asus Laptop',
+    variation: 'Normal Display',
+    category: 'ELECTRONICS',
+    description: 'Good value laptop for students',
+    orders: [
+      {
+        customer_id: 'elise_smith@myemail.com',
+        orderdate: ISODate('2020-05-30T08:35:52.000Z'),
+        value: NumberDecimal('431.43')
+      },
+      {
+        customer_id: 'jjones@tepidmail.com',
+        orderdate: ISODate('2020-12-26T08:55:46.000Z'),
+        value: NumberDecimal('429.65')
+      }
+    ]
+  },
+  {
+    name: 'Morphy Richards Food Mixer',
+    variation: 'Deluxe',
+    category: 'KITCHENWARE',
+    description: 'Luxury mixer turning good cakes into great',
+    orders: [
+      {
+        customer_id: 'oranieri@warmmail.com',
+        orderdate: ISODate('2020-01-01T08:25:37.000Z'),
+        value: NumberDecimal('63.13')
+      }
+    ]
+  }
+]
+
+
+
+
+
+
+
+
+
 
