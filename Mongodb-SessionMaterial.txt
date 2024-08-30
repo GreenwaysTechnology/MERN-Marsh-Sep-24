@@ -3136,5 +3136,190 @@ Relationship Types:
 1.One to one
 2.One to Many
 3.Many to Many
+...................................................................................
+			Reference Relationship
+...................................................................................
 
+How to join two collections?
+ $lookup operator is used to join collections
+ $lookup can be used with find method and also aggration piplines.
+
+One to One Relationship:
+........................
+One Customer Can have one Address.
+
+Address Collection:
+ db.address.insertMany([{street:'7thstreet',city:'coimbatore',state:'TN'},
+{street:'Gandhi street',city:'chennai',state:'TN'}])
+
+{
+  acknowledged: true,
+  insertedIds: {
+    '0': ObjectId('66d18e96aa96a34e612710bc'),
+    '1': ObjectId('66d18e96aa96a34e612710bd')
+  }
+} 
+
+Customer Collection:
+
+Customer-1
+db.customers.insertOne({_id:1, name:'Subramanian',address:ObjectId('66d18e96aa96a34e612710bc')})
+
+Customer-2
+db.customers.insertOne({_id:2, name:'Murugan',address:ObjectId('66d18e96aa96a34e612710bd')})
+
+Query Data for customers and address:
+
+myDb> db.address.find()
+[
+  {
+    _id: ObjectId('66d18e96aa96a34e612710bc'),
+    street: '7thstreet',
+    city: 'coimbatore',
+    state: 'TN'
+  },
+  {
+    _id: ObjectId('66d18e96aa96a34e612710bd'),
+    street: 'Gandhi street',
+    city: 'chennai',
+    state: 'TN'
+  }
+]
+myDb> db.customers.find()
+[
+  {
+    _id: 1,
+    name: 'Subramanian',
+    address: ObjectId('66d18e96aa96a34e612710bc')
+  },
+  {
+    _id: 2,
+    name: 'Murugan',
+    address: ObjectId('66d18e96aa96a34e612710bd')
+  }
+]
+
+How to implement one to One?
+
+$lookup:
+.......
+
+{
+   $lookup:
+     {
+       from: <collection to join>,
+       localField: <field from the input documents>,
+       foreignField: <field from the documents of the "from" collection>,
+       as: <output array field>
+     }
+}
+
+db.customers.aggregate({
+  $lookup:{
+     from:"address",
+     localField:"address",
+     foreignField:"_id",
+     as:"address"
+  }
+})
+
+Output:
+myDb> db.customers.aggregate({
+...   $lookup:{
+...      from:"address",
+...      localField:"address",
+...      foreignField:"_id",
+...      as:"address"
+...   }
+... })
+[
+  {
+    _id: 1,
+    name: 'Subramanian',
+    address: [
+      {
+        _id: ObjectId('66d18e96aa96a34e612710bc'),
+        street: '7thstreet',
+        city: 'coimbatore',
+        state: 'TN'
+      }
+    ]
+  },
+  {
+    _id: 2,
+    name: 'Murugan',
+    address: [
+      {
+        _id: ObjectId('66d18e96aa96a34e612710bd'),
+        street: 'Gandhi street',
+        city: 'chennai',
+        state: 'TN'
+      }
+    ]
+  }
+]
+..................
+
+Scenario:
+
+You want to generate a report to list all shop purchases for 2020, showing the product's name and category for each order, rather than the product's id. To achieve this, you need to take the customer orders collection and join each order record to the corresponding product record in the products collection. There is a many:1 relationship between both collections, resulting in a 1:1 join when matching an order to a product. The join will use a single field comparison between both sides, based on the product's id.
+
+// Create index for a products collection
+db.products.createIndex({"id": 1});
+
+// Insert 4 records into the products collection
+db.products.insertMany([
+  {
+    "id": "a1b2c3d4",
+    "name": "Asus Laptop",
+    "category": "ELECTRONICS",
+    "description": "Good value laptop for students",
+  },
+  {
+    "id": "z9y8x7w6",
+    "name": "The Day Of The Triffids",
+    "category": "BOOKS",
+    "description": "Classic post-apocalyptic novel",
+  },
+  {
+    "id": "ff11gg22hh33",
+    "name": "Morphy Richardds Food Mixer",
+    "category": "KITCHENWARE",
+    "description": "Luxury mixer turning good cakes into great",
+  },
+  {
+    "id": "pqr678st",
+    "name": "Karcher Hose Set",
+    "category": "GARDEN",
+    "description": "Hose + nosels + winder for tidy storage",
+  },
+]); 
+
+// Insert 4 records into the orders collection
+db.orders.insertMany([
+  {
+    "customer_id": "elise_smith@myemail.com",
+    "orderdate": ISODate("2020-05-30T08:35:52Z"),
+    "product_id": "a1b2c3d4",
+    "value": NumberDecimal("431.43"),
+  },
+  {
+    "customer_id": "tj@wheresmyemail.com",
+    "orderdate": ISODate("2019-05-28T19:13:32Z"),
+    "product_id": "z9y8x7w6",
+    "value": NumberDecimal("5.01"),
+  },  
+  {
+    "customer_id": "oranieri@warmmail.com",
+    "orderdate": ISODate("2020-01-01T08:25:37Z"),
+    "product_id": "ff11gg22hh33",
+    "value": NumberDecimal("63.13"),
+  },
+  {
+    "customer_id": "jjones@tepidmail.com",
+    "orderdate": ISODate("2020-12-26T08:55:46Z"),
+    "product_id": "a1b2c3d4",
+    "value": NumberDecimal("429.65"),
+  },
+]);
 
