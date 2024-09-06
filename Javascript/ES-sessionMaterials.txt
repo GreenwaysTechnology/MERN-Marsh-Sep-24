@@ -1,0 +1,200 @@
+Topics:
+
+Java SCRIPT FUNDAMENTALS – 4 HRS
+
+Getting Started
+      Introduction to JavaScript language
+      JavaScript language compiler and runtime architecture
+      JavaScript version history
+      ECMA Script overview 
+
+Language Fundamentals
+      Variables
+      Literals 
+      Type system
+      Let,var,const 
+      Operators 
+      Advanced boolean literals
+      Control statements and loops
+Functions
+      Function declaration and invocation
+      Function args and parameters
+      Positional args and parameters
+      Default args
+Functional Programming concepts
+      Function as literal
+      Higher order function
+      Anonymous function
+      Passing function as Parameters
+      Returning function from Function
+      Arrow functions
+Object based Programming and implementation
+      What is object
+      Creating objects 
+      Using constructors patterns
+      Using literal pattern
+      Inheritance
+      Has-a relationship
+      Arrays
+      JSON Parsing
+.....................................................................................
+			What is javascript?
+   
+Javascript is Object based,functional style programming language.
+
+Javascript is hybrid language which uses two programming styles.
+
+Object based vs Object oriented:
+................................
+OO features:
+
+1.Abstraction
+2.Encapsulation
+3.Hierachy
+4.Typing
+5.Modularity
+................
+if any language follows these principles 100%, those languages are called object oriented language.
+eg: C++,java,C#,scala
+
+if any language does not follow these principles 100% or all prinicples partially
+those languages are called "Object based Language"
+
+6.Persistency
+7.Concurrency
+
+functional style:
+  if any follows functional programming language principles 100% , those languages are called "Pure Functional Programming language"  or functional style.
+
+....................................................................................
+			Javascript compilation and runtime arch
+....................................................................................
+
+Java:
+ source code : hello.java
+ compile code : hello.class
+ execution : The runtime called jvm which converts compiled code into native code.
+
+JS:
+ source code : hello.js
+	|
+  Javascript runtime -  program written in c language/c++
+      Components of js runtime
+
+    Loader - load js file(source code) into runtime
+     |
+    parser  - Lexcial Parser- before compilation, code will be converted into
+	       lexical format (string tree).
+     |
+   compiler - compiler converts lexical code into "Assembly instructions" - this is               called byte code  
+...............
+     | -Runtime 
+   Interpreter - converts byte code into machine instructions
+     |
+    JIT compiler - to help interpreter to boost execution speed
+     |
+ ..............................................................................
+			  Types of js runtime
+................................................................................
+
+Runtime types are based on the where we use js.
+
+JS invented for browser , so primary runtime is within every web browser.
+
+Chrome- V8
+IE/Edge-Charka
+Firefox - Spider Monkey
+
+Js runtime is available outside browser- Node.js
+
+Node.js is javascript runtime and platform which is built on the top of "V8"
+
+Js engines are available inside many other systems like mobile,other devices too..
+....................................................................................
+			ECMA Script /ES
+...................................................................................
+Javascript language created for browsers in 1995 for building dynamic web pages by NetsCap Communication.
+
+After javascript language created, the language was submitted to standard body called
+"ECMA" international
+
+After submission, the language was standarized and released by committee.
+
+1.ES 1.0 -->1996
+2.ES 3.0 -->1999
+3.ES 4.0 -->2006
+4.ES 5.0 --->2007
+5.ES 6.0 --->2012-2015
+6.ES 7.0 ----->2016
+etc.....
+....................................................................................
+			 ECMA 6 /ES 6
+...................................................................................
+
+Learning Path:
+1.language fundamentals
+  -variables
+  -literals
+  -types
+
+Project Setup:
+.............
+G:\Marsh\Javascript>mkdir es-app
+
+G:\Marsh\Javascript>cd es-app
+
+G:\Marsh\Javascript\es-app>mkdir src
+
+G:\Marsh\Javascript\es-app>code .
+
+How to run/test js code?
+
+You can test in browser and also on node.
+
+Browser:
+........
+
+js-apps/
+  src
+    -index.js
+ index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Js app</h1>
+    <script src="src/index.js"></script>
+</body>
+</html>
+
+How to run this html?
+ we need some webserver, vs code has built in webserver, that need to be installed.
+
+go to vs code "extension", type "live server" and install, and restart vs code.
+
+Right click on index.html, run on live  server.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
