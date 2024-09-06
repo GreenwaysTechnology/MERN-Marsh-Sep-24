@@ -177,18 +177,233 @@ How to run this html?
 go to vs code "extension", type "live server" and install, and restart vs code.
 
 Right click on index.html, run on live  server.
+..................................................................................
+
+1.variable declarations
+
+var,let,const -keywords to declare variables
+ 
+ let /const - es 6 keywords
+eg:
+ let firstName
+
+2.literals -values
+   strings,numbers,boolean,undefined,NaN,infinity,function,null,object
+
+3.Data types
+   js is dynamic typed language-the type of variable is understood only during runtime.
+  int a =10 - strongly typed -c,c++,java,C#
+  let a =20 - dynamic typed -js,python..
+
+  literal   - type
+ ....................
+  string    - string
+  number    - number
+  boolean   - boolean
+  undfined  - undefined
+  NaN       - number
+  Infinity  - number
+  function  - function
+  object    - object
+  null      - object
+
+....................................................................................
+				Variables,data types,Literals
+.....................................................................................
+
+JS is dynamically typed,so type is not declared in advance, type of variables are decided during runtime, based on "literals-values"
+
+Js has 9 literals but only 6 types.
+
+strings,numbers,boolean,undefined,object,function- types
 
 
+Strings:
+
+strings : "",'',``,`${}`(interpolation)
+
+//strings
+
+let firstName = "Subramanian"
+let lastName = 'Murugan';
+console.log(firstName + lastName)
+//back tick notation:
+//for string concatnation
+let fullName = firstName + lastName //old way
+fullName = `${firstName} ${lastName}`
+console.log("Name " + fullName)
+console.log("Name", fullName)
+console.log(`Name ${fullName}`)
+
+//multi line strings
+let doc = `
+   <html>
+      <head>
+          <title></title>
+      </head>
+    <body>
+    </body>
+ </html>
+`
+console.log(doc)
+
+Numbers:
+ only type called number 
+ 64 bit aka double.
+
+//numbers
+let a = 10
+let b = 20
+let c = a + b 
+console.log(`c ${c}`)
 
 
+Booleans:
+ true or false
+
+//true or false 
 
 
+Undefined:
+ Variable is declared without any valid value.
+
+let price;
+console.log(`Price is ${price}`)
 
 
+NaN : Not a Number
+
+NaN is number only which represents "error".
+If you do any numerical computation, if computation is failed you will get NaN.
+NaN is kind of "error".
+if you get NaN you have to fix beacuse is bug
+
+NaN Use case:
+if you do computation against undefined values, you get NaN.
+
+let price;
+let qty = 100;
+let totalPrice = price * qty; //undefined * 100
+console.log(`Total Price is ${totalPrice}`)
 
 
+Infinity:
+  Div/0
+//infnity
+let price = 100;
+let avgPrice = price / 0
+console.log(`Avg Price ${avgPrice}`)
 
 
+..................................................................................
+			Advanced Boolean
+..................................................................................
+What can be true or false?
+
+decision making : if..else ,tenary operator
+
+  "in javascript is every thing is true execept the following values"
+
+
+Falsy values
+ * 
+ *  1.boolean false
+ *  2.Empty string "" ,''
+ *  3.0
+ *  4.undefined
+ *  5.NaN
+ *  6.null
+ */
+
+let a = 0
+
+if (a) {
+    console.log('good')
+} else {
+    console.log('bad')
+}
+
+let message = 'Hello'
+
+if (message) {
+    console.log(message)
+} else {
+    console.log('wrong')
+}
+message = ''
+if (message) {
+    console.log(message)
+} else {
+    console.log('wrong')
+}
+let myvar;
+if (myvar) {
+    console.log(`MyVar is ${myvar}`)
+} else {
+    console.log(`MyVar is false: ${myvar}`)
+}
+myvar = 0
+if (myvar) {
+    console.log(`MyVar is ${myvar}`)
+} else {
+    console.log(`MyVar is false: ${myvar}`)
+}
+myvar = false
+if (myvar) {
+    console.log(`MyVar is ${myvar}`)
+} else {
+    console.log(`MyVar is false: ${myvar}`)
+}
+.....................................................................................
+
+				Operator -Equal
+.....................................................................................
+
+== ->Double equal
+=== ->Triple equal
+!=
+!==
+		
+let a = 10;
+let b = 10;
+
+if (a == b) {
+    console.log('a and b are equal')
+} else {
+    console.log('a and b are not equal')
+}
+
+let x = 10;
+let y = "10"
+
+if (x == y) {
+    console.log('x and y are equal')
+} else {
+    console.log('x and y are not equal')
+}
+
+
+if (x === y) {
+    console.log('x and y are equal')
+} else {
+    console.log('x and y are not equal')
+}
+
+Tenary Operator:
+...............
+
+//tenary operator
+
+let a = 10
+
+let result = a ? "hello" : "hai"
+console.log(result)
+
+let b
+result = b ? "hello" : "hai"
+console.log(result)
+
+.....................................................................................
 
 
 
