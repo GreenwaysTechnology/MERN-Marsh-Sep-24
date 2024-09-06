@@ -688,18 +688,314 @@ login('admin', 'admin', (status) => {
 
 login('admin', 'admin', status => console.log(status), err => console.log(err))
 .....................................................................................
+				  Objects
+.....................................................................................			
+Objects can be created in two ways
+
+1.constructors pattern
+   es 5 functions 
+   es 6 classes
+2.literal pattern
+
+e6 class:
+........
+ 
+instance variables,methods,constructor intialization,object creation
+....................................................................
 
 
+//es 6 class 
+
+class Employee {
+    //instance variable
+    id = 10
+    name = 'Subramanian'
+
+    //methods
+    calculate() {
+        return 100
+    }
+    calculateSalary = () => {
+        return 1000
+    }
+
+}
+
+//create instance
+
+//let is keyword
+//employee is just reference variable
+//new is operator 
+//Employee() is constructor call
+let employee = new Employee();
+
+//how to access variables and methods
+console.log(employee.id , employee.name)
+console.log(employee.calculate())
+console.log(employee.calculateSalary())
 
 
+State/Instance variable initalization:
+
+1.inside class
+2.outside class after object creation.
+3.inside constructor and parameters
 
 
+2.After Object Creation
+
+//es 6 class 
+
+class Employee {
+    //instance variable
+    id = 10
+    name = 'Subramanian'
+
+    //methods
+    calculate() {
+        return 100
+    }
+    calculateSalary = () => {
+        return 1000
+    }
+
+}
+
+let employee = new Employee();
+
+//initalize the variable
+employee.id = 1000
+employee.name = 'Ram'
+
+//how to access variables and methods
+console.log(employee.id, employee.name)
+console.log(employee.calculate())
+console.log(employee.calculateSalary())
+
+..........................
 
 
+Constructors and parameters:
+
+//es 6 class 
+
+class Employee {
+    //instance variable
+    id
+    name
+    //constructor 
+    constructor(id = 0, name = 'name') {
+        this.id = id
+        this.name = name
+    }
+    //methods
+    calculate() {
+        return 100
+    }
+    calculateSalary = () => {
+        return 1000
+    }
+
+}
+
+let employee = new Employee(1, 'Subramanian');
+console.log(employee.id, employee.name)
+console.log(employee.calculate())
+console.log(employee.calculateSalary())
+
+employee = new Employee();
+console.log(employee.id, employee.name)
+console.log(employee.calculate())
+console.log(employee.calculateSalary())
+....................................................................................
+			Hierachy
+....................................................................................
+
+There are two types of hierachy
+
+1.has-a -composition
+2.is-a - inheritance
 
 
+HAS-A:
+
+class Address {
+    city
+    state
+    constructor(state = "state", city = "city") {
+        this.state = state
+        this.city = city
+    }
+}
+class Employee {
+    id
+    name
+    address
+    constructor(id = 0, name = 'name', address = new Address()) {
+        this.id = id
+        this.name = name
+        this.address = address
+    }
+}
+//
+let employee = new Employee()
+console.log(employee)
+
+employee = new Employee(1, 'Subramanian', new Address('TN', 'Coimbatore'))
+console.log(employee)
+
+IS-A : Inheritance:
+...................
+Prototypical inheritance:
+.........................
+
+class A{ } 
+class B extends A {}
 
 
+class Account {
+    constructor() {
+        console.log('Account constructor is called')
+    }
+}
+class SavingsAccount extends Account {
+    constructor() {
+        super()
+        console.log('Savings Account constructor is called')
+    }
+}
+let sb = new SavingsAccount()
+
+Overriding/Redefining:
+.....................
+
+class Account {
+    constructor() {
+        console.log('Account constructor is called')
+    }
+    deposit() {
+        return 10
+    }
+
+}
+class SavingsAccount extends Account {
+    constructor() {
+        super()
+        console.log('Savings Account constructor is called')
+    }
+    deposit(){
+        return 100 + super.deposit()
+    }
+}
+let sb = new SavingsAccount()
+console.log(sb.deposit())
+.....................................................................................
+			Literal Objects
+.....................................................................................
+No Class,No function to creation
+
+syntax:
+
+let variable = {
+   key:value (can be any literal -string,numbers,boolean,another object,array
+}	
+
+
+let employee = {
+    id: 1,
+    name: 'Subramanian',
+    status: true
+}
+console.log(employee.id,employee.name,employee.status)
+console.log(employee)
+
+has-a:nested object:
+....................
+//has-a
+let inventory = {
+    item: 'journal',
+    qty: 25,
+    size: { h: 14, w: 21, uom: 'cm' },
+    status: 'A'
+}
+console.log(inventory)
+....................................................................................
+			Java script built in objects
+
+JS offers plenty of builtin objects
+
+Object classification:
+
+1.POJOS - Plain old javascript object
+2.DOM objects- Browser related objects- UI
+
+POJOS:
+
+1.Object
+  It is super class in js
+
+2.Wrapper classes/Objects
+  String,Number,Boolean,Function,Object
+
+3.DataStructure
+  Array,Set,Map
+  Array is dynamic
+
+4.Parser Object 
+   JSON
+5.Others
+  Date,Math,Symbol,XHR,etc...
+
+
+Array:
+ It is object, which is dynamic
+ Since array is object, which has lot of methods
+
+ Array can hold any type of data
+
+
+//array with simple data
+let list = ['a', 'b', 'c']
+//iterate
+list.forEach(item => console.log(item))
+
+let employees = [
+    {
+        id: 1,
+        name: 'a'
+    },
+    {
+        id: 2,
+        name: 'b'
+    }
+]
+employees.forEach(emp => console.log(emp))
+
+let inventory = [
+    { item: 'journal', qty: 25, status: 'A' },
+    { item: 'notebook', qty: 50, status: 'A' },
+    { item: 'paper', qty: 100, status: 'D' }
+]
+console.log(inventory)
+
+....................................................................................
+			JSON
+...................................................................................
+
+let inventory = [
+    { item: 'journal', qty: 25, status: 'A' },
+    { item: 'notebook', qty: 50, status: 'A' },
+    { item: 'paper', qty: 100, status: 'D' }
+]
+
+//json- object to string 
+const jsonString = JSON.stringify(inventory)
+
+console.log(jsonString)
+
+const jsonObject = JSON.parse(jsonString)
+
+console.log(jsonObject)
 
 
 

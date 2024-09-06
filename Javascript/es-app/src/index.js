@@ -1,33 +1,14 @@
+let inventory = [
+    { item: 'journal', qty: 25, status: 'A' },
+    { item: 'notebook', qty: 50, status: 'A' },
+    { item: 'paper', qty: 100, status: 'D' }
+]
 
+//json- object to string 
+const jsonString = JSON.stringify(inventory)
 
-let connect = function (cb) {
-    cb('connected')
-}
-connect(function (status) {
-    console.log(status)
-})
-//arrow
+console.log(jsonString)
 
-connect = cb => cb('connected')
+const jsonObject = JSON.parse(jsonString)
 
-// connect((status) => {
-//     console.log(status)
-// })
-connect(status => console.log(status))
-
-
-let login = (userName, password, success, failure) => {
-    if (userName === 'admin' && password === 'admin') {
-        success('login success')
-    } else {
-        failure('login failed')
-    }
-}
-
-login('admin', 'admin', (status) => {
-    console.log(status)
-}, (err) => {
-    console.log(err)
-})
-
-login('admin', 'admin', status => console.log(status), err => console.log(err))
+console.log(jsonObject)
