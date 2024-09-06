@@ -405,6 +405,316 @@ console.log(result)
 
 .....................................................................................
 
+const:
+   it is read only where as let is reassignable.
+			
+//let vs const
+
+let a = 10;
+console.log(`a ${a}`)
+a = 20
+console.log(`a ${a}`)
+
+const b =10;
+console.log(`b ${b}`)
+b=90
+
+.....................................................................................
+			   Functions
+....................................................................................
+
+functions are building block of javascript language.
+functions encapsulate the logic of application.
+functions may take args and return values
+
+.....................................................................................
+			   Functions
+....................................................................................
+
+functions are building block of javascript language.
+functions encapsulate the logic of application.
+functions may take args and return values
+
+
+//basic function declaration
+
+function sayHello() {
+    console.log('hello')
+}
+//invoke function 
+sayHello()
+
+
+Function args and parameters:
+.............................
+
+//args and parameters 
+
+function add(a, b) {
+    let c = a + b
+    console.log(`c ${c}`)
+}
+add(10, 10) 
+
+Default args and parameters:
+//default args
+function add(a = 0, b = 0) {
+    console.log(`a ${a} b ${b}`)
+    let c = a + b
+    console.log(`c ${c}`)
+}
+add(10, 10)
+add()
+
+Return Values:
+//default args
+function add(a = 0, b = 0) {
+    console.log(`a ${a} b ${b}`)
+    return a + b
+}
+console.log(add(10, 10))
+console.log(add())
+.....................................................................................
+			Functional Programming principles
+.....................................................................................
+
+Functional programming principle is one of the programming style,
+
+Functional programming is the first programming principle introduced in 1950's from the mathmeticas called "Lambda Calculs"
+
+LISP is first functional programming language and mother of all functional programming language..
+
+java script and functional programming principle:
+
+1.function is first class citizen
+   function is value like other values numbers,strings,boolean
+
+ let a=10 - here is 10 value and its type number
+
+ function is also value,we can store function into variable, can be passed as parameter to other function, and also we can return function as value from the other function.
+
+           if function is stored into a variable, that variable can be used to 
+		     invoke that function
+
+
+1.function as value
+
+
+//function declaration
+
+function sayHello(name = 'default') {
+    console.log('hello', name)
+}
+sayHello('admin')
+
+//variable syntax:
+let hello = sayHello;
+hello('admin')
+
+//variable and function literal in the same place
+
+//greet is just variable
+//function(){} is value
+//no name for the function : anonymous function
+let greet = function () {
+    console.log('greet')
+}
+greet()
+
+//anonymous function args and parameters
+let add = function (a = 0, b = 0) {
+    let c = a + b
+    console.log(c)
+}
+add(10, 0)
+
+//anonymoust function args,parameters,return
+let multiply = function (a = 0, b = 0) {
+    return a * b
+}
+console.log(multiply(10, 10))
+...................................................................................
+			Higher order function
+..................................................................................
+
+function is passed as parameter to another function.
+functoion is returned from the another function 
+
+
+function is passed as parameter to another function:
+....................................................
+//function which receives another function as arg
+function add(a, b) {
+    return a + b
+}
+//passing values
+//via variables
+let x = 10
+let y = 20
+console.log(add(x, y))
+
+//via values
+console.log(add(10, 45))
+//////////////////////////////////////////////////////////////////////////////////
+
+function greet(myvar) {
+    myvar()
+}
+let hello = function () {
+    console.log('hello')
+}
+greet(hello)
+
+//pass function directly
+greet(function () {
+    console.log('welcome')
+})
+//////////////////////////////////////////////////////////////////////////////////////
+
+
+// function connect(cb) {
+//     cb('connected')
+// }
+let connect = function (cb) {
+    cb('connected')
+}
+
+connect(function (message) {
+    console.log(message)
+});
+/////////////////////////////////////////////////////////////////////////////////////
+
+
+let login = function (userName, password, success, failure) {
+    if (userName === 'admin' && password === 'admin') {
+        success('login success')
+    } else {
+        failure('login failed')
+    }
+}
+
+login('admin', 'admin', function (status) {
+    console.log(status)
+}, function (err) {
+    console.log(err)
+})
+login('foo', 'bar', function (status) {
+    console.log(status)
+}, function (err) {
+    console.log(err)
+})
+.....................................................................................
+		
+As of now we have written hof in es 5 style, old style, IN es6 new syntax is introduced for "anonymous functions" - Arrow functions
+
+			Arrow Function
+
+
+Arrow functions are refactored version of es 5 anonymous functions 
+
+
+//es 5 anonymous function
+
+let hello = function () {
+    console.log('hello')
+}
+hello()
+//es 6 arrow anonymous function 
+let hai = () => {
+    console.log('hai')
+}
+hai()
+
+//arrow function code refactoring 
+
+//1. if function has single line of code,you can remove {}
+hai = () => console.log('hai')
+hai()
+
+//1.arrow functions and parameters
+
+let add = (a = 0, b = 0) => {
+    return a + b
+}
+console.log(add(1, 2))
+
+//only return statement: we can remove {} and return statement
+add = (a = 0, b = 0) => a + b
+
+console.log(add(1, 2))
+
+//if function has single arg, no default value,return the same .
+let stock = (value) => {
+    return value
+}
+//you can remove {},return,()
+stock = value => value
+
+console.log(stock(10))
+.....................................................................................
+			 Arrorw and Higher order
+....................................................................................
+
+
+let connect = function (cb) {
+    cb('connected')
+}
+connect(function (status) {
+    console.log(status)
+})
+//arrow
+
+connect = cb => cb('connected')
+
+// connect((status) => {
+//     console.log(status)
+// })
+connect(status => console.log(status))
+
+
+let login = (userName, password, success, failure) => {
+    if (userName === 'admin' && password === 'admin') {
+        success('login success')
+    } else {
+        failure('login failed')
+    }
+}
+
+login('admin', 'admin', (status) => {
+    console.log(status)
+}, (err) => {
+    console.log(err)
+})
+
+login('admin', 'admin', status => console.log(status), err => console.log(err))
+.....................................................................................
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
