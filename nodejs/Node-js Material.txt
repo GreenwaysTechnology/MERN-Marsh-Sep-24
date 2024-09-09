@@ -458,8 +458,73 @@ Yes!
 -Rather we can abstract complexity of writting callbacks.
 
 Solution:
- Promises
+ Promise
 
+What is Promise?
+
+ "Promise is design pattern" which hides complexity of callback patterns
+
+
+Since Promise is design pattern, many people have implemented Promise design pattern.
+
+1.JQuery -first promise implementation
+2.many libs and frameworks
+
+In order standarize , ECMA committe decided to include Promise Design pattern at language level .(ES 6)
+2012 E6 Committe introduced promise design pattern  as  "Promise" Object  in javascript.
+
+....................................................................................
+			  Promise Implementation
+.....................................................................................
+
+Features of Promise Object:
+1.Promise by deafult is Async. Which implements timer api with 0 ms .
+2.Promise can be used with any async callback based  implementations.
+
+
+Objective:
+
+ To remove callbacks in async/non blocking code. write cleaner async programming.
+ To remove complex callback chaining code.
+
+
+Difference between callbacks and promises:
+
+Essentially, a promise is a returned object to which you attach callbacks, instead of passing callbacks into a function.
+
+....................................................................................
+
+		Promise Implemenation: Object Object creations
+...................................................................................
+
+1. Create Promise Object from Promise contructor
+      new Promise()
+2. Create Promise object from factory apis 
+      Promise.resolve() / Promise.reject()
+
+
+Promise object methods:
+
+1.then - success
+2.catch - errors
+3.finally - clean up
+
+factory api to create Promise object
+4.resolve
+5.reject
+.......................................
+6.all
+7.race
+
+1.Promise factory api
+   -success - resolve
+   -failure - reject
+
+
+//basic promise implementation:
+//In promises , you dont need to pass function as parameter
+
+Promise with Success and also ensure that Promise is async.
 
 
 
