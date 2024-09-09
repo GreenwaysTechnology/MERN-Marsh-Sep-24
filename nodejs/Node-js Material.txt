@@ -1,0 +1,475 @@
+			Node.js
+
+What is node?
+Why node?
+Node.js Architecture
+ -High level
+ -low level
+
+What is Node? /Node.js?
+    Node is javascript runtime and platform.
+By using node we can run js code outside browser
+
+Why Node?
+ ->Process
+ ->Threading Models
+ ->IO architecture
+
+Process:
+ It is program which runs the other program.
+eg: CLR is process which runs .net code/app
+    jvm is process which runs java code
+    node is process which runs js code
+
+Threading Model:
+  Every process has thread.
+ CLR AND JVM is multi threaded
+   YOu can created threads, also runtimes hosts its own thread - main thread.
+
+IO architecture:
+  IO means read and write.
+
+Node was to created to build "IO Applications"
+
+Types of IO Applications
+
+1.File system io apps
+   app can read and write data from and to "hard disk"
+2.Networking io apps
+   Web server is io apps, which reads data from the network and sends data via       network.
+   TCP server
+   UDP Server
+   Data gram server
+3.Process IO/Memory
+   read and write data from and into "RAM" 
+
+
+Other languages also can help to implement IO Applications.
+  .net 
+     FileSystem name space to read and write data from disk
+  .net 
+     MVC architecture is used to read and write data from and to network
+
+What is the core difference between other language and node.js with respect io?
+
+			Non Blocking IO
+.....................................................................................
+
+File descriptor:
+ file descriptor is c program (ds) which holds all io informations.
+
+if a program is going to talk to keyword,monitor.
+  fd holds the references to keyboard,monitor.
+
+
+Linux non blocking apis
+
+1.select -  2000
+2.poll 
+3.epoll - modern event notification api 
+
+
+Linux is the first os who introduced nonblocking io apis
+
+After Linux, Windows,mac, other BSD os also had introduced nonblocking apis
+
+windows-iocp
+linux -epoll
+mac - kqueue
+.....................................................................................
+			 First Non blocking webserver
+
+
+ngix webserver was the first non blocking webserver which was created and tested on linux.
+.....................................................................................
+			 Node.js as non blocking io wrapper
+.....................................................................................
+
+In 2007, Node.js was created to build non blocking io applications using javascript.
+
+....................................................................................
+			 Node.js non blocking arch
+
+
+Node.js provides two major components
+
+1.js runtime which is from google - V8
+2.libuv runtime which is plaform abstraction lib for making non blocking io calls.
+
+Node.js and threading model:
+...........................
+
+There are two threading model
+
+1.non blocking thread /event loop threads/main thread
+
+    - To handle non blocking network io calls
+
+2.blocking thread/worker loop thread
+      -To handle non blockig file io calls and blocking io calls, user code
+
+....................................................................................
+Node.js Programming area
+
+1.Node REPL
+2.Node and js apis
+3.Node core apis
+4.Styles of writing async programming
+   ->Callback pattern
+   ->Promise Pattern
+   ->Promise with Async and await Pattern
+
+
+...................................................................................
+
+1.Node REPL - Read Evalulate Print loop
+
+Node REPL is used to run js programs interactive mode.
+
+Js programs are executed in two modes
+
+1.interactive mode - REPL mode
+2.script mode - by loading script on to the runtime
+...................................................................................
+
+1.Node REPL - Read Evalulate Print loop
+
+Node REPL is used to run js programs interactive mode.
+
+Js programs are executed in two modes
+
+1.interactive mode - REPL mode
+2.script mode - by loading script on to the runtime
+
+1.interactive mode - REPL mode
+C:\Users\subu>node
+Welcome to Node.js v20.11.1.
+Type ".help" for more information.
+> 10 +10
+20
+> new Date()
+2024-07-13T10:55:31.010Z
+> JSON.stringify({id:1})
+'{"id":1}'
+> a=10
+10
+> b=20
+20
+> c = a + b
+30
+>
+
+Can you use all js features inside node?
+
+No
+
+Browser objects such document,window,storage....
+
+> window
+Uncaught ReferenceError: window is not defined
+>
+
+In browser window is super object
+
+In node what is super object?
+  Process- Object
+ process - it is variable holds Process object
+ window - It is variable holds WIndow object
+
+...
+
+How to write js code and run on node?
+
+
+Project setup:
+G:\Marsh\nodejs>mkdir mynodeapp
+
+G:\Marsh\nodejs>cd mynodeapp
+
+G:\Marsh\nodejs\mynodeapp>mkdir src
+
+G:\Marsh\nodejs\mynodeapp>code .
+
+
+Helloworld:
+...........
+
+src/index.js
+G:\Marsh\nodejs\mynodeapp>node src/index.js
+Hello
+.....................................................................................
+		How to write async programming/non blocking programming in node
+...................................................................................
+
+Fundamental Requirement:
+........................
+
+1.OS should support non blocking apis like select,poll,epoll
+
+2.Program languages/platforms also should provide high level apis to map os low level apis
+
+3.In order to write non blocking apps in js(node), we have different patterns(styles)
+
+
+Nonblocking Applications Developement style:
+............................................
+
+OS kernals sends events to application process(thread), now thread need to handle events,
+in node js, events are handled in different ways
+
+1.callbacks
+2.Promises
+3.Async await
+4.reactive programming 
+
+1.callbacks:
+  Callback is listener function which gets registered during compile time
+  and exexcuted during runtime when ever the event is emitted.
+
+Req for async programming:
+ 
+1.You need high level non blocking api - provided by node.js 
+2.listener api which is called "function as parameter/hof" 
+
+HOF functions are becoming listeners/callbacks which are called when ever event is emitted.
+
+NonBlocking apis:
+1.timer
+   -setTimeout -
+   -setInterval
+2.io
+   web
+   fs
+   socket
+ etc...
+3.process api
+  nextTick
+
+
+Now we are going to test non blocking feature with timers
+..........................................................
+
+Timers are not io apis but cpu related non blocking api.
+How timers works , similar other non blocking apis also works.
+
+Initally we will test with timer, and later we will see io apis step by step.
+
+
+Use Case : Basic non blocking using timer:
+
+function blockMe(message) {
+    console.log(message)
+}
+function delay(listener) {
+    //non blocking api which is called after some time which never blocks next line of code
+    setTimeout(listener, 5000)
+}
+
+function main() {
+    blockMe('start')
+    delay(function () {
+        console.log('hello,i am delayed')
+    })
+    blockMe('end')
+}
+main()
+
+Use case: How to transfer data in to the caller
+function blockMe(message) {
+    console.log(message)
+}
+function delay(listener) {
+    //non blocking api which is called after some time which never blocks next line of code
+    setTimeout(listener, 5000,"Hello,I am delayed")
+}
+
+function main() {
+    blockMe('start')
+    delay(function (message) {
+        console.log(message)
+    })
+    blockMe('end')
+}
+main()
+
+Use case: Convert into arrow functions
+function blockMe(message) {
+    console.log(message)
+}
+function delay(listener) {
+    //non blocking api which is called after some time which never blocks next line of code
+    setTimeout(listener, 5000, "Hello,I am delayed")
+}
+
+function main() {
+    blockMe('start')
+    delay(message => console.log(message))
+    blockMe('end')
+}
+main()
+
+...................................................................................
+			Callback Chaining /Callback composition
+..................................................................................
+
+Sequentional Programming:
+.........................
+
+result = apicall
+result2  apicall(result)
+
+The out put of one api call will be input to another api call -  chaining.
+
+How to chain in nonblocking env?
+
+//chaining
+//resolve=success;reject=failure
+
+const getUser = (resolve, reject) => {
+    console.log('getUser is called')
+
+    let user = {
+        name: 'admin',
+        password: 'admin'
+    }
+    //user = null
+    if (user) {
+        setTimeout(resolve, 1000, user)
+    } else {
+        setTimeout(reject, 1000, 'User Not Found')
+    }
+
+}
+const login = (user, resolve, reject) => {
+    console.log('Login is called')
+    if (user.name === 'admin' && user.password === 'admin') {
+        setTimeout(resolve, 1000, 'Login Success')
+    } else {
+        setTimeout(reject, 1000, 'Login Failed')
+    }
+}
+
+const showDashboard = (status, resolve, reject) => {
+    console.log('showDashboard is called')
+    if (status === 'Login Success') {
+        setTimeout(resolve, 1000, 'Welcome to dashboard')
+    } else {
+        setTimeout(reject, 1000, 'Sorry you are not valid user')
+    }
+}
+
+
+
+function main() {
+    getUser((user) => {
+        //console.log(user)
+        login(user, (status) => {
+            //console.log(status)
+            showDashboard(status, (message) => {
+                console.log(message)
+            }, (err) => {
+                console.log(err)
+            })
+        }, (err) => {
+            console.log(err)
+        })
+
+    }, (err) => {
+        console.log(err)
+    })
+}
+main()
+
+
+....................................................................................
+				Callback Hell
+....................................................................................
+
+
+function main() {
+    getUser(user => {
+        login(user, status => {
+            showDashboard(status, (page) => {
+                console.log(page)
+            }, (err) => {
+                console.log(err)
+            })
+        }, err => {
+            console.log(err)
+        })
+    }, err => {
+        console.log(err)
+    })
+
+}
+main()
+....................
+
+fs.readdir(source, function (err, files) {
+  if (err) {
+    console.log('Error finding files: ' + err)
+  } else {
+    files.forEach(function (filename, fileIndex) {
+      console.log(filename)
+      gm(source + filename).size(function (err, values) {
+        if (err) {
+          console.log('Error identifying file size: ' + err)
+        } else {
+          console.log(filename + ' : ' + values)
+          aspect = (values.width / values.height)
+          widths.forEach(function (width, widthIndex) {
+            height = Math.round(width / aspect)
+            console.log('resizing ' + filename + 'to ' + height + 'x' + height)
+            this.resize(width, height).write(dest + 'w' + width + '_' + filename, function(err) {
+              if (err) console.log('Error writing file: ' + err)
+            })
+          }.bind(this))
+        }
+      })
+    })
+  }
+})
+
+Questions:
+
+1.Whether this code is able to understand quickly
+2.Whether this code is able to debug
+3.Whehter this code is scalable?
+4.whether this code is maintaiable?
+
+No
+ "Callback Hell"
+
+Callback Hell:
+
+ -It is not bug or error in code
+ -It is way of writing callback based program
+ -Callback based non blocking programming hard to understand,maintain,debug,scale Which   called as "Callback Hell".
+..................................................................................
+.....................................................................................
+		IS There is better solution is available to write
+			non blocking code
+			without callbacks
+....................................................................................
+
+Yes!
+
+-Generally without callbacks not possible to write async/non blocking code.
+-Rather we can abstract complexity of writting callbacks.
+
+Solution:
+ Promises
+
+
+
+
+
+
+
+
+
+
+
+
+
+
