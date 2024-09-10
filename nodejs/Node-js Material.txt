@@ -1540,5 +1540,120 @@ function main() {
 
 }
 main()
+.....................................................................................
+.....................................................................................
+			Types of modules
+.....................................................................................
+
+1.Custom module
+  built by us
+2.built in modules
+   provided by node.js  
+3.provided by third party/community
+  libs,frameworks
+
+
+Built in Node.js Modules:
+.........................
+https://nodejs.org/docs/latest/api/
+
+Built in node modules provides
+
+1.non blocking networking io apis
+   -tcp,http,datagram etc...
+2.timers
+3.file system api
+   to read and write data into disk files
+4.common apis
+   os,events
+
+
+Common apis:
+
+1.OS
+const os = require('node:os')
+
+function main(){
+    console.log(os.arch())
+    console.log(os.cpus())
+}
+main()
+
+./ vs ''
+.........
+
+ require('./services/TODOService');
+  ->here you can see ./
+  ./ -current dir
+
+ require('node:os'); => 
+  -here no ./ 
+
+Why?
+
+Note : if you are java devp, you know the classpath , how it works?
+
+require('node:os');
+
+Node internally uses a search algorthim,node always looks the folder called
+ "node_modules" in the current project, if not , then it searches, the node in built 
+installtion folder---c:/pf/node/node_modules--if it finds it will pick up from there else it will throw error.
+
+require('./services/TODOService');
+   it will lookup in the current dir or sub dirs only.
+
+
+.....................................................................................
+				  Events
+
+Node.js is event driven arch, some program emits events called emitter and some program lisents for those events called "listeners".
+
+Using events module we can build event programming model.
+
+As of now , we are going to discuss simple events with in objects, later in microservices we will see the distributed event driven arch.
+
+Much of the Node.js core API is built around an idiomatic asynchronous event-driven architecture in which certain kinds of objects (called "emitters") emit named events that cause Function objects ("listeners") to be called.
+
+For instance: a net.Server object emits an event each time a peer connects to it; a fs.ReadStream emits an event when the file is opened; a stream emits an event whenever data is available to be read.		
+
+
+//how events are emitted and how to listen for events
+//this is not io events , just custom events
+//io events will see later.
+
+const EventEmitter = require('node:events')
+
+class Sales extends EventEmitter {
+    constructor() {
+        super()
+        //register listener
+        this.on('sold', (evt) => {
+            console.log(evt)
+        })
+    }
+    //biz
+    sale(product) {
+        //fire /emit event
+        this.emit('sold', product)
+    }
+}
+
+
+function main() {
+    let sales = new Sales()
+    sales.sale({ id: 1, name: 'Phone' })
+}
+main()
+....................................................................................
+			 IO modules
+
+1.File system IO
+2.HTTP IO - Web Programming
+
+
+
+
+
+
 
 
