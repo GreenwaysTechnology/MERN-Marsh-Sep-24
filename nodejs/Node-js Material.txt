@@ -888,11 +888,442 @@ async function main() {
     }
 }
 main()
+.....................................................................................
+				Modules Pattern
+...................................................................................
 
 
+In java Modularity , is presented via "Packages"
+
+Package organize the code  logically.
+
+Customer.java
+
+package com.mycom
+
+public class Customer{}
+
+Java organizes code folders and files Physically.
+
+d:/javaapps/src/
+    com/ibm/cms/Customer.java
+
+What about javascript Modularity?
+
+ Javascript is file based modularity physically
+ but logically there is no such modularity at language level.
+
+collection of variable declarations and function.
+
+Once js started growing in large scale, dev struck to organize code.
+
+2000, Smart developers started thinking about how to modualrize js code.
+ 
+
+Module design patterns came.
+
+1.Namespace design pattern : 2000 : jquery
+2.AMD -Async Module Defintion : dojo
+---------------------------------------------------------
+3.CJS - Common JS =  namespace + amd:2005 on wards
+4.ES 6 Module design pattern:2012-2015  = amd + cjs
+------------------------------------------------------------
+5.System :2007 = AMD = CJS + ES 6
+6.UMD :2008 = NAMESPACE + AMD + CJS = ES 6
+
+Two design patterns are used in coding:
+
+3.CJS - Common JS =  namespace + amd:2005 on wards
+4.ES 6 Module design pattern:2012-2015  = amd + cjs
 
 
+cjs is default design pattern in node.js.
+es6 module pattern also can be used in node.js
+
+...................................................................................
+				Commonjs-CJS
+.....................................................................................
+
+How to share code? How to import code?
+
+ Code:
+  Could be variables,functions,classes.
+  Variables can have any literal string,numbers,boolean,objects,functions...
+
+src
+  |
+  subfolders
+|
+index.js
 
 
+Sharing code :
 
+Keywords
+exports
+module.exports
+
+Imporing code:
+
+require('fileName')
+require('folderName/fileName')
+
+exports:
+ Used to share more code from the single file.
+ exports packs the entire code into one single js object and returns that object
+
+exports default value is empty object.
+
+Use case : how to link two files.
+
+src/util.js
+console.log('hello util')
+
+src/index.js
+//function
+const result = require('./util')
+
+console.log(result)
+
+G:\Marsh\nodejs\moduleapp>node src/index.js
+hello util
+{}
+
+Here you can see there is empty object, means that you have not shared any code.
+
+Note:
+ exports is just in built variable and its value by default is {} (empty object)
+
+Use Case: How to share code using exports
+
+src/util.js
+
+// console.log('hello util')
+
+//share code: variables,functions,array
+
+exports.name = 'Subramaian'
+
+G:\Marsh\nodejs\moduleapp>node src/index.js
+{ name: 'Subramaian' }
+
+src/util.js
+exports.name = 'Subramaian'
+exports.age = 44
+exports.address = {
+    city: 'Coimbatore'
+}
+exports.status = true
+exports.skills = [{
+    id: 1,
+    name: 'js'
+}]
+
+G:\Marsh\nodejs\moduleapp>node src/index.js
+{
+  name: 'Subramaian',
+  age: 44,
+  address: { city: 'Coimbatore' },
+  status: true,
+  skills: [ { id: 1, name: 'js' } ]
+}
+
+//
+//function
+const result = require('./util')
+
+console.log(result)
+
+console.log(`Name ${result.name}`)
+............................................................
+
+module.exports
+
+src/greeter.js
+
+function sayGreet() {
+    return 'Hello'
+}
+
+//share the function as it is
+module.exports = sayGreet
+
+src/services/todo.service.js
+
+
+class TodoService {
+    constructor() {
+        console.log('todo service')
+    }
+    findAll() {
+        return 'Todos'
+    }
+}
+module.exports = TodoService
+
+src/index.js
+const result = require('./greeter')
+const TodoService = require('./services/todo.service')
+
+function main() {
+    console.log(result)
+    console.log(result())
+    console.log(TodoService)
+    let todoService = new TodoService()
+    console.log(todoService.findAll())
+}
+main()
+
+How to return Object?
+
+Object can be class object, literal object,array.
+
+
+class CustomerService {
+    constructor() {
+        console.log('CustomerService service')
+    }
+    findAll() {
+        return 'customers'
+    }
+}
+module.exports = new CustomerService()
+
+Note:
+Single file , Single class/Object/function/variable
+
+Using module.exports , you cant export/share multiple things at time.
+
+multiple module.exports or moudle.exports and exports inside single file not allowed.
+
+src/data/customers.js
+
+const CUSTOMERS = [{
+    id: 1,
+    name: 'Subramanian'
+},
+{
+    id: 2,
+    name: 'Murugan'
+},
+{
+    id: 3,
+    name: 'Ram'
+}
+
+]
+module.exports = CUSTOMERS
+
+src/services/customer.service.js
+const CUSTOMERS = require('../data/customers')
+
+class CustomerService {
+    constructor() {
+        console.log('CustomerService service')
+    }
+    findAll() {
+        return CUSTOMERS
+    }
+    save() {
+        return 'save'
+    }
+    remove() {
+        return 'delete'
+    }
+}
+module.exports = new CustomerService()
+
+src/index.js
+const customerService = require('./services/customer.service')
+
+
+function main() {
+    console.log(customerService.findAll())
+    console.log(customerService.save())
+}
+main()
+.....................................................................................
+			Async Programming and Modules
+.....................................................................................
+
+I have apis which encapsulated inside object(class), Those apis are async api.
+
+Api design could be
+
+1.callback based
+
+2.Promise based
+
+Who ever going to use Api
+
+1.pass callback
+2.get Promise and use then and catch
+3.get Promise and use async, await.
+
+
+steps:
+
+Data
+1.src/data/products.js
+
+const PRODUCTS = [
+    {
+        id:1,
+        name:'Phone',
+        qty:100,
+        price:12000
+    },
+    {
+        id:2,
+        name:'Watch',
+        qty:33,
+        price:4500
+    }
+]
+module.exports = PRODUCTS
+
+2.services- api
+
+Types of api
+1.sync api
+2.async api
+  -callback 
+  -promise
+
+sync api:
+const PRDOUCTS = require('../data/products')
+
+class ProductService {
+    constructor() {
+        console.log('Product Service initalized')
+    }
+    //apis
+    getProducts() {
+        return PRDOUCTS
+    }
+}
+module.exports = new ProductService()
+
+const productService = require('./services/product.service')
+
+function main() {
+    //call sync service
+    console.log('start')
+    const products = productService.getProducts()
+    console.log(products)
+    console.log('end')
+}
+main()
+..................................
+Async Api:
+
+1.callback based:
+.................
+src/services/product.service.js
+const PRDOUCTS = require('../data/products')
+
+class ProductService {
+    constructor() {
+        console.log('Product Service initalized')
+    }
+    //async api with callback
+    listProducts(resolve, reject) {
+        if (PRDOUCTS) {
+            setTimeout(resolve, 5000, PRDOUCTS)
+        } else {
+            setTimeout(reject, 5000, { message: 'Products Not Found' })
+
+        }
+    }
+}
+module.exports = new ProductService()
+
+
+src/index.js
+const productService = require('./services/product.service')
+
+function main() {
+    //call async service
+    console.log('start')
+    productService.listProducts(products => {
+        console.log(products)
+    }, err => {
+        console.log(err)
+    })
+    console.log('end')
+}
+main()
+
+Using Promises: with then and catch
+....................................
+src/services/products.js
+const PRDOUCTS = require('../data/products')
+
+class ProductService {
+    constructor() {
+        console.log('Product Service initalized')
+    }
+    //async api with Promise
+    findAll() {
+        return new Promise((resolve, reject) => {
+            if (PRDOUCTS) {
+                setTimeout(resolve, 5000, PRDOUCTS)
+            } else {
+                setTimeout(reject, 5000, { message: 'Products Not Found' })
+            }
+        })
+    }
+}
+module.exports = new ProductService()
+
+
+src/index.js
+const productService = require('./services/product.service')
+
+function main() {
+    //call async service
+    console.log('start')
+    productService.findAll()
+        .then(products => {
+            console.log(products)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+    console.log('end')
+}
+main()
+
+Using Promises: with async...await
+....................................
+src/index.js
+const productService = require('./services/product.service')
+
+async function main() {
+
+    try {
+        const products = await productService.findAll()
+        console.log(products)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+main()
+
+Case Study:
+
+CURD operations:
+
+Create USER service, having users data like id,name,status (array of users)
+
+1.return all users
+2.return user by id
+3.insert new user
+4.update existing user
+5.remove existing user
+
+Note: js array apis for insert,delete,update,find
+.........
 
