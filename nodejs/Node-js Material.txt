@@ -716,9 +716,178 @@ main()
 .....................................................................................
 			Promise Hell and How to refactor
 .....................................................................................
+.....................................................................................
+				Promise Hell
+.....................................................................................
+
+getUser()
+        .then(user => login(user))
+        .then(status => showdashboard(status)).then(page => console.log(page))
+        .catch(err => console.log(err))
+
+Here we are using many thens "thenables" which makes your code still complex to read,debug,maintain.
+
+There is solution called "async ... await" keywords.
+ Which does not replace promise rather , it simplfies to handle promises.
+
+In order reduce thenables, ES 7 Introduced new key words to abstract promise then and catch are "async and await"
+
+async keyword:
+
+1.in front of function we use async keyword, meaning that the function returns promise by default with success only.
 
 
 
+async function getValue() {
+    return 10 // Promise.resolve(10)
+}
+function main() {
+    const value = getValue()
+    console.log(value)
+
+    getValue().then(value=>console.log(value))
+}
+main()
+
+await keyword:
+
+ 1.replace then and catch, make async code looks like sync code
+ 2.await keyword can be used only inside async functions.
+
+eg:
+
+//async keyword:
+/**
+ * 1.async keyword is used infront of function declaration
+ * 2.by default async function return Promise with success data
+ * 3.await keyword is used infront of function call which must return promise
+ * 4.where ever we use await keyword that function must be marked async
+ */
+
+async function getValue() {
+    //return 10 //Promise.resolve(10)
+    return Promise.resolve(10)
+}
+
+async function main() {
+    //console.log(getValue())
+   // getValue().then(value => console.log(value))
+   const value = await getValue()
+   console.log(value)
+}
+main()
+
+.............................................................................
+
+async..with catch:
+
+
+const login = (userName, password) => {
+    if (userName === 'admin' && password === 'admin') {
+        return Promise.resolve('Login success')
+    } else {
+        return Promise.reject('Login Failed')
+    }
+}
+
+async function main() {
+    try {
+        const status = await login('admin', 'admin')
+        console.log(status)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+main()
+.......................................................................
+
+Login WIth async...await:
+
+const login = (userName, password) => {
+    if (userName === 'admin' && password === 'admin') {
+        return Promise.resolve('Login success') //Promise.resolve
+    } else {
+        return Promise.reject('Login Failed')
+    }
+}
+
+async function main() {
+    try {
+        const status = await login('admin', 'admin')
+        console.log(status)
+    }
+    catch (err) {
+        console.log(err)
+    }
+    
+}
+main()
+
+..................................................................................
+			Promise chaining and async and await
+....................................................................................
+
+
+const getUser = () => {
+    console.log('getUser is called')
+    let user = {
+        name: 'admin',
+        password: 'admin'
+    }
+    //user = null
+    if (user) {
+        return new Promise((resolve, reject) => {
+            setTimeout(resolve, 1000, user)
+        })
+    } else {
+        return new Promise((resolve, reject) => {
+            setTimeout(reject, 1000, 'User Not Found')
+        })
+    }
+
+}
+const login = user => {
+    console.log('Login is called')
+    return new Promise((resolve, reject) => {
+        if (user.name === 'admin' && user.password === 'admin') {
+            setTimeout(resolve, 1000, 'Login Success')
+        } else {
+            setTimeout(reject, 1000, 'Login Failed')
+        }
+    })
+}
+
+const showDashboard = status => {
+    console.log('showDashboard is called')
+    return new Promise((resolve, reject) => {
+        if (status === 'Login Success') {
+            setTimeout(resolve, 1000, 'Welcome to dashboard')
+        } else {
+            setTimeout(reject, 1000, 'Sorry you are not valid user')
+        }
+    })
+}
+
+
+
+async function main() {
+    // getUser()
+    //     .then(user => login(user))
+    //     .then(status => showDashboard(status))
+    //     .then(message => console.log(message))
+    //     .catch(err => console.log(err))
+    try {
+        const user = await getUser()
+        const status = await login(user)
+        const message = await showDashboard(status)
+        console.log(message, status, user)
+    }
+    catch (err) {
+        console.log(err)
+    }
+}
+main()
 
 
 

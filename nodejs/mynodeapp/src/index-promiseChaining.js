@@ -41,20 +41,44 @@ const showDashboard = status => {
 
 
 
-async function main() {
+function main() {
+    // getUser((user) => {
+    //     //console.log(user)
+    //     login(user, (status) => {
+    //         //console.log(status)
+    //         showDashboard(status, (message) => {
+    //             console.log(message)
+    //         }, (err) => {
+    //             console.log(err)
+    //         })
+    //     }, (err) => {
+    //         console.log(err)
+    //     })
+
+    // }, (err) => {
+    //     console.log(err)
+    // })
+
     // getUser()
-    //     .then(user => login(user))
-    //     .then(status => showDashboard(status))
-    //     .then(message => console.log(message))
-    //     .catch(err => console.log(err))
-    try {
-        const user = await getUser()
-        const status = await login(user)
-        const message = await showDashboard(status)
-        console.log(message, status, user)
-    }
-    catch (err) {
-        console.log(err)
-    }
+    //     .then(user => {
+    //         //call login 
+    //         return login(user)
+    //     })
+    //     .then(status => {
+    //         //call show dashboard
+    //         return showDashboard(status)
+    //     })
+    //     .then(message => {
+    //         console.log(message)
+    //     })
+    //     .catch(err => {
+    //         console.log(err)
+    //     })
+
+    getUser()
+        .then(user => login(user))
+        .then(status => showDashboard(status))
+        .then(message => console.log(message))
+        .catch(err => console.log(err))
 }
 main()
