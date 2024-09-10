@@ -39,6 +39,7 @@ async function main() {
     try {
         const products = await productService.findAll()
         console.log(products)
+        
     }
     catch (err) {
         console.log(err)

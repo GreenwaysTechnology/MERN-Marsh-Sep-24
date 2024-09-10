@@ -1325,5 +1325,220 @@ Create USER service, having users data like id,name,status (array of users)
 5.remove existing user
 
 Note: js array apis for insert,delete,update,find
-.........
+.....................................................................................
+			ES 6 module pattern
+.....................................................................................
+
+CJS and es 6 modules are same , means to share code.
+
+keywords
+
+To share code
+
+1.export  ===exports
+2.export default = module.exports
+
+To link/use code
+
+3.import ===require function
+
+
+
+src/util.js
+
+//export 
+
+export const name = 'Subramanian'
+export const age = 44
+export const status = true
+export const address = {
+    city: 'Coimbatore',
+    state: 'TN'
+}
+export const getInfo = () => {
+    return 'info'
+}
+export const skills = [
+    'java', 'js', 'devops'
+]
+src/index.js
+import { name, age, address, skills, status, info } from './util'
+
+
+function main() {
+    console.log(name)
+    console.log(age)
+    console.log(address)
+    console.log(skills)
+    console.log(status)
+    console.log(info())
+
+}
+main()
+
+
+G:\Marsh\nodejs\es6modules>node src/index.js
+(node:19580) Warning: To load an ES module, set "type": "module" in the package.json or use the .mjs extension.
+(Use `node --trace-warnings ...` to show where the warning was created)
+G:\Marsh\nodejs\es6modules\src\index.js:1
+import { name, age, address, skills, status, info } from './util'
+^^^^^^
+
+SyntaxError: Cannot use import statement outside a module
+    at internalCompileFunction (node:internal/vm:77:18)
+    at wrapSafe (node:internal/modules/cjs/loader:1288:20)
+    at Module._compile (node:internal/modules/cjs/loader:1340:27)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1435:10)
+    at Module.load (node:internal/modules/cjs/loader:1207:32)
+    at Module._load (node:internal/modules/cjs/loader:1023:12)
+    at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:135:12)
+    at node:internal/main/run_main_module:28:49
+
+Node.js v20.11.1
+
+Note:
+ Node.js does not support keywords directly.
+
+How to run es6 modules inside node?
+
+1.create a file called package.json
+G:\Marsh\nodejs\es6modules> npm init --yes
+ 
+
+package.json
+{
+  "name": "es6modules",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
+
+2.file name must be renamed -  util.mjs
+
+//export 
+
+export const name = 'Subramanian'
+export const age = 44
+export const status = true
+export const address = {
+    city: 'Coimbatore',
+    state: 'TN'
+}
+export const getInfo = () => {
+    return 'info'
+}
+export const skills = [
+    'java', 'js', 'devops'
+]
+
+4.while importing 
+import { name, age, address, skills, status, getInfo } from './util.mjs'
+
+
+function main() {
+    console.log(name)
+    console.log(age)
+    console.log(address)
+    console.log(skills)
+    console.log(status)
+    console.log(getInfo())
+
+}
+main()
+
+................................
+
+src/services/todoservices.mjs
+
+
+// class TodoService {
+//     constructor() {
+
+//     }
+//     //api 
+//     findAll() {
+//         return "todos"
+//     }
+// }
+// export default TodoService;
+
+export default class TodoService {
+    constructor() {
+
+    }
+    //api 
+    findAll() {
+        return "todos"
+    }
+}
+
+src/index.js
+import TodoService from './services/todo.service.mjs'
+
+
+
+function main() {
+    let todoService = new TodoService()
+    console.log(todoService.findAll())
+
+}
+main()
+
+Rules:
+
+1.in a single file , you cant have multiple "export default".
+2.in a single file,you can have multiple export
+3.in a single file, you can mix export and export default
+
+eg:
+src/services/todo.service.mjs
+
+export const config = {
+    message: "config"
+}
+
+export default class TodoService {
+    constructor() {
+
+    }
+    //api 
+    findAll() {
+        return "todos"
+    }
+}
+
+While import export default should go first,then export
+
+import { name, age, address, skills, status, getInfo } from './util.mjs'
+
+// import TodoService from './services/todo.service.mjs'
+//export and export default together
+
+
+import TodoService, { config } from './services/todo.service.mjs'
+
+
+function main() {
+    console.log(name)
+    console.log(age)
+    console.log(address)
+    console.log(skills)
+    console.log(status)
+    console.log(getInfo())
+
+    let todoService = new TodoService()
+    console.log(todoService.findAll())
+
+    console.log(config)
+
+}
+main()
+
 
