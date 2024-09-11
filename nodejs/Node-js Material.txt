@@ -2274,11 +2274,483 @@ Having core node.js http module we cant build production ready webservices with 
 
 Node.js team in the begining started working on an abstraction called "framework"
 			   "Express.js"
+...................................................................................
+...................................................................................
+				NPM
+.....................................................................................
+
+What is npm?
+ npm is the world's largest software registry.
+ open source developers from every part of the world use npm to share and borrow packages.
+ many organizations use npm to manage private development as well.
+
+In js, you might have created lib/framework/utility, if you want to share to other developers in the world or within your organization or your team - npm helps.
+
+
+NPM consists of three components
+
+1.the website - used to discover packages, setup profiles and manage other aspects of npm -https://www.npmjs.com/
+
+2.CLI runs from the terminal, and how most developers interact with npm.
+  npm is cli name/command , which is distributed alone node.js itself
+
+3.registry - it is  large public database of js software and the meta information surrounding it.
+
+core concepts in npm:
+
+1.package
+2.module
+
+What is package?
+   A package is a "file or directory" that is described by a "package.json" file
+
+   A package must contain package.json file in order to be published to the npm    registry
+
+
+Modules:
+  A module is any "file or directory" in the "node_modules" directory that can be loaded by the node.js require function.
+
+ A javascript file
+....
+....................................................................................
+				How to create npm package
+....................................................................................
+
+package.json
+
+=>It is file which describes about your project/app/file/directory.
+
+i have created a project like
+
+myapp/src/util/lib.js
+
+class A{}
+
+module.exports = new A()
+
+myapp/src/util/index.js
+const A= require('./util/lib.js')
+
+Can you call this project as "package"
+
+No
+Because this project does not contain "package.json",Which are called module
+...................................................................................
+
+i have created a project like
+
+myapp/src/util/lib.js
+
+class A{}
+
+module.exports = new A()
+
+myapp/src/util/index.js
+const A= require('./util/lib.js')
+
+myapp/package.json
+
+
+Can you call this project as "package"
+
+Yes
+
+Why
+Can you call this project as "package"
+
+No
+
+Why package.json?
+
+=>if package.json is there, only we can transfer/share to other developers via "npm registry"
+
+Note:
+ Every js project must have package.json file
+
+Steps:
+
+1.create folder
+>mkdir mynpm-apps
+>cd mynpm-apps
+>mkdir src
+
+2.create package.json
+
+Before create you have to ensure that npm has been installed.
+
+npm init <initalizer>
+
+npm init
+This utility will walk you through creating a package.json file.
+It only covers the most common items, and tries to guess sensible defaults.
+
+See `npm help init` for definitive documentation on these fields
+and exactly what they do.
+
+package.json
+
+{
+  "name": "mynpmapps",
+  "version": "1.0.0",
+  "description": "This is demo package",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "my",
+    "demo",
+    "package"
+  ],
+  "author": "Subramanian Murugan",
+  "license": "ISC"
+}
+name:
+ This is used to publish package into registry
+
+version:
+   if you publish package into registry, which is differentiated by "version"
+
+"1.0.0" - version no is based on the concept called "SEM Ver" concept- Semantic versioning.
+ Major.minor.patch
+
+main:
+  It is main file used /entry file in the package , generally it would index.js or main.js
+
+description:
+  It explains the nature of packages- what is this packge.
+
+Keywords:
+  Used to discover your packages using npm search command
+
+author:
+  Who is author of this package
+
+license:
+  You should specify a license for your package so that people know how they are permitted to use it.
+		.................................................................................
+			   node_modules
+.................................................................................
+
+  it is folder , used to install any node packages, the node program always looks up the packages from the current folder.
+
+....................................................................................
+				Node Packages
+
+How to install node packages which was distributed by others?
+
+npm install [<package-name>]
+npm i [<package-name>]
+
+npm i [<package-name>] --options
+
+
+Options:
+
+ --save
+     for production + dev
+ --save-dev
+     -for only for dev 
+ --production
+    -for only production
+  -g
+    -for tool purpose -dev
+
+No options are given by default "--save"
+
+if you want to use any lib
+
+Steps;
+1.ensure that package.json is created or not - one time
+2.npm i packageName --options
+3.after installing you can verify , the node_modules folder is created and installed
+  libs inside that folder.
+  You have to verify package.json aswell, there is one entry is added
+
+  "dependencies": {
+    "lodash": "^4.17.21"
+  }
+
+
+3.How to use package inside our code?
+  Using cjs or es6 module.
+
+//i want to use lodash lib
+const _ = require('lodash')
+
+//start using lib
+
+function main() {
+    const res = _.partition([1, 2, 3, 4], n => n % 2);
+    console.log(res)
+}
+main()
+
+Application mode
+
+1.dev
+2.test
+3.prod
+
+dev : any dependency required for development only
+  --save-dev
+test : 
+   any dependency required for development only - test
+   --save-dev
+prod:
+  dependency used in dev and production... 
+  --save
+"dependencies": {
+    "lodash": "^4.17.21"
+  }
+
+..................................................................................
+			 Test /Dev Only Dependency
+.................................................................................
+
+Libs required for dev and test
+
+tools
+   -compilers,webservers
+   -testing libs and framworks 
+
+eg:
+  mocha - test runner is used for running test case
+  chai.js -test assertion lib used for writing test cases
+  jest -  test runner is used for running test cases
+
+how to install chai?
+
+G:\Marsh\nodejs\mynpm-apps>npm i chai --save-dev
+
+added 7 packages, and audited 9 packages in 2s
+
+found 0 vulnerabilities
+
+ "devDependencies": {
+    "chai": "^5.1.1",
+    "mocha": "^10.7.3"
+  }
+.....................................................................................
+			How to prepare your app for production
+.....................................................................................
+
+When you upload the app into source code repository like "github/bitbucket" , we never upload node_fodler.
+
+Steps for Testing:
+
+1.just delete node_modules folder
+
+2.open command prompt
+
+3.create production app
+
+npm install --production
+  it scans package.json which install only from  production dependencies
+or
+npm install --omit=dev
+  it scans package.json which install only from  production dependencies			
+....................................................................................
+		How to install all dependencies 
+....................................................................................
+G:\Marsh\nodejs\mynpm-apps>npm i
+.........................................................................................................................................................................
+			How to remove /uninstall package
+
+npm uninstall mocha --save-dev
+ "devDependencies": {
+    "chai": "^5.1.1"
+  }
+,,,,,,,,,,,,,........................................................................
+			  Global Packages
+....................................................................................
+Global package is installed not inside project, installed globally.
+Global packages are generally tools to create projects,webservers,test runtime like so.
+
+nodemon:
+  nodemon is a tool that helps develop Node.js based applications by automatically restarting the node application when file changes in the directory are detected.
+ 
+npm install nodemon -g
+
+global modules are available like executable files
+
+How to test?
+
+G:\Marsh\nodejs\mynpm-apps>nodemon --help
+  Usage: nodemon [options] [script.js] [args]
+
+  Options:
+
+  --config file ............ alternate nodemon.json config file to use
+  -e, --ext ................ extensions to look for, ie. js,pug,hbs.
+  -x, --exec app ........... execute script with "app", ie. -x "python -v".
+  -w, --watch path ......... watch directory "path" or files. use once for
+                             each directory or file to watch.
 
 
 
+G:\Marsh\nodejs\mynpm-apps>nodemon src/index.js
+[nodemon] 3.1.4
+[nodemon] to restart at any time, enter `rs`
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: js,mjs,cjs,json
+[nodemon] starting `node src/index.js`
+server is ready
+
+You just change any file content, see the output without restarting.
+
+....................................................................................
+			 scripts
+....................................................................................
+ if you want to automat the js app workflows, scripts section is used.
+
+scripts has ,script command and task to be executed.
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+
+test - is command
+"echo \"Error: no test specified\" && exit 1" - task to be executed
+
+in npm we have many built in commands.
+eg
+ start
+ stop
+ publish
+ test
+ pack
+ postinstall
+ preinstall
+etc..
+https://docs.npmjs.com/cli/v8/using-npm/scripts#npm-rebuild
+
+Use case :
+ We can run node apps using scripts
+ we can run webservers using scripts
+ we can initalize the test env using scripts
+ we can start containers using scripts
+ etc...
+
+how to execute scripts commands?
+
+npm commandName
+eg
+npm start
+npm test
+npm pack
+etc..
+
+eg:
+G:\Marsh\nodejs\mynpm-apps>npm test
+
+> mynpm-apps@1.0.0 test
+> echo "Error: no test specified" && exit 1
+
+"Error: no test specified"
 
 
+Can we run our node app via script?
+
+Yes
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js"
+  },
+G:\Marsh\nodejs\mynpm-apps>npm start
+
+> mynpm-apps@1.0.0 start
+> node src/index.js
+
+server is ready
+.............................................................................
+			Custom Script command
+...............................................................................
+
+You can give any name
+
+eg:
+  "scripts": {
+     "subu": "node src/index.js"
+  }
+
+How to run this command ?
+
+G:\Marsh\nodejs\mynpm-apps>npm subu
+Unknown command: "subu"
+
+
+Did you mean this?
+  npm run subu # run the "subu" package script
+To see a list of supported npm commands, run:
+  npm help
+
+YOu cant run custom command using "npm commandName"
+
+Then how to run?
+
+npm run commandName
+
+G:\Marsh\nodejs\mynpm-apps>npm run subu
+
+> mynpm-apps@1.0.0 subu
+> node src/index.js
+
+server is ready
+
+
+			Global Modules and scripts
+.....................................................................................
+
+Tools we have installed globally like nodemon.
+
+In order to avoid version mismatch, we can install any tools(webservers,compilers,utilites) as local module.
+
+G:\Marsh\nodejs\mynpm-apps>npm uninstall nodemon -g
+
+removed 29 packages in 1s
+
+G:\Marsh\nodejs\mynpm-apps>nodemon
+'nodemon' is not recognized as an internal or external command,
+operable program or batch file.
+
+
+npm install nodemon -save-dev
+After installing,nodemon is not available to execute like 
+
+nodemon src/index.js
+Error:
+nodemon' is not recognized as an internal or external command,
+operable program or batch file.
+
+Solution:
+ We have to configure inside scripts section using builtin commoand or custom command
+
+"scripts": {
+      "dev": "nodemon src/index.js"
+  }
+
+npm run dev
+.....................................................................................
+			How to use tools without even installing locally
+.....................................................................................
+Can i use tools like webserver,compiler,code generator without even installing inside project as dev?
+
+npx command
+
+Either local or global module we need to install, it occupies some amount memory.
+if you want to execute tools with latest version always,you have to upgrade, instead of upgrading , we can directly execute the latest version of binary.
+
+npx
+.....................................................................................
+
+Alternate to npm
+
+1.npx
+2.yarn
+3.npmn
+.....................................................................................
 
 
 

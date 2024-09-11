@@ -1,0 +1,24 @@
+{
+  "name": "mynpm-apps",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node src/index.js",
+    "subu": "node src/index.js",
+    "dev": "nodemon src/index.js"
+  },
+  "keywords": [
+    "Test"
+  ],
+  "author": "Subramanian Murugan",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "lodash": "^4.17.21"
+  },
+  "devDependencies": {
+    "chai": "^5.1.1",
+    "nodemon": "^3.1.4"
+  }
+}
