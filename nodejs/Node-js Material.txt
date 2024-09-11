@@ -1721,6 +1721,286 @@ Task:
 
 
 
+const fs = require('node:fs/promises');
+
+
+async function readFile() {
+    const filePath = './src/assets/info.txt'
+    const options = {
+        encoding: 'UTF-8'
+    }
+    // fs.readFile(filePath, options, (err, data) => {
+    //     if (err) throw err
+    //     console.log(data)
+    // })
+    try {
+        const data = await fs.readFile(filePath, options)
+        console.log(data)
+    }
+    catch (err) {
+        console.log(err)
+    }
+
+}
+
+function main() {
+    readFile()
+}
+main()
+.....................................................................................
+.....................................................................................		How to read File using blocking pattern?
+....................................................................................
+
+const fs=require('node:fs')
+
+async function main() {
+    const filePath = './src/assets/info.txt'
+    const options = {
+        encoding: 'UTF-8'
+    }
+    console.log('start')
+    const data = fs.readFileSync(filePath, options)
+    console.log(data)
+    console.log('end')
+}
+main()
+.....................................................................................
+			Mode of fs read and write
+.....................................................................................
+
+1.Non Streaming Mode
+
+2.Streaming  Mode
+
+1.Non Streaming Mode
+
+  only file io is supported, network io not supported
+
+ -once file is read, the entire file is loaded into node process buffer(memory), then it will be delivered to caller.
+
+-if more files are loaded into node process, node process gets crashed.
+
+-non streaming mode is not suitable for large and big files read or write operation.
+
+fs.readFile() and fs.writeFile are non streaming apis
+
+
+2.Streaming apis:
+   supported by fs and also network apis
+
+
+-Streaming is nothing but flow of data(chunks).
+-Streaming allows move the data from one place to another place one by one.
+-Streaming apis are other wise called evented io. which is powered events.
 
 
 
+Types of Streams:
+
+1.Readable Stream : input
+2.Writeable stream : output
+3.Duplex stream : read + write
+
+Node has lot of built in stream apis
+....................................
+
+Built in readable Streams:
+
+-HTTP responses, on the client
+-HTTP requests, on the server
+-fs read streams
+-zlib streams
+-crypto streams
+-TCP sockets
+-child process stdout and stderr
+-process.stdin
+
+Writable Streams:
+
+-HTTP requests, on the client
+-HTTP responses, on the server
+-fs write streams
+-zlib streams
+-crypto streams
+-TCP sockets
+-child process stdin
+-process.stdout, process.stderr
+
+All streaming apis are powered with events
+node io streams has built in events.
+events are emitted by node.
+Our programs are listeners
+
+Common events in all io
+.........................
+
+
+1.data event:
+ which is emitted by node, for each chunk.
+
+2.close event:
+  The 'close' event is emitted when the stream and any of its underlying resources (a file descriptor, for example) have been closed.
+
+3.end event:
+ The 'end' event is emitted when there is no more data to be consumed from the stream.
+
+4.Event: 'error'
+ The 'error' event may be emitted by a Readable implementation at any time
+Typically, this may occur if the underlying stream is unable to generate data due to an underlying internal failure, or when a stream implementation attempts to push an invalid chunk of data.
+
+const fs = require('node:fs');
+
+//read
+
+function readFile() {
+    const filePath = './src/assets/info.txt'
+    const options = {
+        encoding: 'UTF-8'
+    }
+    const inputStream = fs.createReadStream(filePath, options)
+
+    //read data
+    //attach events
+    let data = ''
+    inputStream.on('data', (chunk) => {
+        data += chunk
+    })
+    inputStream.on('end', () => {
+        console.log(data)
+    })
+    inputStream.on('close', () => {
+        console.log('close event is called')
+    })
+    inputStream.on('error', (err) => {
+	consoe.log(err)
+        console.log('error event is called')
+    })
+}
+
+function main() {
+    readFile()
+}
+main()
+....................................................................
+Writing file using Stream:
+const fs = require('fs');
+const path = require('path');
+
+const fileName = path.join(__dirname, 'assets/grains.txt');
+
+const config = {
+    encoding: 'utf8',
+    flag: 'w'
+};
+const outputStream = fs.createWriteStream(fileName, config);
+
+const grains = ['wheat', 'rice', 'oats'];
+
+grains.forEach(grain => {
+    outputStream.write(grain + " ");
+    console.log("Wrote: %s", grain);
+});
+
+outputStream.close();
+
+outputStream.on('close', function () {
+    console.log('file has been closed ')
+})
+................
+
+.....................................................................................
+				Back Pressure
+....................................................................................
+
+When input stream and output stream works together.
+
+Backpressure:
+Problems when you do read and write together
+
+1. In general read operation is faster than write operation
+
+
+Back Pressure means inputstream is fast, outputstream slow, then data will be
+lost.
+
+
+How to handle back pressure?
+
+ apis  : pause,resume,drain event
+
+pause : to close the upstream, not to emit data
+resume : to open the open upstream , to emit data
+
+drain event: if drain event is called, means buffer is empty
+
+In order test back pressure , we need atleast 1gb file.
+
+
+
+Create big file code:
+//big file creation
+const fs = require('fs');
+const path = require('path')
+
+const filePath = path.join(__dirname, "assets/big.file")
+
+const file = fs.createWriteStream(filePath);
+
+for (let i = 0; i <= 1e6; i++) {
+    file.write('Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.\n');
+}
+
+file.end();
+
+..
+
+const fs = require('fs');
+const path = require('path');
+
+const inputfileName = path.join(__dirname, 'assets/big.file');
+const outputfileName = path.join(__dirname, 'assets/bigcopy.file');
+
+const config = {
+    encoding: 'UTF-8'
+}
+const readerStream = fs.createReadStream(inputfileName, config);
+const writeStr = fs.createWriteStream(outputfileName, config);
+
+readerStream.on('data', function (chunk) {
+    console.log(`Received ${chunk.length} bytes of data.`);
+    let buffer_good = writeStr.write(chunk);
+    if (!buffer_good) readerStream.pause();
+});
+writeStr.on('drain', function () {
+    console.log('buffer drained!');
+    readerStream.resume();
+});
+readerStream.on('end', function () {
+});
+
+readerStream.on('error', function (err) {
+    console.log(err.stack);
+});
+
+....................................................................................
+			 Using Pipe
+...................................................................................
+const fs = require('fs');
+const path = require('path');
+
+const inputfileName = path.join(__dirname, 'assets/big.file');
+//write
+const outputFileName = path.join(__dirname, 'assets/bigcopy.file');
+
+const config = {
+      encoding: 'UTF-8'
+}
+
+//Back pressure handling
+const readerStream = fs.createReadStream(inputfileName, config);
+const writeStr = fs.createWriteStream(outputFileName, config);
+
+//backPressure streams
+//pipe method is simplest method which wraps resume,pasuse,drain 
+readerStream.pipe(writeStr);
+.....................................................................................
