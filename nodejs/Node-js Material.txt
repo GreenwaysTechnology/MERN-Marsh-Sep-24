@@ -2004,3 +2004,290 @@ const writeStr = fs.createWriteStream(outputFileName, config);
 //pipe method is simplest method which wraps resume,pasuse,drain 
 readerStream.pipe(writeStr);
 .....................................................................................
+			HTTP programming
+....................................................................................
+Node was created to build non blocking web server and web applications.
+Node provides single event loop thread which handles lot of concurrent http requests.
+Node offers high level http wrapper apis to talk to os apis.
+Node offers http as object.
+
+HTTP Objects
+
+1.Agent -  http.Agent
+  For handling connections between and server
+
+2.ClientRequest - http.clientRequest
+  For creating http clients
+
+3.Server - http.Server
+  For creating web servers,we can create app and deploy on top of server.
+  
+4.ServerResponse - http.ServerResponse
+  ServerResponse is outputstream of "http socket"
+
+5.IncomingMessage -http.IncomingMessage
+    The payload which is sent by client -  Message
+
+6.OutgoingMessage -http.OutgoingMessage
+    The data which is sent by server - Message
+
+7.Global Methods of http
+  
+ 1.createServer
+    factory method to create http server instance.
+
+HTTP events:
+ 
+ There are three types of events
+
+1.HTTP Request events
+  Which are triggered whenever client request is recived by server
+
+request.on('nameoftheevent',listner)
+
+2.Http Response events
+   Which are triggered whenever server response is sent by server
+
+response.on('nameoftheevent',listner)
+
+3.Server Events
+   Server events are triggered during server startup,connection,handshake,request
+
+ server.on('nameoftheevent',listner)
+
+common events:
+data,close,end,error
+
+Note:
+ Each Object has its own events apart from common events.
+
+////////////////////////////////////////////////////////////////////
+
+First Web Server: Helloworld
+//simple web server
+const http = require('node:http')
+
+//create Http Server
+const server = http.createServer((request, response) => {
+    //write code to handle request and response
+    response.write('Hello')
+    //close the stream
+    response.end()
+})
+
+
+//start the server
+server.listen(3000, () => {
+    console.log('server is ready')
+})
+
+How to attach Events?
+request,response,server.
+
+//simple web server
+const http = require('node:http')
+
+//create Http Server
+const server = http.createServer((request, response) => {
+    //write code to handle request and response
+    response.write('Hello')
+    //close the stream
+    response.end()
+})
+
+
+//start the server
+server.listen(3000, () => {
+    console.log('server is ready')
+})
+
+//attach server listener
+server.on('request', (request, response) => {
+    console.log(`Request received on ${new Date()} URL ${request.url} method ${request.method}`)
+})
+
+...................................................................................
+			  How to send json payload 
+.....................................................................................
+//simple web server
+const http = require('node:http')
+const USERS = require('./data/users')
+
+//create Http Server
+const server = http.createServer((request, response) => {
+    //send as json
+    const usersJson = JSON.stringify(USERS)
+
+    //send status code and content type
+    response.writeHead(200, {
+        'Content-Type': 'application/json'
+    })
+
+    response.write(usersJson)
+    //close the stream
+    response.end()
+})
+
+
+//start the server
+server.listen(3000, () => {
+    console.log('server is ready')
+})
+
+//attach server listener
+server.on('request', (request, response) => {
+    console.log(`Request received on ${new Date()} URL ${request.url} method ${request.method}`)
+})
+.....................................................................................
+			Modularization,async api, web
+.....................................................................................
+
+src/services/user.service.js
+const USERS = require('../data/users')
+
+class UserService {
+
+    findAll() {
+        return new Promise((resolve, reject) => {
+            //send users after 1000 ms
+            const usersJson = JSON.stringify(USERS)
+            setTimeout(resolve, 5000, usersJson)
+        })
+    }
+
+}
+module.exports = new UserService()
+
+src/index.js
+//simple web server
+const http = require('node:http')
+const userService = require('./services/user.service')
+
+//create Http Server
+const server = http.createServer(async (request, response) => {
+
+    try {
+        const usersJson = await userService.findAll()
+        //send status code and content type
+        response.writeHead(200, {
+            'Content-Type': 'application/json'
+        })
+        response.write(usersJson)
+        //close the stream
+        response.end()
+    }
+    catch (err) {
+        response.writeHead(500, {
+            'Content-Type': 'application/json'
+        })
+        response.write({ err: err })
+        response.end()
+    }
+
+})
+
+
+//start the server
+server.listen(3000, () => {
+    console.log('server is ready')
+})
+
+//attach server listener
+server.on('request', (request, response) => {
+    console.log(`Request received on ${new Date()} URL ${request.url} method ${request.method}`)
+})
+....................................................................................
+			How to get Input from User
+....................................................................................
+
+src/services/user.service.js
+const USERS = require('../data/users')
+
+class UserService {
+    save(user) {
+        // Todo: later you can insert this into db
+        console.log(user)
+    }
+
+}
+module.exports = new UserService()
+
+
+const http = require('node:http')
+const userService = require('./services/user.service')
+
+//create Http Server
+const server = http.createServer((request, response) => {
+    //read data from client.
+    let data = ''
+    request.on('data', (chunk) => {
+        data += chunk
+    })
+    request.on('end', () => {
+        userService.save(data)
+        response.end('saved')
+    })
+
+})
+
+
+//start the server
+server.listen(3000, () => {
+    console.log('server is ready')
+})
+
+//attach server listener
+server.on('request', (request, response) => {
+    console.log(`Request received on ${new Date()} URL ${request.url} method ${request.method}`)
+})
+
+.....................................................................................
+		   Building RestFull web services
+.....................................................................................
+
+1.Resources
+   Customer,Product,Item,Payment
+2.API
+   findAll,findBYId,update,Remove,filter
+
+3.URL 
+   Resources and apis must be indentified by URL
+
+4.APIs are mapped against HTTP verbs
+  Read - GET
+  Save  -POST
+  update - PUT
+  remove -  DELETE
+
+
+Each Resource is identified by unique url
+
+  /api/customer
+  /api/products
+
+Each Resource has collection of apis and which mapped against HTTP verbs
+
+ findAll - GET
+
+
+Having core node.js http module we cant build production ready webservices with minimum code, we need to write plenty of boiler plate code.
+
+Node.js team in the begining started working on an abstraction called "framework"
+			   "Express.js"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
