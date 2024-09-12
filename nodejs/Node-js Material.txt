@@ -2751,6 +2751,312 @@ Alternate to npm
 2.yarn
 3.npmn
 .....................................................................................
+....................................................................................
+			  Express.js - Web /Api Framework For node.js
+.....................................................................................
+
+
+What is express?
+Express Fast, unopinionated, minimalist web framework for Node.js
+express is built on top of http core module.
+
+
+What apps can be built using express?
+
+
+1.RESTFull WebServices
+
+2.Dynamic content generation apps -  spring mvc, .netmvc.   with ui
+
+
+Core features of Express:
+
+1.Abstraction on core http module
+2.lot of apis to send data like json api
+3.routers : to create HTTP based web services and apps quickly.
+4.middlewares : to extend core framework like - logging,database,security,templates...
+
+Types of distributed Apps:
+
+1.Monolithic App
+2.Microservices
+
+Express can be used to build Microservices?
+
+ No,
+Express is just monolithic App framework
+.....................................................................................
+		Express Key concepts: in express every thing object
+
+Objects in express
+
+1.Application
+  We call Container object which containe other objects
+  entry and exit of an application
+  application is created by calling function
+
+2.Request
+
+3.Response
+
+4.Router
+
+
+1.Application object roll:
+
+-Routing HTTP requests
+-Configuring middleware
+-Rendering HTML views
+-Registering a template engine
+
+Express Project setup:
+
+1.You can install express dependencies in existing plain node project
+
+2.You can use express cli , to create project structures
+
+Steps:
+
+1.create project folder
+2.create src folder
+3.npm init
+4.install express dependency
+5.start writing code
+
+mkdir express-app
+cd express-app
+npm init
+...........................
+
+Installing express framework:
+.............................
+
+npm i express --save
+npm i nodemon --save-dev
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon src/app.js"
+  },
+.....................................................................................
+				Express- Coding
+.....................................................................................
+
+Express : HelloWorld
+
+File Name : app.js - conventional name but you can save index.js as well.
+
+//import express function
+const express = require('express')
+// console.log(express)
+
+//creating application object
+const app = express()
+
+// console.log(app)
+
+//api:
+app.get('/hello', (req, res) => {
+    //send response
+    res.end('Hello Express')
+})
+
+
+//start the server
+
+app.listen(3000, () => {
+    console.log('Express Server is Ready!')
+})
+.................................................................................
+			HTTP verbs and CURD
+....................................................................................
+
+HTTP Verbs         Operation Type
+
+GET                Read
+
+POST               Write
+
+PUT                Update
+
+DELETE             Remove
+
+URL Pattern:
+///////////
+Every Http Verbs are mapped against url
+
+/api/customers        -GET ,POST,PUT,DELETE
+/api/products
+/api/reviews
+ 
+CURD:
+const express = require('express')
+const app = express()
+
+app.get('/api/customers', (req, res) => {
+    res.end('customers -get')
+})
+app.post('/api/customers', (req, res) => {
+    res.end('customers -post')
+})
+app.put('/api/customers', (req, res) => {
+    res.end('customers -put')
+})
+app.delete('/api/customers', (req, res) => {
+    res.end('customers -delete')
+})
+app.listen(3000, () => {
+    console.log('Express Server is Ready!')
+})
+...................................................................................
+			PORT,getting Server Info
+...................................................................................
+
+const express = require('express')
+const app = express()
+
+const PORT = 3000
+
+app.get('/api/customers', (req, res) => {
+    res.end('customers -get')
+})
+app.post('/api/customers', (req, res) => {
+    res.end('customers -post')
+})
+app.put('/api/customers', (req, res) => {
+    res.end('customers -put')
+})
+app.delete('/api/customers', (req, res) => {
+    res.end('customers -delete')
+})
+const server = app.listen(PORT, () => {
+    console.log(`Express server is running at ${server.address().port}`)
+})
+.....................................................................................
+			Modularity,Async,JSON Payload
+....................................................................................
+
+src/services/customer.service.js
+
+const CUSTOMERS = [{
+    id: 1,
+    name: 'Subramanian',
+    location: 'Coimbatore'
+}]
+
+class CustomerService {
+
+    findAll() {
+        return new Promise((resolve, reject) => {
+            setTimeout(resolve, 1000, CUSTOMERS)
+        })
+    }
+}
+module.exports = new CustomerService()
+
+src/app.js
+const express = require('express')
+const app = express()
+const customerServicce = require('./services/customer.service')
+
+const PORT = 3000
+
+app.get('/api/customers', async (req, res) => {
+    try {
+        const customers = await customerServicce.findAll()
+        res.status(200).json(customers)
+    }
+    catch (err) {
+        res.status(500).json(err)
+    }
+})
+const server = app.listen(PORT, () => {
+    console.log(`Express server is running at ${server.address().port}`)
+})
+
+...................................................................................
+			Externalized configuration
+...................................................................................
+
+We are going to use ".env" file.
+
+
+We are going to use ".env" file.
+
+Step : 1 Create file under root project dir
+project
+ |
+ .env
+
+Step 2: install dotenv dependency
+
+npm install dotenv --save
+
+Step 3: grab env variables
+const express = require('express')
+const { findAll } = require('./services/user.service')
+require('dotenv').config()
+
+const app = express()
+
+//console.log(process.env.PORT)
+
+const PORT = process.env.PORT || 3000
+
+app.get('/', (req, res) => {
+    res.end('Home Page')
+})
+app.get('/api/users', async (req, res) => {
+    try {
+        const users = await findAll();
+        res.json(users)
+    }
+    catch (err) {
+        res.json({ err: err })
+    }
+})
+
+//start server
+const server = app.listen(PORT, () => {
+    console.log(server.address())
+    console.log(`Express is running @ ${server.address().port}`)
+})
+
+TasK
+.....
+Multi Enviroment configuration: explore how to configure for different environments
+like production,dev,staging,testing
+https://www.npmjs.com/package/dotenv
+...................................................................................
+....................................................................................
+			Resources
+....................................................................................
+
+YourApp
+  |
+  routers - controllers
+    |
+    products
+    customers
+    payments
+ |
+  services
+    products
+    customers
+    payments
+ |
+  repository
+    products
+    customers
+ |
+  
+ app.js
+   
+
+
+
+
+
 
 
 
