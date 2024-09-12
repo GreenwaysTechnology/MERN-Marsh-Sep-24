@@ -3371,6 +3371,697 @@ customerRouter.post('/', async (req, res) => {
 
 
 module.exports = customerRouter
+.....................................................................................
+		
+...................................................................................
+				Express middlewares
+...................................................................................
+
+Middlewares:
+
+ What is Middleware?
+ 
+ Middleware is javascript function that have access request object and response and next function in the application request response cycle.
+  
+ The difference between normal function which handles req and response with express , express takes thrird arg
+
+ normal function
+  app.get('url',(req,res)=>{})
+
+ Middleware function
+  app.get('url',(req,res,next)=>{
+
+  })
+ req and res are objects
+ next is a function
+
+The next function is a function in the express router which,when invoked,executes the middleware succeeding the current middleware.
+
+Tasks are middleware is doing:
+
+1.Execute any code
+2.Make changes to request and response object before handling real req and res cycle.
+3.Middlwares can be attached on application object and also router object
+
+
+use Method
+  use method is used to registry middleware.
+
+app.use
+router.use
+
+app.use('/api/users', require('./routers/users/user.router'))
+ In this code we have registred already middleware which is called as "routerMidleware" - Router itself is middleware.
+
+How to our own middleware? - Custom Middleware.
+
+Use Case : Middleware for GET /hello
+
+const express = require('express')
+require('dotenv').config()
+
+const app = express()
+const PORT = process.env.PORT || 3000
+
+//middleware 
+//req is object
+//res is object
+//next is function
+app.get('/hello', (req, res, next) => {
+    //middleware logic
+    console.log('middleware is called')
+    //move to next middleware in the chain or to request handler
+    next()
+})
+app.get('/hello', (req, res) => {
+    return res.end('hello')
+})
+
+
+const server = app.listen(PORT, () => {
+    console.log(`Express server is running at ${server.address().port}`)
+})
+//////////////////////////////////////////////////////////////////////////////////
+		Global Middleware : any url any method
+...................................................................................
+const express = require('express')
+require('dotenv').config()
+
+const app = express()
+const PORT = process.env.PORT || 3000
+
+//middleware 
+
+app.use((req, res, next) => {
+    //middleware logic
+    console.log('global middleware middleware is called')
+    //move to next middleware in the chain or to request handler
+    next()
+})
+
+//req is object
+//res is object
+//next is function
+app.get('/hello', (req, res, next) => {
+    //middleware logic
+    console.log('hello middleware is called')
+    //move to next middleware in the chain or to request handler
+    next()
+})
+app.get('/hello', (req, res) => {
+    return res.end('hello')
+})
+app.get('/hai', (req, res) => {
+    return res.end('hai')
+})
+app.get('/greeter', (req, res) => {
+    return res.end('greeter')
+})
+const server = app.listen(PORT, () => {
+    console.log(`Express server is running at ${server.address().port}`)
+})
+....................................................................................
+		Specific Url , any http method
+....................................................................................
+
+const express = require('express')
+require('dotenv').config()
+
+const app = express()
+const PORT = process.env.PORT || 3000
+
+//middleware 
+
+app.use((req, res, next) => {
+    //middleware logic
+    console.log('global middleware middleware is called')
+    //move to next middleware in the chain or to request handler
+    next()
+})
+
+app.use('/hai', (req, res, next) => {
+    console.log(`Hai middleware, Method is ${req.method}`)
+    next()
+})
+app.get('/hello', (req, res) => {
+    return res.end('hello')
+})
+app.get('/hai', (req, res) => {
+    return res.end('hai')
+})
+app.post('/hai', (req, res) => {
+    return res.end('hai')
+})
+app.put('/hai', (req, res) => {
+    return res.end('hai')
+})
+app.delete('/hai', (req, res) => {
+    return res.end('hai')
+})
+
+const server = app.listen(PORT, () => {
+    console.log(`Express server is running at ${server.address().port}`)
+})
+....................................................................................
+			Router level middleware
+....................................................................................
+
+Middleware is set on Router Object
+
+router.use((req,res,next)=>{
+  next()
+})
+router.use('/url'(req,res,next)=>{
+  next()
+})
+router.get('/url'(req,res,next)=>{
+  next()
+})
+
+const express = require('express')
+const customerServicce = require('../services/customer.service')
+//create Router Object
+const customerRouter = express.Router()
+
+customerRouter.use((req, res, next) => {
+    console.log('customerRouter is called')
+    next()
+})
+
+//apis - get,getById,save,delete,update
+//api/customers/
+customerRouter.get('/', async (req, res) => {
+    try {
+        const users = await customerServicce.findAll();
+        res.json(users)
+    }
+    catch (err) {
+        res.json({ err: err })
+    }
+})
+
+customerRouter.get('/:id', async (req, res) => {
+    try {
+        const id = parseInt(req.params.id)
+        const customer = await customerServicce.findById(id);
+        if (customer) {
+            return res.json(customer)
+        }
+        return res.status(500).json({ err: `Requestd Customer ${id} Not Found` })
+
+    }
+    catch (err) {
+        res.json({ err: err })
+    }
+})
+customerRouter.post('/', (req, res) => {
+    try {
+        let customer = ''
+        req.on('data', (chunk) => {
+            customer += chunk
+        })
+        req.on('end', async () => {
+            const customerObj = JSON.parse(customer)
+            const users = await customerServicce.save(customerObj)
+            return res.status(201).json(users)
+        })
+    }
+    catch (err) {
+        res.json({ err: err })
+    }
+})
+
+
+customerRouter.post('/', async (req, res) => {
+    try {
+        const user = await customerServicce.save();
+        res.json(user)
+    }
+    catch (err) {
+        res.json({ err: err })
+    }
+})
+
+
+module.exports = customerRouter
+.....................................................................................
+.....................................................................................
+		  Can we pass parameters to the Middleware so that we can 
+		     configure middleware - Configurable Middlewares
+....................................................................................
+Middleware which takes parameter , it should be higher order function. - function should return another function.
+
+inner function is middleware.
+
+Syntax: without explicit parameter
+
+app.use(function(req,res,next)=>{})
+
+Syntax: with explicit paramter
+
+const mymiddleware = function(param) {
+
+  return function(req,res,next){
+     //access param
+
+    next()
+  }
+}
+app.use(mymiddleware('param'))
+
+
+eg:
+
+const myMiddleware = function (param) {
+    //return function
+    return function (req, res, next) {
+        console.log('Got Param', param)
+        next()
+    }
+}
+
+app.use(myMiddleware('Marsh'))
+.....................................................................................
+.....................................................................................
+				Types of Middlewares
+.....................................................................................
+1.Application middleware
+2.Router level middlware
+3.Error handling middleware
+4.Third party middleware
+
+1.Application middleware:
+  Middleware is attached on application object
+
+2.Router level middlware
+
+->writing router:
+
+ In express except ,request and response , all features including router is middleware.
+ Router is in built middleware.
+
+src/app.js
+const express = require('express')
+const customerRouter = require('./router/customer.router')
+const app = express();
+
+//register middleware 
+app.use('/api/customers', customerRouter)
+
+//api - based on resources - customer,products,payments
+
+
+app.listen(3000, () => {
+    console.log('Express server is running')
+})
+
+src/app/router/customer.router.js
+const express = require('express')
+const customerRouter = express.Router()
+
+//middleware
+customerRouter.use(function (req, res, next) {
+    console.log('customer global middleware')
+    next()
+})
+customerRouter.get('/', function (req, res, next) {
+    console.log('customer get middleware')
+    res.set({
+        'customer': 'CUSTOMER GET'
+    })
+    next()
+})
+
+//api 
+customerRouter.get('/', (req, res) => {
+    res.json({ message: 'CUSTOMERS' })
+})
+customerRouter.post('/', (req, res) => {
+    res.json({ message: 'customers post' })
+})
+
+module.exports = customerRouter
+
+.....................................................................................
+				Error Handling middleware
+.....................................................................................
+
+To handle error we have error handling middleware.
+
+
+Error handling middleware takes four args instead of three arg.
+
+app.use((err, req, res, next)=> {
+    //handle error 
+     console.err(err.message)
+    //send error report to the user
+    res.status(500).send('something went wrong')
+})
+
+
+const express = require('express')
+const app = express();
+
+app.use((err, req, res, next) => {
+    //  next()
+    res.status(500);
+    res.send('Internal Server Error');
+})
+
+//api test error 
+app.get('/api/greet/:message', (req, res) => {
+    const message = req.params.message
+    if (message === 'hello') {
+        res.send(message)
+    } else {
+        throw new Error('Broken...')
+    }
+})
+
+app.listen(3000, () => {
+    console.log('Express server is running')
+})
+.....................................................................................
+...................................................................................
+			Built in and third party middlewares
+...................................................................................
+Built in middleware or third party middlewares
+
+Middlewares are supplied as part of the express team, open source community.
+https://expressjs.com/en/resources/middleware.html
+
+in order to parse the incoming payload into javascript object.
+
+Built in middleware or third party middlewares
+
+Middlewares are supplied as part of the express team, open source community.
+
+
+in order to parse the incoming payload into javascript object.
+
+body-parser:
+
+Node.js body parsing middleware.
+
+Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
+
+Steps
+
+1.install middleware
+ npm install body-parser
+
+2.require in the code
+ const bodyParser = require('body-parser')
+
+app.js
+require('dotenv').config()
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+
+const PORT = process.env.PORT || 3000
+
+//register bodyparserMiddleware
+app.use(bodyParser.json())
+
+
+app.use('/api/users', require('./routers/users/user.router'))
+
+
+app.get('/', (req, res) => {
+    res.end('Home Page')
+})
+
+
+//start server
+const server = app.listen(PORT, () => {
+    console.log(server.address())
+    console.log(`Express is running @ ${server.address().port}`)
+})
+
+router/user.js
+const express = require('express')
+const { findAll, findById, save } = require('../../services/user.service')
+
+//create Router
+const UserRouter = express.Router()
+
+//UserRouter middleware
+UserRouter.use((req, res, next) => {
+    console.log("User Router Globale Middleware")
+    next()
+})
+UserRouter.post('/', (req, res, next) => {
+    console.log("User Router Post Middleware")
+    next()
+})
+//api
+UserRouter.get('/', async (req, res) => {
+    try {
+        const users = await findAll();
+        res.json(users)
+    }
+    catch (err) {
+        res.json({ err: err })
+    }
+})
+
+UserRouter.get('/:id', async (req, res) => {
+    const id = parseInt(req.params.id)
+    try {
+        const user = await findById(id);
+        if (!user) {
+            return res.json({ messgae: 'User Not Found' })
+        }
+        res.json(user)
+    }
+    catch (err) {
+        res.json({ err: err })
+    }
+})
+
+//here code receives input as plain string, not json standard string
+// UserRouter.post('/', async (req, res) => {
+//     try {
+//         let data = ''
+//         req.on('data', (chunk) => {
+//             data += chunk
+//         })
+//         req.on('end', async () => {
+//             const user = await save(data);
+//             res.json(user)
+//         })
+//     }
+//     catch (err) {
+//         res.json({ err: err })
+//     }
+// })
+
+UserRouter.post('/', async (req, res) => {
+    try {
+        const user = req.body
+        console.log(user)
+        const response = await save(user);
+        res.json(response)
+    }
+    catch (err) {
+        res.json({ err: err })
+    }
+})
+
+
+module.exports = UserRouter;
+.....................................................................................
+.....................................................................................
+			  Logging Middlewars
+....................................................................................
+
+HTTP request logger middleware for node.js
+
+Steps:
+1.npm install morgan
+
+
+require('dotenv').config()
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const fs = require('fs')
+const morgan = require('morgan')
+const path = require('path')
+
+const PORT = process.env.PORT || 3000
+
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+
+//register bodyparserMiddleware
+app.use(bodyParser.json())
+// app.use(morgan(':method :url :status :res[content-length] - :response-time ms'))
+app.use(morgan('combined', { stream: accessLogStream }))
+
+// app.use(express.json())
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use('/api/users', require('./routers/users/user.router'))
+
+
+app.get('/', (req, res) => {
+    res.end('Home Page')
+})
+
+
+//start server
+const server = app.listen(PORT, () => {
+    console.log(server.address())
+    console.log(`Express is running @ ${server.address().port}`)
+})
+
+...................................................................................
+			CORS - Cross Origin Resource sharing
+....................................................................................
+
+What is CORS?
+ Internet browsers usually block access to unindefined websites from your services and apis.
+ Implementing this module enable your server to share its resources solely with clients who reside in the same domain as yours.
+
+ CORS an HTTP header based mechanism implemented by browsers, enables a server or api to specificy any origins
+
+Implementation:
+Step 1:
+npm install cors
+
+Step 2:
+activate cors in app.js via middleware
+
+const cors = require('cors')
+
+app.use(cors()) - enabled for all routes
+
+Enabled for particular route:
+
+app.get('/products/:id', cors(), function (req, res, next) {
+  res.json({msg: 'This is CORS-enabled for a Single Route'})
+})
+
+Note:
+ HTTP methods,get,post,delete,update syntax
+ 
+  app.get('url',requestlistener)
+
+  app.get('url',middleware,requestlistener)
+ 
+Default CORS Configuration values:
+{
+  "origin": "*",
+  "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+  "preflightContinue": false,
+  "optionsSuccessStatus": 204
+}
+
+Eg:
+ In the options, you have to list out what are the urls,methods, are allowed
+
+require('dotenv').config()
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const fs = require('fs')
+const morgan = require('morgan')
+const path = require('path')
+const cors = require('cors')
+
+const corsOptions = {
+    origin: 'http://www.abce.com'
+}
+
+const PORT = process.env.PORT || 3000
+
+const accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+
+//enabled default cors
+app.use(cors(corsOptions))
+
+// app.use(cors())
+
+app.use(bodyParser.json())
+app.use(morgan('combined', { stream: accessLogStream }))
+
+app.use(bodyParser.urlencoded({ extended: false }))
+
+app.use('/api/users', require('./routers/users/user.router'))
+
+
+app.get('/', (req, res) => {
+    res.end('Home Page')
+})
+
+
+//cors api
+// app.get('/api/customers/:id',(req, res, next) => {
+//     res.json({ msg: 'cors enabled for only this particular' })
+// })
+
+app.get('/api/customers/:id', (req, res, next) => {
+    res.json({ msg: 'cors enabled for only this particular' })
+})
+
+//start server
+const server = app.listen(PORT, () => {
+    console.log(server.address())
+    console.log(`Express is running @ ${server.address().port}`)
+})
+
+
+Testing:
+create index.html
+  run this file in vs code with "live server"
+
+How to install live server?
+  live server is extensions that should be installed first.
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        async function getCustomer() {
+            const res = await fetch('http://localhost:3001/api/customers/1')
+            const result = await res.json()
+            console.log(result)
+        }
+        getCustomer()
+    </script>
+</body>
+
+</html>
+
+right click on this file and try to run , from there you can send request.
+
+
+In the browser console.
+content_script_bundle.js:1 Attempting initialization Mon Jul 15 2024 20:48:41 GMT+0530 (India Standard Time)
+index.html:1 Access to fetch at 'http://localhost:3001/api/customers/1' from origin 'http://127.0.0.1:5500' has been blocked by CORS policy: The 'Access-Control-Allow-Origin' header has a value 'http://www.abce.com' that is not equal to the supplied origin. Have the server send the header with a valid value, or, if an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.Understand this error
+index.html:13 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

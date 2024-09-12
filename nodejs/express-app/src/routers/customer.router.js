@@ -3,6 +3,11 @@ const customerServicce = require('../services/customer.service')
 //create Router Object
 const customerRouter = express.Router()
 
+customerRouter.use((req, res, next) => {
+    console.log('customerRouter is called')
+    next()
+})
+
 //apis - get,getById,save,delete,update
 //api/customers/
 customerRouter.get('/', async (req, res) => {
@@ -29,17 +34,12 @@ customerRouter.get('/:id', async (req, res) => {
         res.json({ err: err })
     }
 })
-customerRouter.post('/', (req, res) => {
+customerRouter.post('/', async (req, res) => {
     try {
-        let customer = ''
-        req.on('data', (chunk) => {
-            customer += chunk
-        })
-        req.on('end', async () => {
-            const customerObj = JSON.parse(customer)
-            const users = await customerServicce.save(customerObj)
-            return res.status(201).json(users)
-        })
+
+        const customer = req.body
+        const customers = await customerServicce.save(customer)
+        return res.status(201).json(customers)
     }
     catch (err) {
         res.json({ err: err })

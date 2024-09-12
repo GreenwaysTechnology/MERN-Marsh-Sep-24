@@ -1,0 +1,8 @@
+::1 - - [12/Sep/2024:12:48:21 +0000] "POST /api/customers HTTP/1.1" 201 105 "-" "PostmanRuntime/7.42.0"
+::1 - - [12/Sep/2024:12:48:27 +0000] "GET /api/customers HTTP/1.1" 200 55 "-" "PostmanRuntime/7.42.0"
+::1 - - [12/Sep/2024:12:57:02 +0000] "GET /api/customers/1 HTTP/1.1" 200 53 "http://127.0.0.1:5500/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+::1 - - [12/Sep/2024:12:57:02 +0000] "GET /api/customers/1 HTTP/1.1" 200 53 "http://127.0.0.1:5500/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+::1 - - [12/Sep/2024:12:58:49 +0000] "GET /api/customers/1 HTTP/1.1" 200 53 "http://127.0.0.1:5500/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+::1 - - [12/Sep/2024:12:58:50 +0000] "GET /api/customers/1 HTTP/1.1" 200 53 "http://127.0.0.1:5500/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+::1 - - [12/Sep/2024:12:59:00 +0000] "GET /api/customers/1 HTTP/1.1" 304 - "http://127.0.0.1:5500/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
+::1 - - [12/Sep/2024:13:03:08 +0000] "GET /api/customers/1 HTTP/1.1" 304 - "http://127.0.0.1:5500/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36"
