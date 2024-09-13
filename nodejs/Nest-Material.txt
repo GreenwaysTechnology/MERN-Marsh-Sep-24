@@ -362,3 +362,228 @@ npm run compile
 How to run code
 
 node build/index.js
+....................................................................................
+
+       	 Typescript language fundamentals
+
+
+How to declare variables and how to use data types?
+
+syntax:
+
+ let|const|var variableName:DataType = value
+
+ let|const|var variableName = value
+
+
+Data types:
+...........
+Category of types
+1.Primitive types
+ number
+ string
+ boolean
+
+2.Reference types
+ objects
+ array  
+
+3.Advanced Types
+ void
+ undefined
+ any
+ unknown
+ function
+ enum
+
+src/index.ts
+let firstName: string = "Subramanian"
+let salary: number = 10000
+let isActive: boolean = true
+
+console.log(`firstName ${firstName} Salary ${salary} isActive ${isActive}`)
+
+...................................................................................
+			Identifying Type errors
+...................................................................................
+
+
+let firstName:string = "ram"
+
+firstName =333
+
+
+Compile time error:
+src/index.ts:3:1 - error TS2322: Type 'number' is not assignable to type 'string'.
+
+3 firstName =333
+  ~~~~~~~~~
+
+[5:59:35 PM] Found 1 error. Watching for file changes.
+.....................................................................................
+			Category of Types
+.....................................................................................
+
+1.Explicit type
+let firstName:string = "ram"
+
+2.Implicit type /Type inference
+
+//here there is explicit type assigned
+let age = 18
+
+age ="hello"
+
+
+src/index.ts:5:1 - error TS2322: Type 'string' is not assignable to type 'number'.
+
+5 age ="hello"
+  ~~~
+
+[6:02:14 PM] Found 1 error. Watching for file changes.
+
+
+Once the variable is declared without any type but assigned value , based on that value type, in future the compiler will assume the same type should be used
+.....................................................................................
+		              undefined
+.....................................................................................
+
+//undefined
+
+//undefined
+let a;
+
+a = 0
+
+a="hello"
+
+
+
+here no compile time, error , because implicit undefined type, later can be used to initalize any value type.
+
+let b = undefined
+
+b=90
+
+b=333
+
+
+here no compile time, error , because implicit undefined type, later can be used to initalize any value type.
+
+....................................................................................
+				any
+....................................................................................
+
+if you dont know the type of variable in advance
+if you dont want to force the variable to have particular type
+
+  dont leave variable with "undefined" , instead you give any
+
+
+let a: any
+
+a = 10
+a = "hello"
+.....................................................................................
+			functions parameters,return  types
+....................................................................................
+
+function add(a: number, b: number):number {
+    return a + b 
+}
+console.log(add(10, 10))
+// console.log(add("10", 10))
+
+
+es 6 Default arg:
+
+
+function add(a: number=0, b: number=0) {
+    return a + b
+}
+console.log(add(10,10))
+console.log(add())
+
+i dont want to pass value, still i have skip those, ts introduced a feature called
+"optional arg"
+
+
+function add(a?: number, b?: number) {
+    return a + b
+}
+console.log(add(10,10))
+console.log(add())
+
+.....................................................................................
+			Multi types -Union Type
+.....................................................................................
+
+a variable can hold many types or const values
+
+
+
+let gender: "Male" | "Female" | "Third"
+
+gender = "Male"
+
+gender = "Female"
+
+gender = "Third"
+
+// gender="hello"
+
+function process(id: number | string = "", age?: number, gender?: "Male" | "Female" | "Thrid") {
+    console.log(id,age,gender)
+}
+
+process("133",8,"Male")
+process(34,44,"Thrid")
+
+let windowStatus: "Open" | "Close"
+windowStatus = "Open"
+function Mode(varient: "dark" | "light") {
+    console.log(varient)
+}
+Mode("dark")
+Mode("light")
+// Mode("theme")
+
+function Person(gender: "Male" | "Female" | "Third" | undefined, active: true | false) {
+    console.log(gender, active)
+}
+Person("Female", true)
+Person("Male", false)
+.....................................................................................
+			Object oriented Programming In TS
+.....................................................................................
+class declaration
+  instance variables , methods
+  constructors and parameters
+  create instance
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
