@@ -3371,8 +3371,6 @@ customerRouter.post('/', async (req, res) => {
 
 
 module.exports = customerRouter
-.....................................................................................
-		
 ...................................................................................
 				Express middlewares
 ...................................................................................
@@ -4050,9 +4048,278 @@ In the browser console.
 content_script_bundle.js:1 Attempting initialization Mon Jul 15 2024 20:48:41 GMT+0530 (India Standard Time)
 index.html:1 Access to fetch at 'http://localhost:3001/api/customers/1' from origin 'http://127.0.0.1:5500' has been blocked by CORS policy: The 'Access-Control-Allow-Origin' header has a value 'http://www.abce.com' that is not equal to the supplied origin. Have the server send the header with a valid value, or, if an opaque response serves your needs, set the request's mode to 'no-cors' to fetch the resource with CORS disabled.Understand this error
 index.html:13 
+.....................................................................................
+			  Database Integration
+.....................................................................................
+
+Express can integrate sql and no sql databases,provided database drivers.
+
+1.Mongodb integration with Mongoose
+
+G:\Marsh\nodejs>mkdir expressMongo
+
+G:\Marsh\nodejs>cd expressMongo
+G:\Marsh\nodejs\expressMongo>npm init --yes
+Wrote to G:\Marsh\nodejs\expressMongo\package.json:
+
+{
+  "name": "expressmongo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
+
+2.Install dependencies
+npm i express
+npm install mongoose --save
+npm i nodemon --save-dev
+npm i body-parser
+
+
+Coding:
+
+1.define schema
+   plan for your collection
+const mongoose = require('mongoose')
+
+const schema = mongoose.schema({
+    title:String,
+    content:String
+})
+Datatypes:
+1.String
+2.Number
+3.Date
+4.Buffer
+5.Boolean
+6.Mixed
+7.ObjectId
+8.Array
+9.Decimal128
+10.Map
+11.UUID
+
+
+2.create model out of schema
+const mongoose = require('mongoose')
+
+const schema = mongoose.schema({
+    title:String,
+    content:String
+})
+
+module.exports=mongoose.model("Post",schema)
+.....................................................................................
+			 Mongoose Core setup:
+
+
+1.Create Model
+
+const mongoose = require('mongoose')
+
+//define schema 
+const schema = mongoose.Schema({
+    title: String,
+    content: String
+})
+//create model and export
+module.exports = mongoose.model("Post", schema)
+
+2.Service
+src/services/post.service.js
+const Post = require('../models/post.model')
+
+class PostService {
+
+    async findAll() {
+        return await Post.find()
+    }
+}
+module.exports = new PostService()
+
+3.Router
+src/routers/post.router.js
+const express = require('express')
+const postService = require('../services/post.service')
+const postRouter = express.Router()
+
+
+postRouter.get('/', async (req, res) => {
+    try {
+        const posts = await postService.findAll()
+        return res.json(posts)
+
+    }
+    catch (err) {
+        res.status(500).json({ err })
+    }
+})
 
 
 
+
+
+module.exports = postRouter
+
+4.Main App
+src/app.js
+const express = require('express')
+const app = express()
+const bodyParser = require('body-parser')
+const mongoose = require('mongoose');
+
+app.use(bodyParser.json())
+
+const PORT = 3000
+
+//connect to mongodb
+async function connectDb() {
+    try {
+        await mongoose.connect('mongodb://127.0.0.1:27017/myDb')
+        console.log("Mongo is connected")
+
+        // const server = app.listen(PORT, () => {
+        //     console.log(server.address())
+        //     console.log(`Express is running @ ${server.address().port}`)
+        // })
+
+    }
+    catch (e) {
+        console.log(e)
+    }
+}
+connectDb()
+
+app.use('/api/posts', require('./routers/post.router'))
+
+
+const server = app.listen(PORT, () => {
+    console.log(server.address())
+    console.log(`Express is running @ ${server.address().port}`)
+})
+.....................................................................................
+		  CREATE,UPDATE,DELETE
+.....................................................................................
+
+
+const Post = require('../models/post.model')
+
+class PostService {
+
+    async findAll() {
+        return await Post.find()
+    }
+
+    async findById(id) {
+        const post = await Post.findOne({ _id: id })
+        return post
+    }
+    async save(post) {
+        const newPost = new Post({ title: post.title, content: post.content })
+        await newPost.save()
+        return newPost
+    }
+    async update(id, post) {
+        //get Post document
+        const newPost = await Post.findOne({ _id: id })
+        if (!newPost) {
+            throw Error()
+        }
+        if (post.title) {
+            newPost.title = post.title
+        }
+        if (post.content) {
+            newPost.content = post.content
+        }
+        await newPost.save()
+        return newPost
+    }
+
+    async remove(id) {
+        const post = await Post.findOne({ _id: id })
+        if (post) {
+            await Post.deleteOne({ _id: id })
+        } else {
+            throw Error()
+        }
+    }
+}
+module.exports = new PostService()
+.....................................................................................
+const express = require('express')
+const postService = require('../services/post.service')
+const postRouter = express.Router()
+
+
+postRouter.get('/', async (req, res) => {
+    try {
+        const posts = await postService.findAll()
+        return res.json(posts)
+
+    }
+    catch (err) {
+        res.status(500).json({ err })
+    }
+})
+
+postRouter.get('/:id', async (req, res) => {
+    const id = req.params.id
+    try {
+        const post = await postService.findById(id)
+        if (!post) {
+            return res.status(500).json({ message: `Requested Post for  ${id} Not found` })
+        }
+        return res.status(200).json(post)
+    }
+    catch (err) {
+        res.status(500).json({ err })
+    }
+})
+
+
+postRouter.post('/', async (req, res) => {
+    const post = req.body
+    try {
+        const savedPost = await postService.save(post)
+        return res.status(201).json(savedPost)
+    }
+    catch (err) {
+        res.status(500).json({ err })
+    }
+})
+
+postRouter.put('/:id', async (req, res) => {
+    const postInput = req.body
+    const id = req.params.id
+    try {
+        const post = await postService.update(id, postInput)
+        return res.status(200).json(post)
+    }
+    catch (err) {
+        res.status(500).json({ err })
+    }
+})
+
+postRouter.delete('/:id', async (req, res) => {
+    const id = req.params.id
+    try {
+        await postService.remove(id)
+        res.status(204).send()
+    }
+    catch (err) {
+        res.status(404).json({ err: "Post Does not exit" })
+    }
+})
+module.exports = postRouter
+.....................................................................................
+		https://mongoosejs.com/docs/queries.html
+.....................................................................................
 
 
 
