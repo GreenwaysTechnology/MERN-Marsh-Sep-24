@@ -1,10 +1,25 @@
-let gender;
-gender = "Male";
-gender = "Female";
-gender = "Third";
-// gender="hello"
-function process(id = "", age, gender) {
-    console.log(id, age, gender);
+class CustomerController {
+    init() {
+        console.log('CustomerController-init');
+    }
+    destroy() {
+        console.log('CustomerController-destory');
+    }
 }
-process("133", 8, "Male");
-process(34, 44, "Thrid");
+class OrderController {
+    init() {
+        console.log('OrderController-init');
+    }
+    destroy() {
+        console.log('OrderController-destory');
+    }
+}
+function main() {
+    let custrl = new CustomerController();
+    let orderCtrl = new OrderController();
+    custrl.init();
+    custrl.destroy();
+    orderCtrl.init();
+    orderCtrl.destroy();
+}
+main();

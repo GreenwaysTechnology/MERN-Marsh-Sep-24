@@ -1,17 +1,38 @@
 
-let gender: "Male" | "Female" | "Third"
-
-gender = "Male"
-
-gender = "Female"
-
-gender = "Third"
-
-// gender="hello"
-
-function process(id: number | string = "", age?: number, gender?: "Male" | "Female" | "Thrid") {
-    console.log(id,age,gender)
+interface OnInit {
+    init(): void
+}
+interface onDestroy {
+    destroy(): void
 }
 
-process("133",8,"Male")
-process(34,44,"Thrid")
+class CustomerController implements OnInit, onDestroy {
+    init(): void {
+        console.log('CustomerController-init')
+    }
+    destroy(): void {
+        console.log('CustomerController-destory')
+    }
+}
+
+
+class OrderController implements OnInit, onDestroy {
+    init(): void {
+        console.log('OrderController-init')
+    }
+    destroy(): void {
+        console.log('OrderController-destory')
+    }
+}
+
+
+function main() {
+    let custrl = new CustomerController()
+    let orderCtrl = new OrderController()
+    custrl.init()
+    custrl.destroy()
+
+    orderCtrl.init()
+    orderCtrl.destroy()
+}
+main()

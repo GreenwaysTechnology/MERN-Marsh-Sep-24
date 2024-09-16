@@ -561,16 +561,461 @@ class declaration
   constructors and parameters
   create instance
 
+class Employee {
+    //instance variables
+    id: number
+    name: string
+    salary: number
+    //instance methods
+    calculateSalary(value: number = 0): number {
+        return value * 2
+    }
+
+}
+
+function main() {
+    //let emp: Employee = new Employee()
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(340))
+}
+main()
+...................................................................................
+
+How to intialize the instance variables?
+
+1.inside class
+  1.1.class directly
+  1.2.constructor
+2.after object creation
+  using reference variable
+
+
+class Employee {
+    //instance variables
+    id: number = 1
+    name: string = "Subramanian"
+    salary: number = 100
+    //instance methods
+    calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+
+}
+
+function main() {
+    //let emp: Employee = new Employee()
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+}
+main()
+
+After Object creation:
+class Employee {
+    //instance variables
+    id: number = 1
+    name: string = "Subramanian"
+    salary: number = 100
+    //instance methods
+    calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+
+}
+
+function main() {
+    //let emp: Employee = new Employee()
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+    //new values
+    emp.id = 100
+    emp.name = 'Murugan'
+    emp.salary = 1000
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+}
+main()
+...................
+
+via constructors:
+................
+class Employee {
+    //instance variables
+    id: number
+    name: string
+    salary: number
+    constructor(id: number = 1, name: string = "Subramanian", salary: number = 1000) {
+        this.id = id
+        this.name = name
+        this.salary = salary
+
+    }
+    //instance methods
+    calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+
+}
+
+function main() {
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+    //new values
+    emp.id = 100
+    emp.name = 'Murugan'
+    emp.salary = 1000
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+
+    emp = new Employee(2, 'Karthik', 333)
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+}
+main()
+.....................................................................................
+			
+				Encasulation
+.....................................................................................
+
+What is encasulation?
+
+To Prevent code sharing from code to another.
+
+code - collection of classes, variables,functions,......
+
+code is represented inside file.
+
+pl provides keywords to ensure that , how  we can allow the code to be shared
+
+TS provides keywords to prevent code sharing
+ 
+ -public - any where
+ -private - with in class 
+ -protected - with in class + inheritance
+
+only class members are public/private/protected.
+
+if you declare any member(var,methods) => by default is public.
 
 
 
+public:
+class Employee {
+    //instance variables
+    //by default all memebers are public
+    public id: number
+    public name: string
+    salary: number
+    constructor(id: number = 1, name: string = "Subramanian", salary: number = 1000) {
+        this.id = id
+        this.name = name
+        this.salary = salary
+
+    }
+    //instance methods
+    public calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+
+}
+
+function main() {
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+    //new values
+    emp.id = 100
+    emp.name = 'Murugan'
+    emp.salary = 1000
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+
+    emp = new Employee(2, 'Karthik', 333)
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+}
+main()
+
+
+private:
+
+
+class User {
+    private userName:string ='admin'
+    private password:string = 'admin'
+
+    private auth(){
+        return 'something'
+    }
+}
+
+function main(){
+    let user = new User()
+    console.log(user.userName ,user.auth())
+}
+main()
+
+src/index.ts:13:22 - error TS2341: Property 'userName' is private and only accessible within class 'User'.
+
+13     console.log(user.userName ,user.auth())
+                        ~~~~~~~~
+
+src/index.ts:13:37 - error TS2341: Property 'auth' is private and only accessible within class 'User'.
+
+13     console.log(user.userName ,user.auth())
+                                       ~~~~
+
+
+src/index.ts:9:22 - error TS2341: Property 'userName' is private and only accessible within class 'User'.
+
+9     console.log(user.userName)
+                       ~~~~~~~~
+
+....................................................................................
+			   Reducing code inside class
+...................................................................................
+
+variables types:
+
+1.instance variable
+  variable declared inside class
+2.local variables
+  variables are declared inside method(including constructor)
+  or method args / constructor args
+
+
+class Employee {
+    //instance variables
+    public id: number
+    public name: string
+    salary: number
+    //id,name are local variables
+    constructor(id: number = 1, name: string = "Subramanian", salary: number = 1000) {
+
+        //instancevariable=localvariable
+        this.id = id
+        this.name = name
+        this.salary = salary
+
+    }
+    //instance methods
+    public calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+
+}
+
+function main() {
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+}
+main()
+
+
+Note:
+
+In the above code 
+
+ =>we have declared instance variables
+ =>we have initalized those variables inside constructors.
+
+By Using encapsulation keywords(public and private) we can reduce code.
+
+
+Step 1:
+
+remove all class declarations
+class Employee {
+      constructor(id: number = 1, name: string = "Subramanian", salary: number = 1000) {
+       //instancevariable=localvariable
+        this.id = id
+        this.name = name
+        this.salary = salary
+
+    }
+    //instance methods
+    public calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+
+}
+
+Step 2: 
+ "Convert constructor local variables into instance variables
+
+ constructor(id: number = 1, name: string = "Subramanian", salary: number = 1000){}
+
+ Solution:
+  infront of variables just add either "public" or "private"
+      constructor(public id: number = 1, public name: string = "Subramanian", public salary: number = 1000) {
+       //instancevariable=localvariable
+        this.id = id
+        this.name = name
+        this.salary = salary
+
+    }
+
+Step 3:
+  inside constructor leftside and right same variables so we can remove , intialization itself.
+
+class Employee {
+    constructor(public id: number = 1, public name: string = "Subramanian", public salary: number = 1000) {}
+    //instance methods
+    public calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+}
+
+function main() {
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+}
+main()
+....................................................................................
+			  Hierachy
+...................................................................................
+
+Object Relationship:
+
+1.has-a 
+2.is-a 
+
+
+HAS-A : 
+  Depedency injection....
+
+class Address {
+} 
+class Employee {
+   
+}
+
+class Address {
+    constructor(public street: string = "street", public city: string = "city") { }
+}
+
+class Employee {
+
+    constructor(public id: number = 1, public name: string = "Subramanian",
+        public salary: number = 1000, public address?: Address) { }
+}
+
+function main() {
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.address)
+
+    emp = new Employee(3, 'Karthik', 333, new Address('10th street', 'Coimbatore'))
+    console.log(emp.id, emp.name, emp.salary,emp.address.city,emp.address.street)
+
+}
+main()
+....................................................................................
+class TodoService {
+    constructor() { }
+    findAll() {
+        return "todos"
+    }
+}
+class TodoController {
+    constructor(private todoService: TodoService) {
+        this.todoService = todoService
+     }
+
+    findAll() {
+        return this.todoService.findAll()
+    }
+}
+
+function main() {
+    let todCtrl = new TodoController(new TodoService())
+    console.log(todCtrl.findAll())
+}
+main()
+...................................................................................
+				Inheritance
+....................................................................................
+
+Types of inheritance implementation:
+
+1.class based inheritance
+2.interface based inheritance
 
 
 
+1.class based
+class Account {
+    constructor() {
+
+    }
+    protected deposit() {
+        return 0
+    }
+
+}
+class SavingsAccount extends Account {
+    constructor() {
+        super()
+    }
+    public deposit(): number {
+        return 100
+    }
+}
+
+function main() {
+    let sb = new SavingsAccount()
+    console.log(sb.deposit())
+}
+main()
+
+interfaces
+..........
+
+1.interfaces are common classes
+2.having only declaration
+3.can act as super type
+4.we can have multiple implementations
 
 
+interface OnInit {
+    init(): void
+}
+interface onDestroy {
+    destroy(): void
+}
+
+class CustomerController implements OnInit, onDestroy {
+    init(): void {
+        console.log('CustomerController-init')
+    }
+    destroy(): void {
+        console.log('CustomerController-destory')
+    }
+}
 
 
+class OrderController implements OnInit, onDestroy {
+    init(): void {
+        console.log('OrderController-init')
+    }
+    destroy(): void {
+        console.log('OrderController-destory')
+    }
+}
+
+
+function main() {
+    let custrl = new CustomerController()
+    let orderCtrl = new OrderController()
+    custrl.init()
+    custrl.destroy()
+
+    orderCtrl.init()
+    orderCtrl.destroy()
+}
+main()
+.....................................................................................
+			 Generics and Arrays
+....................................................................................
 
 
 
