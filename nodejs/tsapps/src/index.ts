@@ -1,38 +1,20 @@
 
-interface OnInit {
-    init(): void
-}
-interface onDestroy {
-    destroy(): void
-}
-
-class CustomerController implements OnInit, onDestroy {
-    init(): void {
-        console.log('CustomerController-init')
-    }
-    destroy(): void {
-        console.log('CustomerController-destory')
-    }
+//declare decorator
+function Course(target: any) {
+    //decorator logic
+    Object.defineProperty(target.prototype, "subject", { value: 'Nest Js' })
 }
 
-
-class OrderController implements OnInit, onDestroy {
-    init(): void {
-        console.log('OrderController-init')
-    }
-    destroy(): void {
-        console.log('OrderController-destory')
-    }
+//attach decorator
+@Course
+class Student {
+    constructor(public name: string = "") { }
 }
 
+//use decorator
 
 function main() {
-    let custrl = new CustomerController()
-    let orderCtrl = new OrderController()
-    custrl.init()
-    custrl.destroy()
-
-    orderCtrl.init()
-    orderCtrl.destroy()
+    let student = new Student("Subramaian") as any
+    console.log(`${student.name} is learning ${student.subject}`)
 }
 main()

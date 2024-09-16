@@ -1017,14 +1017,243 @@ main()
 			 Generics and Arrays
 ....................................................................................
 
+What is Generics?
+  To restrict to have similar or same type of value inside container objects like arrays,Promise,Observables
+
+
+Array:
+
+
+//no types
+let list = [1, "3", 45, true]
+
+//with type
+
+//without generics syntax
+//let numList: number[] = [1, 2, 4, 5,"test"]
+let numList: number[] = [1, 2, 4, 5]
+
+//with generics syntax:
+
+//<type> -generics
+let strList: Array<string> = ["test"]
+
+
+function getPromise(): Promise<string> {
+    return Promise.resolve('hello')
+}
+
+function getList(): Promise<Array<string>> {
+    return Promise.resolve(['a', 'b'])
+}
+
+function getList2(): Promise<string[]> {
+    return Promise.resolve(['a', 'b'])
+}
+
+const getMyList = (): Promise<Array<string>> => {
+    return Promise.resolve(['a', 'b'])
+}
+..................................................................................
+			  Reference types: Object Types
+...................................................................................
+
+object types
+
+1.constructor types - using classes
+2.literal patterns
+
+
+Literal objects and types
+
+let employee = {
+    id:1,
+    name:'Subramaian',
+    status:true
+}
+
+here i want to enforce the type of id,name, and status.
+
+In order to declare type of literal objects we have three ways:
+...............................................................
+
+1.class as type
+2.interface as type
+3."type" keyword as type
+
+
+//class as data type
+
+class Employee {
+    id: number
+    name: string
+    status: boolean
+}
+
+let employee: Employee = {
+    id: "test",
+    name: 'Subramaian',
+    status: true
+}
+
+src/index.ts:10:5 - error TS2322: Type 'string' is not assignable to type 'number'.
+
+10     id: "test",
+       ~~
+
+  src/index.ts:4:5
+    4     id: number
+          ~~
+    The expected type comes from property 'id' which is declared here on type 'Employee'
+..............................
+
+Use case:
+class Employee {
+    id: number
+    name: string
+    status: boolean
+    city:string 
+}
+
+let employee: Employee = {
+    id: 1,
+    name: 'Subramaian',
+    status: true
+}
+
+src/index.ts:10:5 - error TS2741: Property 'city' is missing in type '{ id: number; name: string; status: true; }' but required in type 'Employee'.
+
+10 let employee: Employee = {
+       ~~~~~~~~
+
+  src/index.ts:7:5
+    7     city:string
+          ~~~~
+
+here ts compiler not only verifying the type of of variable but also, existence of variable.
+
+what if my type has 10 fields, my object need is only 3 fields, how to skip or avoid compil time errors?
+
+Solution:
+  Optional properties
 
 
 
+class Employee {
+    id: number
+    name: string
+    status?: boolean
+    city?: string
+    gender?: "Male" | "Female" | "Third"
+}
+
+let employee: Employee = {
+    id: 1,
+    name: 'Subramaian',
+    status: true,
+    gender: "Male"
+}
+
+//class as data type
+
+class Employee {
+    id: number
+    name: string
+    status?: boolean
+    city?: string
+    gender?: "Male" | "Female" | "Third"
+}
+
+let employee: Employee = {
+    id: 1,
+    name: 'Subramaian',
+    status: true,
+    gender: "Male"
+}
+//
+interface MyLocation {
+    lat?: number
+    lng?: number
+}
+
+let map: MyLocation = {
+    lat: 22,
+    lng: 33
+}
+
+//type keyword
+
+type Person = {
+    id: number
+    name: string
+    status?: boolean
+}
+let guest: Person = {
+    id: 2,
+    name: 'a',
+    status: true
+}
+....................................................................................
+			  Decorators -Annotations
+....................................................................................
+
+Annotations: @annotation , @Override,@Entity,@Controller
+
+a-meta programming : isloate the code logic from main program to ouside, when you 
+req, you inject those features , into code during runtime.
 
 
+What is decorator?
+ 
+  Decorator is simple js function, and lts logic is injected into object during runtime.
 
+Types of decorators:
 
+1.class level decorators
 
+  @Decorator()
+  class A {}
+
+2.Method level decorators
+ class A {
+   @Prop()
+   save(){ 
+
+   }
+ }
+3.Variable level decorators
+  class B{
+      @Input
+     myVar     
+  }
+
+//declare decorator
+function Course(target: any) {
+    //decorator logic
+    Object.defineProperty(target.prototype, "subject", { value: 'Nest Js' })
+}
+
+//attach decorator
+@Course
+class Student {
+    constructor(public name: string = "") { }
+}
+
+//use decorator
+
+function main() {
+    let student = new Student("Subramaian") as any
+    console.log(`${student.name} is learning ${student.subject}`)
+}
+main()
+....................................................................................
+			ES 6 modules in typescript
+
+TS supports es6 modules by default, in nest js we use es 6 modules
+.....................................................................................
+  
+  
+  
 
 
 
