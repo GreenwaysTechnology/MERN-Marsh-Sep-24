@@ -1251,13 +1251,621 @@ main()
 
 TS supports es6 modules by default, in nest js we use es 6 modules
 .....................................................................................
+....................................................................................
+			 Project Setup- Nest app creations
+...................................................................................
+
+Nest CLI
+  It is command line interface tool that helps to
+
+ =>initialize /create new project
+ =>dev features like hot reloading, bundling for testing
+ =>schematic features to create artifacts -  code generation.
+ =>To create production builds
+ =>To test apps including unit testing,etoe testing..  
   
+How to install nest cli?
+
+npm install -g @nestjs/cli
+
+
+How to verify?
+>nest --help
+
+nest --help
+Usage: nest <command> [options]
+
+Options:
+  -v, --version                                   Output the current version.
+  -h, --help                                      Output usage information.
+
+Commands:
+  new|n [options] [name]                          Generate Nest application.
+  build [options] [app]                           Build Nest application.
+  start [options] [app]                           Run Nest application.
+  info|i                                          Display Nest project details.
+  add [options] <library>                         Adds support for an external library to your project.
+  generate|g [options] <schematic> [name] [path]  Generate a Nest element.
+    Schematics available on @nestjs/schematics collection:
+      ┌───────────────┬─────────────┬──────────────────────────────────────────────┐
+      │ name          │ alias       │ description                                  │
+      │ application   │ application │ Generate a new application workspace         │
+      │ class         │ cl          │ Generate a new class                         │
+      │ configuration │ config      │ Generate a CLI configuration file            │
+      │ controller    │ co          │ Generate a controller declaration            │
+      │ decorator     │ d           │ Generate a custom decorator                  │
+      │ filter        │ f           │ Generate a filter declaration                │
+      │ gateway       │ ga          │ Generate a gateway declaration               │
+      │ guard         │ gu          │ Generate a guard declaration                 │
+      │ interceptor   │ itc         │ Generate an interceptor declaration          │
+      │ interface     │ itf         │ Generate an interface                        │
+      │ middleware    │ mi          │ Generate a middleware declaration            │
+      │ module        │ mo          │ Generate a module declaration                │
+      │ pipe          │ pi          │ Generate a pipe declaration                  │
+      │ provider      │ pr          │ Generate a provider declaration              │
+      │ resolver      │ r           │ Generate a GraphQL resolver declaration      │
+      │ service       │ s           │ Generate a service declaration               │
+      │ library       │ lib         │ Generate a new library within a monorepo     │
+      │ sub-app       │ app         │ Generate a new application within a monorepo │
+      │ resource      │ res         │ Generate a new CRUD resource                 │
+      └───────────────┴─────────────┴──────────────────────────────────────────────┘
+
+How to create new Project?
+   
+   By default nest creates "REST api" - Web Services
+
+
+G:\Marsh\nodejs>nest new nest-app
+⚡  We will scaffold your app in a few seconds..
+
+? Which package manager would you ❤️  to use? npm
+CREATE nest-app/.eslintrc.js (688 bytes)
+CREATE nest-app/.prettierrc (54 bytes)
+CREATE nest-app/nest-cli.json (179 bytes)
+CREATE nest-app/package.json (2016 bytes)
+CREATE nest-app/README.md (4454 bytes)
+CREATE nest-app/tsconfig.build.json (101 bytes)
+CREATE nest-app/tsconfig.json (567 bytes)
+CREATE nest-app/src/app.controller.ts (286 bytes)
+CREATE nest-app/src/app.module.ts (259 bytes)
+CREATE nest-app/src/app.service.ts (150 bytes)
+CREATE nest-app/src/main.ts (216 bytes)
+CREATE nest-app/src/app.controller.spec.ts (639 bytes)
+CREATE nest-app/test/jest-e2e.json (192 bytes)
+CREATE nest-app/test/app.e2e-spec.ts (654 bytes)
+
+√ Installation in progress... ☕
+
+🚀  Successfully created project nest-app
+👉  Get started with the following commands:
+
+$ cd nest-app
+$ npm run start
+
+
+                          Thanks for installing Nest 🙏
+                 Please consider donating to our open collective
+                        to help us maintain this package.
+
+
+               🍷  Donate: https://opencollective.com/nest
+
+
+Project Structure:
+  It has lot of files and folders.
+
+readMe.md
+  How to use this project
+
+package.json
+  gives information about this project like 
+ 
+ -basic scripts - run,build,test
+ -Dependency - basic default dependency for the project.
+
+tsconfig.json
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  }
+}
+
+source code:
+src
+  ->root application folder
+ files
+   -main.ts
+   -app.module.ts
+   -app.controller.ts
+   -app.contoller.spec.ts
+   -app.service.ts
+
+test
+  -contains etoe test configurations
+
+
+....................................................................................
+
+How to start app?
+
+There are three mode
+
+1.dev mode
+2.dev mode with watch
+3.prod mode
+
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+....................................................................................
+			 How to run and test
+
+
+npm run start:dev
+
+http://localhost:3000/
+....................................................................................
+			   Nest.js Application core concepts
+...................................................................................
+
+Nest Application has been written based on MVC Design pattern, as a developer ,we have to write code based on that pattern.
+
+
+M- Model - data
+C - Controller
+V - View
+
+In Nest , every thing is object, since it is object which is created using ts/es classes.
+
+
+Nest Core Concepts:
+
+1.Modularity:
+...........
+There are two types of modularity
+ =>Physical Modularity -  files and folders along with "ES 6 module keywords
+   "export,export default and import"
+
+=>Logical Modularity
+   Code is organized into object called module.
+
+Any distributed apps/user interface apps.
+  App is collection of features like customers,products,payments.
+
+Each feature is classfied as layers
+
+Basic Layers in Server side apps:
+................................
+In case if it is WebService(REST Api).
+
+1.Controller    
+   Where We expose apis which to be communicated by other apps like front end or    other apis
+
+2.Service 
+     Where we have biz logic like save,findAll,delete,remove,filtering,sorting
+   Services are communicated by controller.
+
+3.Repository(DAO)
+     This is optional layer now a days, which directly communicates the Datasources
+  like databases via ORM frameworks.
+
+How to organize the features in code?
+
+for eg : order Feature - controllers,services,orm(entities),utilities......
+
+each layer of code is organized phsyically "files and folders" -This is called phsyical modularity.
+
+
+ order
+  |
+  controllers
+    OrderController.ts
+  services
+    OrderService.ts
+  utilites
+    OrderUtility.ts
+
+ customer
+  |
+  controllers
+    CustomerController.ts
+  services
+     CustomerService.ts
+  utilites
+     CustomerUtility.ts
+
+According to Nest code style guide
+
+feature based
+ 
+src
+   |
+   order
+    order.controller.ts
+    order.service.ts
+    order.utility.ts
+    order.entity.ts
+    order.controller.spec.ts
+    ...+other files
+   product
+    product.controller.ts
+    product.service.ts
+    product.utility.ts
+    product.entity.ts
+    product.controller.spec.ts
+      
+
+.....................................................................................
+			 main.ts
+
+
+main.ts is entry file to nest app.
+
+=>We create application object by loading "AppModule".
+=>We start main application using 3000 port.
+
+app.module.ts
+AppModule:
+
+As i mentioned , nest application is organized into modules
+
+AppModule is entry module, without app module , you cant start nest app, appModule Object is root container Object.
+.....................................................................................
+			Nest is Object oriented
+....................................................................................
+
+ Nest has been built Typescript rich features like strong typing,class based,interfaces,decorators...
+
+In Nest every thing is Object.
+
+In Nest objects are classified into two category.
+
+1.Nest infra structure object.
+
+2.Domain objects
+
+
+1.Infrastructure object
+   The object which makes up applications..
+
+ -Module -Logical Modularity
+ -Controllers
+ -Services and Providers
+ -Pipes
+ -Guards
+
+   
+2.Domain objects
+  Objects which represents data called as models/entity.
+  Domain objects are mostly javascript literal objects /class objects
+  for eg : Customer,Order,Products
+
+
+Module Object:
+   Nest application is encasulated into one single Big Object called "Root Module/App Module".
+
+
+How to create object?
+
+we need to declare class?
+
+export class OrderController {
+
+}
+
+we need to create object 
   
+  let orderCtrl = new OrderController()
+
+Are we going to create objects like above in Nest?
+     "No"
+
+Nest framework /Nest Runtime (nest ioc engine/container) takes care of "creating Objects and linking objects with objects automatically" which is called "IOC"
+
+
+Refer
+https://www.martinfowler.com/articles/injection.html
+
+
+How nest understands that this class is infrastructure class?
+
+
+export class OrderController {
+
+}
+
+export class OrderController{} 
+
+export class Greeting {}
+
+ We can tell to the nest ioc container via "Decorators"
+
+
+
+Nest provides lot of built in Decorators
+
+ @Controller('order')
+ export class OrderController{} 
+
+  when ever nest sees this code, which creates object/initalizes all dependencies.
+
+We will see lot of decorators later
+
+Basic Decorators
+
+1.@Controller -controller
+2.@Injectable - service
+3.@Module-Module Object
+....................................................................................
+....................................................................................
+				  Primary Objects
+				      and 
+                                Nest BootStrap Process
+.....................................................................................
+
+Nest Application Object:
+
+Every Nest app is encapsulated inside Nest Application.
+Every Nest app has entry point called "main" program.
+
+How to create Application object?
+     By calling NestFactory is class having method called "create" method.
+
+ NestFactory.create => className.method 
+   Here "create" method is static method
+ static methods are called without creating instances
+
+How to create object?
+
+   new ClassName() =>constructor pattern
+   className.createInstance() =>Factory Pattern /Builder Pattern  
+
+create methods take "AppModule" as parameter.
+
+AppModule is object which encapuslate other objects
+
+Every NestJs application "must have one single Root /App Module"
+
+Every AppModule must have one single Controller called "Main Controller/App Controller"
+
+.....................................................................................
+			  Nest Web Service
+
+By default nest app is encapulsted with "RESTAPI".
+
+if you want to run web service(restapi), you need web server and container.
+
+Nest application also need web container.
+
+By default nest nest applications are running on the top of "express" 
+
+Express provides low level web container features
+
+express: 
+ const express =require('express')
+
+ const app = express()
+
+ app.listen(3000,()=>{});			
+
+  'Nest application can be executed on even in another container too "Fastify" '
+....................................................................................
+How to write module?
+
+ Module is logical contaniner which encasulates other objects like controllers,services...other submodules
+
+Whether you create main module or submodule , the syntax remains same.
+
+In nest every thing is object including module,
+ in order to create object we need class.
+
+Step 1: Declare class and you have share the class so that other class or program can use (You have to use es 6 export or export default keyword).
+
+export class AppModule {
   
+}
+
+Step 2: 
+ we need to create object for the class.
+ you need to say what type of object you create? (domain or infra)
+ In case of infra object we never create object using new Constructor().
+ Nest provides a feature called "IOC container" Which is program , responsiable for 
+ creating objects
+ How to tell to the IOC Container that go and create object?
+   Via "Decorators"
+ in order to create module object "@Module"  decorator is used.
+ 
+import { Module } from "@nestjs/common";
+
+//in order to qualify this is Module object
+@Module()
+export class AppModule {}
+
+Decorator Meta Data:
+.....................
+  The Decorator may or may not take parameters.
+  Parameter value can any type like primtives or object or array.
+@Module parameter:
+  It takes object as parameter.
+
+ "Ioc container not only create objects but also properly link all dependencies"
+
+Decorator Meta Data takes configuration which is information for "Nest" IoC container.
 
 
+//parameters are used to link objects
+@Module({
+  imports: [],
+  controllers: [],
+  providers: []
+})
+imports:[]
+   -All submodules like usermodule,product module
+controllers:
+   -List of controllers part of this module
+providers:
+   -List of services to be created
+....................................................................................
+			 Controllers
+....................................................................................
+
+Controller is also object which is created by Nest IOC container
+
+Step 1: Declare class and export
+export class AppController { 
+  
+}
+Step 2: Decorate as controller
+
+@Controller()
+export class AppController { 
+
+}
+parameter is empty which means root "/" without route.
+
+Step 3: Write http based apis.
+ 
+Nest provides to mark api which to be communicated by http clients using HTTP verbs
+ "GET,POST,DELETE,PUT"
+
+import { Controller, Get } from "@nestjs/common";
+
+@Controller()
+export class AppController {
+  constructor() { }
+  //apis
+  @Get() // http get method
+  public hello(): string {
+    return 'Hello Nest App!'
+  }
+}
+How to write module?
+
+ Module is logical contaniner which encasulates other objects like controllers,services...other submodules
+
+Whether you create main module or submodule , the syntax remains same.
+
+In nest every thing is object including module,
+ in order to create object we need class.
+
+....................................................................................
+			   Service Object
+....................................................................................
+
+Service is layer where we write biz logic.
+
+Service is object , created by Nest ioc container.
+
+Steps:
+1.declare class and export
 
 
+export class AppService {
+  
+}
+
+2.Decorate the service with @Injectable
+
+import { Injectable } from "@nestjs/common";
+
+@Injectable()
+export class AppService {
+  constructor() { }
+  //biz logic
+  public sayHello(): string {
+    return "Hello Nest App!";
+  }
+}
+
+3.Configure the service inside module -AppModule
+
+ providers:[AppService]
+ import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class AppService {
+  constructor() {}
+  //biz logic
+  public sayHello(): string {
+    return 'Hello Nest App!!';
+  }
+}
+...................................................................................
+		How to write Our own module,controller,service
+...................................................................................
+src/users/users.service.ts
+import { Injectable } from "@nestjs/common";
+
+@Injectable()
+export class UserService {
+
+    public findAll(): string {
+        return "Users"
+    }
+}
+
+src/users/users.controller.ts
+import { Controller, Get } from "@nestjs/common";
+import { UserService } from "./user.service";
+
+@Controller("/users")
+export class UserController {
+    constructor(private userService: UserService) { }
+
+    @Get()
+    public findAll(): string {
+        return this.userService.findAll();
+    }
+}
+
+src/users/users.module.ts
+import { Module } from "@nestjs/common";
+import { UserService } from "./user.service";
+import { UserController } from "./user.controller";
 
 
+@Module({
+    imports: [],
+    controllers: [UserController],
+    providers: [UserService]
+})
+export class UserModule {
 
+}
+
+src/app.module.ts
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { UserModule } from "./users/user.module";
+
+//This configuration for creating object
+@Module({
+  imports: [UserModule], //subModule
+  controllers: [AppController], //Controllers creation
+  providers: [AppService] //Service Creation
+})
+export class AppModule {
+
+}
