@@ -561,17 +561,7 @@ class declaration
   constructors and parameters
   create instance
 
-class Employee {
-    //instance variables
-    id: number
-    name: string
-    salary: number
-    //instance methods
-    calculateSalary(value: number = 0): number {
-        return value * 2
-    }
 
-}
 
 function main() {
     //let emp: Employee = new Employee()
@@ -1869,3 +1859,350 @@ import { UserModule } from "./users/user.module";
 export class AppModule {
 
 }
+...................................................................................
+			How to structure Nest Application
+			    (Nest style guide)
+....................................................................................
+
+Nest Application must be modularizied.
+
+Every Nest application is created based on "features/domain"
+
+A feature module simply organizes the code relevant for a sepcific feature, keeping
+code organized and establilishing clear boundaries.
+This helps us manage complexity and develop with "SOLID" principles, as the size of the project/app team grows..
+
+products,customers,payments,....
+common/util
+
+You have to create sub folder which represents domain /feature
+
+src
+|
+heroes
+  |
+   hero.controller
+   hero.service
+   hero.module
+villains
+  villain.controller
+  villain.service
+  villain.module
+
+shared
+ shared.module.ts
+ filter-text.service.ts
+
+
+2.plan Logical  modularity
+
+=>For each domain, we must have logical modularity - sub module
+
+heroes
+   hero
+   hero-list
+   shared
+   heroes.module.ts
+
+All controllers and services related to that domain, must be injected into that submodule only, not inside main/app module.
+
+rootFolder - src
+   Must contain only root module and root Controller
+
+File structure conventions:
+...........................
+
+->file must follow the domain model.
+   greet
+   user
+   product
+   customer
+->file name must follow like
+  domainname.infraname.ts
+  
+  greet.module | service |controller |guard | pipe .ts | spec.ts
+
+  greet.module.ts
+  greet.controller.ts
+  greet.service.ts
+  greet.controller.spec.ts
+
+->class Names
+   ->Noun Customer,Product,Greeter
+	Customer|Module|Service|Controller
+
+   ->It has to end With infra Objects
+     CustomerModule
+     CustomerController
+     CustomerService
+
+->root files
+   app.controller|module|service
+
+if you have any dto/models/entities and interfaces
+  
+ src
+  |
+   heroes
+     |
+     dto
+       | 
+       hero.dto.ts
+    interfaces
+       hero.interface.ts
+
+Eg:
+...
+Greeter :Domain
+
+Step: 0 : create folder
+src/greeter
+Step: 1 Create SubModule
+
+src/greeter/greeter.module.ts
+import { Module } from '@nestjs/common';
+
+@Module({
+  imports: [],
+  controllers: [],
+  providers: [],
+})
+export class GreeterModule {}
+
+Step 2:create Service layer
+import { Injectable } from "@nestjs/common/decorators";
+
+@Injectable()
+export class GreeterService {
+    constructor() { }
+
+    //apis 
+    public sayGreet(): string {
+        return 'Greet to Nest App'
+    }
+
+}
+
+Dependency Configuration:
+src/greeter/greeter.module.ts
+import { Module } from '@nestjs/common';
+import { GreeterService } from './greeter.service';
+
+@Module({
+  imports: [],
+  controllers: [],
+  providers: [GreeterService],
+})
+export class GreeterModule {}
+
+
+Step 3: write controller 
+import { Controller, Get } from "@nestjs/common";
+import { GreeterService } from "./greeter.service";
+
+
+@Controller('api/greeter')
+export class GreeterController {
+    constructor(private greeterService: GreeterService) { }
+
+    //HTTP apis
+    @Get()
+    public sayGreet(): string {
+        return this.greeterService.sayGreet();
+    }
+}
+
+Dependency Configuration:
+import { Module } from '@nestjs/common';
+import { GreeterController } from './greeter.controller';
+import { GreeterService } from './greeter.service';
+
+@Module({
+    imports: [],
+    controllers: [GreeterController],
+    providers: [GreeterService],
+})
+export class GreeterModule { }
+
+Step 4:
+ Configure GreeterModule inside AppModule.
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { GreeterModule } from "./greeter/greeter.module";
+
+
+//in order to qualify this is Module object
+@Module({
+  imports: [GreeterModule], // if AppModule has any submodules as dependency
+  controllers: [AppController], // if AppModule has controller as dependency
+  providers: [AppService]  // if AppModule has Service as Dependency.
+})
+export class AppModule { }
+
+....................................................................................
+eg:
+nest g mo users
+
+CREATE src/users/users.module.ts (82 bytes)
+UPDATE src/app.module.ts (313 bytes)
+
+src/users/users.module.ts
+import { Module } from '@nestjs/common';
+
+@Module({})
+export class UsersModule {}
+
+src/app.module.tsimport { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { GreeterModule } from "./greeter/greeter.module";
+import { UsersModule } from './users/users.module';
+
+@Module({
+  imports: [GreeterModule, UsersModule],
+  controllers: [AppController]
+})
+export class AppModule { }
+
+Service:
+nest g s users/user --flat
+CREATE src/users/user.service.ts (88 bytes)
+CREATE src/users/user.service.spec.ts (446 bytes)
+UPDATE src/users/users.module.ts (241 bytes)
+
+
+controller:
+G:\Marsh\nodejs\nest-app>nest g co customer/customer --flat
+CREATE src/customer/customer.controller.ts (109 bytes)
+CREATE src/customer/customer.controller.spec.ts (524 bytes)
+UPDATE src/customer/customer.module.ts (272 bytes)
+
+In the above steps , still we have to run multiple commands 
+...................................................................................
+....................................................................................
+			    Building REST API
+...................................................................................	
+
+Controllers
+Routing
+Request Objects
+Resources
+Status and Headers
+Request Parameters
+Request Payload
+
+Controllers:
+  Controllers are responsible for handling client request and generate responses..
+
+Routing:
+  The Routing is mechanism controls which controller receives which requests.
+  Generally a Controller can have more than one Route , different route can perfrom   different actions.
+
+Decorators:
+ @Controller() => without parameter
+ @Controller('users') => root route
+
+HTTP method decorators
+ @Get => get req => GET /rootRoute eg  ; GET /users
+ @Post=> POST req
+ @Put => Update req
+ @Delete => Delete Req.
+
+....................................................................................
+			 CURD operations
+....................................................................................
+Eg:
+
+user/user.service.ts
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class UserService {
+  constructor() {}
+  //users api
+  //CURD operations
+  public findAll(): string {
+    return 'users';
+  }
+  public save(): string {
+    return 'save';
+  }
+  public update(): string {
+    return 'update';
+  }
+  public remove(): string {
+    return 'remove';
+  }
+}
+
+user/user.controller.ts
+import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { UserService } from './user.service';
+
+@Controller('users')
+export class UserController {
+    constructor(private userService: UserService) { }
+    // Get /users
+    @Get()
+    findAll(): string {
+        return this.userService.findAll()
+    }
+    @Post()
+    save(): string {
+        return this.userService.save()
+    }
+    @Delete()
+    remove(): string {
+        return this.userService.remove()
+    }
+    @Put()
+    update(): string {
+        return this.userService.update()
+    }
+}
+			 
+.....................................................................................
+			   Nest CURD Generator
+...................................................................................
+
+Resource:
+  In RestFull web services, apis are defined or structured as resources.
+  Resource represents domain eg: "UserResource,ProduceResource,CustomerResource"
+
+Why CURD Generator?
+
+ Without Curd generator for a domain/resource,you have to write so many steps
+
+  => Generate module -> nest g mo
+  => Generate a controller -> nest g co 
+  => Generate a service -> nest g s
+  => Generate a generate entity 
+
+ With Curd generator you can do every thing with single command.
+
+Generate a new Resource
+
+ nest g resource 
+   =>creates a module,controller,service,entity class,DTO ,spec files...
+
+eg
+nest g resource products
+? What transport layer do you use? REST API
+? Would you like to generate CRUD entry points? Yes
+CREATE src/products/products.controller.ts (957 bytes)
+CREATE src/products/products.controller.spec.ts (596 bytes)
+CREATE src/products/products.module.ts (268 bytes)
+CREATE src/products/products.service.ts (651 bytes)
+CREATE src/products/products.service.spec.ts (474 bytes)
+CREATE src/products/dto/create-product.dto.ts (33 bytes)
+CREATE src/products/dto/update-product.dto.ts (181 bytes)
+CREATE src/products/entities/product.entity.ts (24 bytes)
+UPDATE package.json (1975 bytes)
+UPDATE src/app.module.ts (707 bytes)
+√ Packages installed successfully.
+.....................................
+
+
+
+
+

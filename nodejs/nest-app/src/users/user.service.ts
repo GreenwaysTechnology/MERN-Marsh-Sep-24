@@ -4,6 +4,6 @@ import { Injectable } from "@nestjs/common";
 export class UserService {
 
     public findAll(): string {
-        return "Users"
+        return "findAll"
     }
 }
