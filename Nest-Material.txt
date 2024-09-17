@@ -1,0 +1,3028 @@
+				Nest JS
+.....................................................................................
+
+What is Nest.js?
+   Nest.js is a framework for building efficient,scalable Node.js server-side applications.
+
+
+Server side apps Types:
+1.Monolith - Old of way building distributed apps
+2.Microservices -Modern way of building distributed apps.
+
+Nest.js can be used to build both applications.
+
+Our focus mostly is Microservice based apps.
+
+Micro service is collection of independant apps talks each other for exchaning data.
+
+Apps  are collection of apis.
+
+In Genernal we can create different types "api"
+
+API means Application programming interface.
+
+API is implemented in many ways.
+
+API is implmented via object oriented models like classes or via functional programming.
+
+
+Objects encapsulate apis.
+
+API are used to carry out biz logic like "fetching data,saving,updating,deleting,sorting,filtering,"
+
+Objects are hosted on runtimes, the other applications like other apis or userinterface apps like browsers,mobile apps may try to communicate those objects.
+
+Based on Communications(Communication Protocals) apis are classified:
+
+There are many protocals.
+
+HTTP
+HTTP2
+TCP
+UDP
+...................................................................................
+ 		         Nest.is Development Arch
+
+
+Nest apps can be written in plain js or with object oriented js via Typescript.
+
+				  Nest App
+				     |
+			-------------------------------
+			|                             |
+		      Javascript                   Typescript
+
+
+Note: Nest with Typescript is highly recommended.
+
+
+Popular Server side(Micro/monolithic) frameworks
+
+1.express
+2.hapi
+3.fastify
+
+4.moleculer
+5.loopback
+....................................................................................
+ There are lot of  frameworks available in the market but lacks common problems like 
+ popular design patterns like MVC,Dependency,Decorator based,Class Based object  oriented 
+ You can see all  best features and design patterns available in the front frameworks
+ like angular,react,vue
+
+  if you take angular is the best framework which incorporates all industry standard design patterns like MVC,dependency injection,class and interface based,decorators based,modularity
+
+  What if i want the angular like framework in server side , there was no frame work but now we have 
+
+			 "Birth of NEST.js"
+
+
+Nest.js is server side framework for building monolithic,microservices based framework built on the industry standard design patterns like "MVC","DI","Factory",
+"SingleTon", and Pure object oriented features such as classes,interfaces,strong typing,polmorphism,inheritance etc....
+
+
+
+	  Nest.js is replica of Angular in the Server side
+		  Nest inspired from "Angular"
+
+
+Features of Nest.js:
+
+1.Nest is MVC Framework
+2.Nest is Dependency Injection framework
+3.Nest is Modular framework - ES 6 based modularity and Logical Modularity.
+4.NEST is pure class and interface based
+5.Nest supports Decortors
+6.Nest supports all typescript features
+7.Nest provides infrastructure to build any type of apis 
+8.Nest supports "reactive programming" via rxjs for advanced async stream   based programming 
+
+if you are going build nest apps, we have to select language, our choice is Typescript.
+...................................................................................
+			  Typescript 
+....................................................................................
+What is typescript?
+   Type script is the programming language to build "object oriented" java script applications.
+
+What is difference between java script and typescript?
+
+What is javascript?
+  Java script is also programming language.
+ Javascript is "object based, functional style programming language.
+
+
+Pl :
+  - classified based on type system
+
+1.strongly/static  typed pl
+  -the type of variable is known /verified during compile time -  java,c++
+ int a =10
+ a="hello"
+
+2.weakly/dynamic typed pl
+  - the type of variable is known at runtime only- type of variable can be changed during runtime. - js
+ let a=10  type of - number
+ a="hello" type of - string
+
+
+Object Oriented Principles:
+...........................
+
+1.Abstraction
+2.Encapsulation
+3.Hierarchy
+4.Typing
+5.Modularity
+----------------------
+6.Concurrency
+7.Persistency
+
+if any language follows the first 5 prinicples 100% , those languages are called object oriented programming.
+
+java script does not follow the first 5 principles , so it is called as object based languge.
+
+
+		JavaScript is not object oriented
+		Javascript  is not strongly typed 
+
+Drawbacks of dynamic typing:
+    -We cant build enterprise consistent application.
+
+-Object based 
+    if we  want to design , object oriented system in js not possible.
+
+
+Why javascript was created?
+
+  Javascript was created for process html pages.
+
+1989 - Web Project was started   
+
+1990 -  The first webserver,Browser was created
+
+1994 - Netscap started
+
+1995 - The first netscap navigator came to access web pages 
+
+1996 - Netscap decided to put java inside web browser.
+
+Netscap decided to build client side web technoloy- once html is rendered into web browser
+
+how to change that html on fly. 
+
+Netscap decided to create a new programming language, who recurited Brendan Eich
+,the programmer , asked to create new programming language for netscap navigator.
+
+-Objective of Project
+
+-It should be like java but it should not be java -light weight - scripting
+-deadline is 10 days.
+
+Time line:
+
+1.javascript project started 1995
+1.first name of the language was "Mocha"
+2.language was renamed to "Live Script" -1996
+3.language was renamed to "java Script" -1996
+............................................................................................
+				 ECMA
+...................................................................................
+
+Ecma International is an industry association dedicated to the standardization of information and communication systems.
+
+After language ready, which was submitted to standard body "ECMA international"
+
+1996---1997 : JS 1.0 =>ES 1.0
+
+1997- 1998 :  ES 2.0: It did not come
+
+1999 :  ES 3
+
+2007 : ES 4
+
+2008 : ES 5
+.....
+
+2012-2015 : ES 6
+........
+2016  ONWARDS : es 7,es 8, ............
+
+.....................................................................................
+			2008 - Introduction of  Node.js : Enter prise Javascript
+.....................................................................................
+in order to build enterprise javascript apps, community started thinking about "Object oriented Models".
+                    How to introduce object oriented features into language.
+.....................................................................................
+Fundamentally js is object based,type less language, then it is difficult to build object oriented systems.
+
+in order to create better javascript, 2009, The project was started to make javascript looks like other object oriented langugages.
+ 
+ - classes,interfaces,modules.... : Coffee script (intension was to introduce object oriented features like classes,interfaces).
+
+YOu write code in coffeescript
+
+Employee.coffee
+
+class Employee {
+
+}
+compiler - coffee Employee.coffee
+|
+Employee.js - compiled code -pure javascript 
+|
+run on browser
+
+Coffee script had issues still - Type system- No strongly typed.
+
+
+2010, Microsoft started project to create "object oriented javascript" using C#
+
+Objective of MS Project:
+
+ -Add Type System - Strong Typing
+ -Classes
+ -Modules
+ -interfaces
+ -encapulation keywords
+ .......
+C# ---compiler------plain javascript.
+
+MS Failed to port this project to public because
+
+Problems with C#
+ 1.PORTABLITY.
+ 2.COMPLEXITY
+.....................................................................................
+..............................................................................................
+
+2012 - ECMA released new javascript spec (ES 6) in which They introduced
+  
+   - classes
+   - let 
+   - const
+   - advanced object literals
+   - Promises
+  etc..........
+
+MS decided to rewrite Typed Javascript project based "ECMA 6 Standards".
+
+MS Started redesigning the whole project, target ecma 6 as base language.
+
+{ES 6 + Static Typing + added new extra fetures} => The brith of Typescript.
+
+
+Arch of TS:
+
+					
+				      TS language
+					    |
+					  ES 6
+					    |
+					  ES 5
+
+
+Typescript----compile----Plain javascript
+
+Typescript is strongly typed, object oriented  javascript.
+
+Now you can use type script to build better object oriented systems using javascript.
+
+TS is not compititor or replacer for javascript but it complements js.
+
+/////////////////////////////////////////////////////////////////////////////////////////
+
+Type script is a typed superset of javascript that compiles to plain javascript
+
+                  any browser,any host, any os, any device
+
+/////////////////////////////////////////////////////////////////////////////////////
+
+				Setup Ts project
+
+Lab:
+
+Create Ts Project.
+How to write ts programs
+How to compile ts programs
+How to run compiled ts programs
+
+G:\Marsh\nodejs>mkdir tsapps
+
+G:\Marsh\nodejs>cd tsapps
+
+G:\Marsh\nodejs\tsapps>mkdir src
+
+G:\Marsh\nodejs\tsapps>npm init --ye
+^CTerminate batch job (Y/N)? y
+
+G:\Marsh\nodejs\tsapps>npm init --yes
+Wrote to G:\Marsh\nodejs\tsapps\package.json:
+
+{
+  "name": "tsapps",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
+
+
+npm install typescript --save-dev
+
+
+tsapps/tsconfig.json
+{
+    "compilerOptions": {
+        "outDir": "build",
+        "watch": true,
+        "target": "ES6",
+        "noEmitOnError": true
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "files": [
+        "src/index.ts"
+  
+How to compile the code?
+
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "compile":"tsc --watch"
+  },
+
+npm run compile
+  
+
+How to run code
+
+node build/index.js
+....................................................................................
+
+       	 Typescript language fundamentals
+
+
+How to declare variables and how to use data types?
+
+syntax:
+
+ let|const|var variableName:DataType = value
+
+ let|const|var variableName = value
+
+
+Data types:
+...........
+Category of types
+1.Primitive types
+ number
+ string
+ boolean
+
+2.Reference types
+ objects
+ array  
+
+3.Advanced Types
+ void
+ undefined
+ any
+ unknown
+ function
+ enum
+
+src/index.ts
+let firstName: string = "Subramanian"
+let salary: number = 10000
+let isActive: boolean = true
+
+console.log(`firstName ${firstName} Salary ${salary} isActive ${isActive}`)
+
+...................................................................................
+			Identifying Type errors
+...................................................................................
+
+
+let firstName:string = "ram"
+
+firstName =333
+
+
+Compile time error:
+src/index.ts:3:1 - error TS2322: Type 'number' is not assignable to type 'string'.
+
+3 firstName =333
+  ~~~~~~~~~
+
+[5:59:35 PM] Found 1 error. Watching for file changes.
+.....................................................................................
+			Category of Types
+.....................................................................................
+
+1.Explicit type
+let firstName:string = "ram"
+
+2.Implicit type /Type inference
+
+//here there is explicit type assigned
+let age = 18
+
+age ="hello"
+
+
+src/index.ts:5:1 - error TS2322: Type 'string' is not assignable to type 'number'.
+
+5 age ="hello"
+  ~~~
+
+[6:02:14 PM] Found 1 error. Watching for file changes.
+
+
+Once the variable is declared without any type but assigned value , based on that value type, in future the compiler will assume the same type should be used
+.....................................................................................
+		              undefined
+.....................................................................................
+
+//undefined
+
+//undefined
+let a;
+
+a = 0
+
+a="hello"
+
+
+
+here no compile time, error , because implicit undefined type, later can be used to initalize any value type.
+
+let b = undefined
+
+b=90
+
+b=333
+
+
+here no compile time, error , because implicit undefined type, later can be used to initalize any value type.
+
+....................................................................................
+				any
+....................................................................................
+
+if you dont know the type of variable in advance
+if you dont want to force the variable to have particular type
+
+  dont leave variable with "undefined" , instead you give any
+
+
+let a: any
+
+a = 10
+a = "hello"
+.....................................................................................
+			functions parameters,return  types
+....................................................................................
+
+function add(a: number, b: number):number {
+    return a + b 
+}
+console.log(add(10, 10))
+// console.log(add("10", 10))
+
+
+es 6 Default arg:
+
+
+function add(a: number=0, b: number=0) {
+    return a + b
+}
+console.log(add(10,10))
+console.log(add())
+
+i dont want to pass value, still i have skip those, ts introduced a feature called
+"optional arg"
+
+
+function add(a?: number, b?: number) {
+    return a + b
+}
+console.log(add(10,10))
+console.log(add())
+
+.....................................................................................
+			Multi types -Union Type
+.....................................................................................
+
+a variable can hold many types or const values
+
+
+
+let gender: "Male" | "Female" | "Third"
+
+gender = "Male"
+
+gender = "Female"
+
+gender = "Third"
+
+// gender="hello"
+
+function process(id: number | string = "", age?: number, gender?: "Male" | "Female" | "Thrid") {
+    console.log(id,age,gender)
+}
+
+process("133",8,"Male")
+process(34,44,"Thrid")
+
+let windowStatus: "Open" | "Close"
+windowStatus = "Open"
+function Mode(varient: "dark" | "light") {
+    console.log(varient)
+}
+Mode("dark")
+Mode("light")
+// Mode("theme")
+
+function Person(gender: "Male" | "Female" | "Third" | undefined, active: true | false) {
+    console.log(gender, active)
+}
+Person("Female", true)
+Person("Male", false)
+.....................................................................................
+			Object oriented Programming In TS
+.....................................................................................
+class declaration
+  instance variables , methods
+  constructors and parameters
+  create instance
+
+
+
+function main() {
+    //let emp: Employee = new Employee()
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(340))
+}
+main()
+...................................................................................
+
+How to intialize the instance variables?
+
+1.inside class
+  1.1.class directly
+  1.2.constructor
+2.after object creation
+  using reference variable
+
+
+class Employee {
+    //instance variables
+    id: number = 1
+    name: string = "Subramanian"
+    salary: number = 100
+    //instance methods
+    calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+
+}
+
+function main() {
+    //let emp: Employee = new Employee()
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+}
+main()
+
+After Object creation:
+class Employee {
+    //instance variables
+    id: number = 1
+    name: string = "Subramanian"
+    salary: number = 100
+    //instance methods
+    calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+
+}
+
+function main() {
+    //let emp: Employee = new Employee()
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+    //new values
+    emp.id = 100
+    emp.name = 'Murugan'
+    emp.salary = 1000
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+}
+main()
+...................
+
+via constructors:
+................
+class Employee {
+    //instance variables
+    id: number
+    name: string
+    salary: number
+    constructor(id: number = 1, name: string = "Subramanian", salary: number = 1000) {
+        this.id = id
+        this.name = name
+        this.salary = salary
+
+    }
+    //instance methods
+    calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+
+}
+
+function main() {
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+    //new values
+    emp.id = 100
+    emp.name = 'Murugan'
+    emp.salary = 1000
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+
+    emp = new Employee(2, 'Karthik', 333)
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+}
+main()
+.....................................................................................
+			
+				Encasulation
+.....................................................................................
+
+What is encasulation?
+
+To Prevent code sharing from code to another.
+
+code - collection of classes, variables,functions,......
+
+code is represented inside file.
+
+pl provides keywords to ensure that , how  we can allow the code to be shared
+
+TS provides keywords to prevent code sharing
+ 
+ -public - any where
+ -private - with in class 
+ -protected - with in class + inheritance
+
+only class members are public/private/protected.
+
+if you declare any member(var,methods) => by default is public.
+
+
+
+public:
+class Employee {
+    //instance variables
+    //by default all memebers are public
+    public id: number
+    public name: string
+    salary: number
+    constructor(id: number = 1, name: string = "Subramanian", salary: number = 1000) {
+        this.id = id
+        this.name = name
+        this.salary = salary
+
+    }
+    //instance methods
+    public calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+
+}
+
+function main() {
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+    //new values
+    emp.id = 100
+    emp.name = 'Murugan'
+    emp.salary = 1000
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+
+    emp = new Employee(2, 'Karthik', 333)
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+}
+main()
+
+
+private:
+
+
+class User {
+    private userName:string ='admin'
+    private password:string = 'admin'
+
+    private auth(){
+        return 'something'
+    }
+}
+
+function main(){
+    let user = new User()
+    console.log(user.userName ,user.auth())
+}
+main()
+
+src/index.ts:13:22 - error TS2341: Property 'userName' is private and only accessible within class 'User'.
+
+13     console.log(user.userName ,user.auth())
+                        ~~~~~~~~
+
+src/index.ts:13:37 - error TS2341: Property 'auth' is private and only accessible within class 'User'.
+
+13     console.log(user.userName ,user.auth())
+                                       ~~~~
+
+
+src/index.ts:9:22 - error TS2341: Property 'userName' is private and only accessible within class 'User'.
+
+9     console.log(user.userName)
+                       ~~~~~~~~
+
+....................................................................................
+			   Reducing code inside class
+...................................................................................
+
+variables types:
+
+1.instance variable
+  variable declared inside class
+2.local variables
+  variables are declared inside method(including constructor)
+  or method args / constructor args
+
+
+class Employee {
+    //instance variables
+    public id: number
+    public name: string
+    salary: number
+    //id,name are local variables
+    constructor(id: number = 1, name: string = "Subramanian", salary: number = 1000) {
+
+        //instancevariable=localvariable
+        this.id = id
+        this.name = name
+        this.salary = salary
+
+    }
+    //instance methods
+    public calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+
+}
+
+function main() {
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+}
+main()
+
+
+Note:
+
+In the above code 
+
+ =>we have declared instance variables
+ =>we have initalized those variables inside constructors.
+
+By Using encapsulation keywords(public and private) we can reduce code.
+
+
+Step 1:
+
+remove all class declarations
+class Employee {
+      constructor(id: number = 1, name: string = "Subramanian", salary: number = 1000) {
+       //instancevariable=localvariable
+        this.id = id
+        this.name = name
+        this.salary = salary
+
+    }
+    //instance methods
+    public calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+
+}
+
+Step 2: 
+ "Convert constructor local variables into instance variables
+
+ constructor(id: number = 1, name: string = "Subramanian", salary: number = 1000){}
+
+ Solution:
+  infront of variables just add either "public" or "private"
+      constructor(public id: number = 1, public name: string = "Subramanian", public salary: number = 1000) {
+       //instancevariable=localvariable
+        this.id = id
+        this.name = name
+        this.salary = salary
+
+    }
+
+Step 3:
+  inside constructor leftside and right same variables so we can remove , intialization itself.
+
+class Employee {
+    constructor(public id: number = 1, public name: string = "Subramanian", public salary: number = 1000) {}
+    //instance methods
+    public calculateSalary(value: number = 0): number {
+        return value * this.salary
+    }
+}
+
+function main() {
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.calculateSalary(22))
+
+}
+main()
+....................................................................................
+			  Hierachy
+...................................................................................
+
+Object Relationship:
+
+1.has-a 
+2.is-a 
+
+
+HAS-A : 
+  Depedency injection....
+
+class Address {
+} 
+class Employee {
+   
+}
+
+class Address {
+    constructor(public street: string = "street", public city: string = "city") { }
+}
+
+class Employee {
+
+    constructor(public id: number = 1, public name: string = "Subramanian",
+        public salary: number = 1000, public address?: Address) { }
+}
+
+function main() {
+    let emp = new Employee()
+    console.log(emp.id, emp.name, emp.salary, emp.address)
+
+    emp = new Employee(3, 'Karthik', 333, new Address('10th street', 'Coimbatore'))
+    console.log(emp.id, emp.name, emp.salary,emp.address.city,emp.address.street)
+
+}
+main()
+....................................................................................
+class TodoService {
+    constructor() { }
+    findAll() {
+        return "todos"
+    }
+}
+class TodoController {
+    constructor(private todoService: TodoService) {
+        this.todoService = todoService
+     }
+
+    findAll() {
+        return this.todoService.findAll()
+    }
+}
+
+function main() {
+    let todCtrl = new TodoController(new TodoService())
+    console.log(todCtrl.findAll())
+}
+main()
+...................................................................................
+				Inheritance
+....................................................................................
+
+Types of inheritance implementation:
+
+1.class based inheritance
+2.interface based inheritance
+
+
+
+1.class based
+class Account {
+    constructor() {
+
+    }
+    protected deposit() {
+        return 0
+    }
+
+}
+class SavingsAccount extends Account {
+    constructor() {
+        super()
+    }
+    public deposit(): number {
+        return 100
+    }
+}
+
+function main() {
+    let sb = new SavingsAccount()
+    console.log(sb.deposit())
+}
+main()
+
+interfaces
+..........
+
+1.interfaces are common classes
+2.having only declaration
+3.can act as super type
+4.we can have multiple implementations
+
+
+interface OnInit {
+    init(): void
+}
+interface onDestroy {
+    destroy(): void
+}
+
+class CustomerController implements OnInit, onDestroy {
+    init(): void {
+        console.log('CustomerController-init')
+    }
+    destroy(): void {
+        console.log('CustomerController-destory')
+    }
+}
+
+
+class OrderController implements OnInit, onDestroy {
+    init(): void {
+        console.log('OrderController-init')
+    }
+    destroy(): void {
+        console.log('OrderController-destory')
+    }
+}
+
+
+function main() {
+    let custrl = new CustomerController()
+    let orderCtrl = new OrderController()
+    custrl.init()
+    custrl.destroy()
+
+    orderCtrl.init()
+    orderCtrl.destroy()
+}
+main()
+.....................................................................................
+			 Generics and Arrays
+....................................................................................
+
+What is Generics?
+  To restrict to have similar or same type of value inside container objects like arrays,Promise,Observables
+
+
+Array:
+
+
+//no types
+let list = [1, "3", 45, true]
+
+//with type
+
+//without generics syntax
+//let numList: number[] = [1, 2, 4, 5,"test"]
+let numList: number[] = [1, 2, 4, 5]
+
+//with generics syntax:
+
+//<type> -generics
+let strList: Array<string> = ["test"]
+
+
+function getPromise(): Promise<string> {
+    return Promise.resolve('hello')
+}
+
+function getList(): Promise<Array<string>> {
+    return Promise.resolve(['a', 'b'])
+}
+
+function getList2(): Promise<string[]> {
+    return Promise.resolve(['a', 'b'])
+}
+
+const getMyList = (): Promise<Array<string>> => {
+    return Promise.resolve(['a', 'b'])
+}
+..................................................................................
+			  Reference types: Object Types
+...................................................................................
+
+object types
+
+1.constructor types - using classes
+2.literal patterns
+
+
+Literal objects and types
+
+let employee = {
+    id:1,
+    name:'Subramaian',
+    status:true
+}
+
+here i want to enforce the type of id,name, and status.
+
+In order to declare type of literal objects we have three ways:
+...............................................................
+
+1.class as type
+2.interface as type
+3."type" keyword as type
+
+
+//class as data type
+
+class Employee {
+    id: number
+    name: string
+    status: boolean
+}
+
+let employee: Employee = {
+    id: "test",
+    name: 'Subramaian',
+    status: true
+}
+
+src/index.ts:10:5 - error TS2322: Type 'string' is not assignable to type 'number'.
+
+10     id: "test",
+       ~~
+
+  src/index.ts:4:5
+    4     id: number
+          ~~
+    The expected type comes from property 'id' which is declared here on type 'Employee'
+..............................
+
+Use case:
+class Employee {
+    id: number
+    name: string
+    status: boolean
+    city:string 
+}
+
+let employee: Employee = {
+    id: 1,
+    name: 'Subramaian',
+    status: true
+}
+
+src/index.ts:10:5 - error TS2741: Property 'city' is missing in type '{ id: number; name: string; status: true; }' but required in type 'Employee'.
+
+10 let employee: Employee = {
+       ~~~~~~~~
+
+  src/index.ts:7:5
+    7     city:string
+          ~~~~
+
+here ts compiler not only verifying the type of of variable but also, existence of variable.
+
+what if my type has 10 fields, my object need is only 3 fields, how to skip or avoid compil time errors?
+
+Solution:
+  Optional properties
+
+
+
+class Employee {
+    id: number
+    name: string
+    status?: boolean
+    city?: string
+    gender?: "Male" | "Female" | "Third"
+}
+
+let employee: Employee = {
+    id: 1,
+    name: 'Subramaian',
+    status: true,
+    gender: "Male"
+}
+
+//class as data type
+
+class Employee {
+    id: number
+    name: string
+    status?: boolean
+    city?: string
+    gender?: "Male" | "Female" | "Third"
+}
+
+let employee: Employee = {
+    id: 1,
+    name: 'Subramaian',
+    status: true,
+    gender: "Male"
+}
+//
+interface MyLocation {
+    lat?: number
+    lng?: number
+}
+
+let map: MyLocation = {
+    lat: 22,
+    lng: 33
+}
+
+//type keyword
+
+type Person = {
+    id: number
+    name: string
+    status?: boolean
+}
+let guest: Person = {
+    id: 2,
+    name: 'a',
+    status: true
+}
+....................................................................................
+			  Decorators -Annotations
+....................................................................................
+
+Annotations: @annotation , @Override,@Entity,@Controller
+
+a-meta programming : isloate the code logic from main program to ouside, when you 
+req, you inject those features , into code during runtime.
+
+
+What is decorator?
+ 
+  Decorator is simple js function, and lts logic is injected into object during runtime.
+
+Types of decorators:
+
+1.class level decorators
+
+  @Decorator()
+  class A {}
+
+2.Method level decorators
+ class A {
+   @Prop()
+   save(){ 
+
+   }
+ }
+3.Variable level decorators
+  class B{
+      @Input
+     myVar     
+  }
+
+//declare decorator
+function Course(target: any) {
+    //decorator logic
+    Object.defineProperty(target.prototype, "subject", { value: 'Nest Js' })
+}
+
+//attach decorator
+@Course
+class Student {
+    constructor(public name: string = "") { }
+}
+
+//use decorator
+
+function main() {
+    let student = new Student("Subramaian") as any
+    console.log(`${student.name} is learning ${student.subject}`)
+}
+main()
+....................................................................................
+			ES 6 modules in typescript
+
+TS supports es6 modules by default, in nest js we use es 6 modules
+.....................................................................................
+....................................................................................
+			 Project Setup- Nest app creations
+...................................................................................
+
+Nest CLI
+  It is command line interface tool that helps to
+
+ =>initialize /create new project
+ =>dev features like hot reloading, bundling for testing
+ =>schematic features to create artifacts -  code generation.
+ =>To create production builds
+ =>To test apps including unit testing,etoe testing..  
+  
+How to install nest cli?
+
+npm install -g @nestjs/cli
+
+
+How to verify?
+>nest --help
+
+nest --help
+Usage: nest <command> [options]
+
+Options:
+  -v, --version                                   Output the current version.
+  -h, --help                                      Output usage information.
+
+Commands:
+  new|n [options] [name]                          Generate Nest application.
+  build [options] [app]                           Build Nest application.
+  start [options] [app]                           Run Nest application.
+  info|i                                          Display Nest project details.
+  add [options] <library>                         Adds support for an external library to your project.
+  generate|g [options] <schematic> [name] [path]  Generate a Nest element.
+    Schematics available on @nestjs/schematics collection:
+      ┌───────────────┬─────────────┬──────────────────────────────────────────────┐
+      │ name          │ alias       │ description                                  │
+      │ application   │ application │ Generate a new application workspace         │
+      │ class         │ cl          │ Generate a new class                         │
+      │ configuration │ config      │ Generate a CLI configuration file            │
+      │ controller    │ co          │ Generate a controller declaration            │
+      │ decorator     │ d           │ Generate a custom decorator                  │
+      │ filter        │ f           │ Generate a filter declaration                │
+      │ gateway       │ ga          │ Generate a gateway declaration               │
+      │ guard         │ gu          │ Generate a guard declaration                 │
+      │ interceptor   │ itc         │ Generate an interceptor declaration          │
+      │ interface     │ itf         │ Generate an interface                        │
+      │ middleware    │ mi          │ Generate a middleware declaration            │
+      │ module        │ mo          │ Generate a module declaration                │
+      │ pipe          │ pi          │ Generate a pipe declaration                  │
+      │ provider      │ pr          │ Generate a provider declaration              │
+      │ resolver      │ r           │ Generate a GraphQL resolver declaration      │
+      │ service       │ s           │ Generate a service declaration               │
+      │ library       │ lib         │ Generate a new library within a monorepo     │
+      │ sub-app       │ app         │ Generate a new application within a monorepo │
+      │ resource      │ res         │ Generate a new CRUD resource                 │
+      └───────────────┴─────────────┴──────────────────────────────────────────────┘
+
+How to create new Project?
+   
+   By default nest creates "REST api" - Web Services
+
+
+G:\Marsh\nodejs>nest new nest-app
+⚡  We will scaffold your app in a few seconds..
+
+? Which package manager would you ❤️  to use? npm
+CREATE nest-app/.eslintrc.js (688 bytes)
+CREATE nest-app/.prettierrc (54 bytes)
+CREATE nest-app/nest-cli.json (179 bytes)
+CREATE nest-app/package.json (2016 bytes)
+CREATE nest-app/README.md (4454 bytes)
+CREATE nest-app/tsconfig.build.json (101 bytes)
+CREATE nest-app/tsconfig.json (567 bytes)
+CREATE nest-app/src/app.controller.ts (286 bytes)
+CREATE nest-app/src/app.module.ts (259 bytes)
+CREATE nest-app/src/app.service.ts (150 bytes)
+CREATE nest-app/src/main.ts (216 bytes)
+CREATE nest-app/src/app.controller.spec.ts (639 bytes)
+CREATE nest-app/test/jest-e2e.json (192 bytes)
+CREATE nest-app/test/app.e2e-spec.ts (654 bytes)
+
+√ Installation in progress... ☕
+
+🚀  Successfully created project nest-app
+👉  Get started with the following commands:
+
+$ cd nest-app
+$ npm run start
+
+
+                          Thanks for installing Nest 🙏
+                 Please consider donating to our open collective
+                        to help us maintain this package.
+
+
+               🍷  Donate: https://opencollective.com/nest
+
+
+Project Structure:
+  It has lot of files and folders.
+
+readMe.md
+  How to use this project
+
+package.json
+  gives information about this project like 
+ 
+ -basic scripts - run,build,test
+ -Dependency - basic default dependency for the project.
+
+tsconfig.json
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": false,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false
+  }
+}
+
+source code:
+src
+  ->root application folder
+ files
+   -main.ts
+   -app.module.ts
+   -app.controller.ts
+   -app.contoller.spec.ts
+   -app.service.ts
+
+test
+  -contains etoe test configurations
+
+
+....................................................................................
+
+How to start app?
+
+There are three mode
+
+1.dev mode
+2.dev mode with watch
+3.prod mode
+
+# development
+$ npm run start
+
+# watch mode
+$ npm run start:dev
+
+# production mode
+$ npm run start:prod
+....................................................................................
+			 How to run and test
+
+
+npm run start:dev
+
+http://localhost:3000/
+....................................................................................
+			   Nest.js Application core concepts
+...................................................................................
+
+Nest Application has been written based on MVC Design pattern, as a developer ,we have to write code based on that pattern.
+
+
+M- Model - data
+C - Controller
+V - View
+
+In Nest , every thing is object, since it is object which is created using ts/es classes.
+
+
+Nest Core Concepts:
+
+1.Modularity:
+...........
+There are two types of modularity
+ =>Physical Modularity -  files and folders along with "ES 6 module keywords
+   "export,export default and import"
+
+=>Logical Modularity
+   Code is organized into object called module.
+
+Any distributed apps/user interface apps.
+  App is collection of features like customers,products,payments.
+
+Each feature is classfied as layers
+
+Basic Layers in Server side apps:
+................................
+In case if it is WebService(REST Api).
+
+1.Controller    
+   Where We expose apis which to be communicated by other apps like front end or    other apis
+
+2.Service 
+     Where we have biz logic like save,findAll,delete,remove,filtering,sorting
+   Services are communicated by controller.
+
+3.Repository(DAO)
+     This is optional layer now a days, which directly communicates the Datasources
+  like databases via ORM frameworks.
+
+How to organize the features in code?
+
+for eg : order Feature - controllers,services,orm(entities),utilities......
+
+each layer of code is organized phsyically "files and folders" -This is called phsyical modularity.
+
+
+ order
+  |
+  controllers
+    OrderController.ts
+  services
+    OrderService.ts
+  utilites
+    OrderUtility.ts
+
+ customer
+  |
+  controllers
+    CustomerController.ts
+  services
+     CustomerService.ts
+  utilites
+     CustomerUtility.ts
+
+According to Nest code style guide
+
+feature based
+ 
+src
+   |
+   order
+    order.controller.ts
+    order.service.ts
+    order.utility.ts
+    order.entity.ts
+    order.controller.spec.ts
+    ...+other files
+   product
+    product.controller.ts
+    product.service.ts
+    product.utility.ts
+    product.entity.ts
+    product.controller.spec.ts
+      
+
+.....................................................................................
+			 main.ts
+
+
+main.ts is entry file to nest app.
+
+=>We create application object by loading "AppModule".
+=>We start main application using 3000 port.
+
+app.module.ts
+AppModule:
+
+As i mentioned , nest application is organized into modules
+
+AppModule is entry module, without app module , you cant start nest app, appModule Object is root container Object.
+.....................................................................................
+			Nest is Object oriented
+....................................................................................
+
+ Nest has been built Typescript rich features like strong typing,class based,interfaces,decorators...
+
+In Nest every thing is Object.
+
+In Nest objects are classified into two category.
+
+1.Nest infra structure object.
+
+2.Domain objects
+
+
+1.Infrastructure object
+   The object which makes up applications..
+
+ -Module -Logical Modularity
+ -Controllers
+ -Services and Providers
+ -Pipes
+ -Guards
+
+   
+2.Domain objects
+  Objects which represents data called as models/entity.
+  Domain objects are mostly javascript literal objects /class objects
+  for eg : Customer,Order,Products
+
+
+Module Object:
+   Nest application is encasulated into one single Big Object called "Root Module/App Module".
+
+
+How to create object?
+
+we need to declare class?
+
+export class OrderController {
+
+}
+
+we need to create object 
+  
+  let orderCtrl = new OrderController()
+
+Are we going to create objects like above in Nest?
+     "No"
+
+Nest framework /Nest Runtime (nest ioc engine/container) takes care of "creating Objects and linking objects with objects automatically" which is called "IOC"
+
+
+Refer
+https://www.martinfowler.com/articles/injection.html
+
+
+How nest understands that this class is infrastructure class?
+
+
+export class OrderController {
+
+}
+
+export class OrderController{} 
+
+export class Greeting {}
+
+ We can tell to the nest ioc container via "Decorators"
+
+
+
+Nest provides lot of built in Decorators
+
+ @Controller('order')
+ export class OrderController{} 
+
+  when ever nest sees this code, which creates object/initalizes all dependencies.
+
+We will see lot of decorators later
+
+Basic Decorators
+
+1.@Controller -controller
+2.@Injectable - service
+3.@Module-Module Object
+....................................................................................
+....................................................................................
+				  Primary Objects
+				      and 
+                                Nest BootStrap Process
+.....................................................................................
+
+Nest Application Object:
+
+Every Nest app is encapsulated inside Nest Application.
+Every Nest app has entry point called "main" program.
+
+How to create Application object?
+     By calling NestFactory is class having method called "create" method.
+
+ NestFactory.create => className.method 
+   Here "create" method is static method
+ static methods are called without creating instances
+
+How to create object?
+
+   new ClassName() =>constructor pattern
+   className.createInstance() =>Factory Pattern /Builder Pattern  
+
+create methods take "AppModule" as parameter.
+
+AppModule is object which encapuslate other objects
+
+Every NestJs application "must have one single Root /App Module"
+
+Every AppModule must have one single Controller called "Main Controller/App Controller"
+
+.....................................................................................
+			  Nest Web Service
+
+By default nest app is encapulsted with "RESTAPI".
+
+if you want to run web service(restapi), you need web server and container.
+
+Nest application also need web container.
+
+By default nest nest applications are running on the top of "express" 
+
+Express provides low level web container features
+
+express: 
+ const express =require('express')
+
+ const app = express()
+
+ app.listen(3000,()=>{});			
+
+  'Nest application can be executed on even in another container too "Fastify" '
+....................................................................................
+How to write module?
+
+ Module is logical contaniner which encasulates other objects like controllers,services...other submodules
+
+Whether you create main module or submodule , the syntax remains same.
+
+In nest every thing is object including module,
+ in order to create object we need class.
+
+Step 1: Declare class and you have share the class so that other class or program can use (You have to use es 6 export or export default keyword).
+
+export class AppModule {
+  
+}
+
+Step 2: 
+ we need to create object for the class.
+ you need to say what type of object you create? (domain or infra)
+ In case of infra object we never create object using new Constructor().
+ Nest provides a feature called "IOC container" Which is program , responsiable for 
+ creating objects
+ How to tell to the IOC Container that go and create object?
+   Via "Decorators"
+ in order to create module object "@Module"  decorator is used.
+ 
+import { Module } from "@nestjs/common";
+
+//in order to qualify this is Module object
+@Module()
+export class AppModule {}
+
+Decorator Meta Data:
+.....................
+  The Decorator may or may not take parameters.
+  Parameter value can any type like primtives or object or array.
+@Module parameter:
+  It takes object as parameter.
+
+ "Ioc container not only create objects but also properly link all dependencies"
+
+Decorator Meta Data takes configuration which is information for "Nest" IoC container.
+
+
+//parameters are used to link objects
+@Module({
+  imports: [],
+  controllers: [],
+  providers: []
+})
+imports:[]
+   -All submodules like usermodule,product module
+controllers:
+   -List of controllers part of this module
+providers:
+   -List of services to be created
+....................................................................................
+			 Controllers
+....................................................................................
+
+Controller is also object which is created by Nest IOC container
+
+Step 1: Declare class and export
+export class AppController { 
+  
+}
+Step 2: Decorate as controller
+
+@Controller()
+export class AppController { 
+
+}
+parameter is empty which means root "/" without route.
+
+Step 3: Write http based apis.
+ 
+Nest provides to mark api which to be communicated by http clients using HTTP verbs
+ "GET,POST,DELETE,PUT"
+
+import { Controller, Get } from "@nestjs/common";
+
+@Controller()
+export class AppController {
+  constructor() { }
+  //apis
+  @Get() // http get method
+  public hello(): string {
+    return 'Hello Nest App!'
+  }
+}
+How to write module?
+
+ Module is logical contaniner which encasulates other objects like controllers,services...other submodules
+
+Whether you create main module or submodule , the syntax remains same.
+
+In nest every thing is object including module,
+ in order to create object we need class.
+
+....................................................................................
+			   Service Object
+....................................................................................
+
+Service is layer where we write biz logic.
+
+Service is object , created by Nest ioc container.
+
+Steps:
+1.declare class and export
+
+
+export class AppService {
+  
+}
+
+2.Decorate the service with @Injectable
+
+import { Injectable } from "@nestjs/common";
+
+@Injectable()
+export class AppService {
+  constructor() { }
+  //biz logic
+  public sayHello(): string {
+    return "Hello Nest App!";
+  }
+}
+
+3.Configure the service inside module -AppModule
+
+ providers:[AppService]
+ import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class AppService {
+  constructor() {}
+  //biz logic
+  public sayHello(): string {
+    return 'Hello Nest App!!';
+  }
+}
+...................................................................................
+		How to write Our own module,controller,service
+...................................................................................
+src/users/users.service.ts
+import { Injectable } from "@nestjs/common";
+
+@Injectable()
+export class UserService {
+
+    public findAll(): string {
+        return "Users"
+    }
+}
+
+src/users/users.controller.ts
+import { Controller, Get } from "@nestjs/common";
+import { UserService } from "./user.service";
+
+@Controller("/users")
+export class UserController {
+    constructor(private userService: UserService) { }
+
+    @Get()
+    public findAll(): string {
+        return this.userService.findAll();
+    }
+}
+
+src/users/users.module.ts
+import { Module } from "@nestjs/common";
+import { UserService } from "./user.service";
+import { UserController } from "./user.controller";
+
+
+@Module({
+    imports: [],
+    controllers: [UserController],
+    providers: [UserService]
+})
+export class UserModule {
+
+}
+
+src/app.module.ts
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { UserModule } from "./users/user.module";
+
+//This configuration for creating object
+@Module({
+  imports: [UserModule], //subModule
+  controllers: [AppController], //Controllers creation
+  providers: [AppService] //Service Creation
+})
+export class AppModule {
+
+}
+...................................................................................
+			How to structure Nest Application
+			    (Nest style guide)
+....................................................................................
+
+Nest Application must be modularizied.
+
+Every Nest application is created based on "features/domain"
+
+A feature module simply organizes the code relevant for a sepcific feature, keeping
+code organized and establilishing clear boundaries.
+This helps us manage complexity and develop with "SOLID" principles, as the size of the project/app team grows..
+
+products,customers,payments,....
+common/util
+
+You have to create sub folder which represents domain /feature
+
+src
+|
+heroes
+  |
+   hero.controller
+   hero.service
+   hero.module
+villains
+  villain.controller
+  villain.service
+  villain.module
+
+shared
+ shared.module.ts
+ filter-text.service.ts
+
+
+2.plan Logical  modularity
+
+=>For each domain, we must have logical modularity - sub module
+
+heroes
+   hero
+   hero-list
+   shared
+   heroes.module.ts
+
+All controllers and services related to that domain, must be injected into that submodule only, not inside main/app module.
+
+rootFolder - src
+   Must contain only root module and root Controller
+
+File structure conventions:
+...........................
+
+->file must follow the domain model.
+   greet
+   user
+   product
+   customer
+->file name must follow like
+  domainname.infraname.ts
+  
+  greet.module | service |controller |guard | pipe .ts | spec.ts
+
+  greet.module.ts
+  greet.controller.ts
+  greet.service.ts
+  greet.controller.spec.ts
+
+->class Names
+   ->Noun Customer,Product,Greeter
+	Customer|Module|Service|Controller
+
+   ->It has to end With infra Objects
+     CustomerModule
+     CustomerController
+     CustomerService
+
+->root files
+   app.controller|module|service
+
+if you have any dto/models/entities and interfaces
+  
+ src
+  |
+   heroes
+     |
+     dto
+       | 
+       hero.dto.ts
+    interfaces
+       hero.interface.ts
+
+Eg:
+...
+Greeter :Domain
+
+Step: 0 : create folder
+src/greeter
+Step: 1 Create SubModule
+
+src/greeter/greeter.module.ts
+import { Module } from '@nestjs/common';
+
+@Module({
+  imports: [],
+  controllers: [],
+  providers: [],
+})
+export class GreeterModule {}
+
+Step 2:create Service layer
+import { Injectable } from "@nestjs/common/decorators";
+
+@Injectable()
+export class GreeterService {
+    constructor() { }
+
+    //apis 
+    public sayGreet(): string {
+        return 'Greet to Nest App'
+    }
+
+}
+
+Dependency Configuration:
+src/greeter/greeter.module.ts
+import { Module } from '@nestjs/common';
+import { GreeterService } from './greeter.service';
+
+@Module({
+  imports: [],
+  controllers: [],
+  providers: [GreeterService],
+})
+export class GreeterModule {}
+
+
+Step 3: write controller 
+import { Controller, Get } from "@nestjs/common";
+import { GreeterService } from "./greeter.service";
+
+
+@Controller('api/greeter')
+export class GreeterController {
+    constructor(private greeterService: GreeterService) { }
+
+    //HTTP apis
+    @Get()
+    public sayGreet(): string {
+        return this.greeterService.sayGreet();
+    }
+}
+
+Dependency Configuration:
+import { Module } from '@nestjs/common';
+import { GreeterController } from './greeter.controller';
+import { GreeterService } from './greeter.service';
+
+@Module({
+    imports: [],
+    controllers: [GreeterController],
+    providers: [GreeterService],
+})
+export class GreeterModule { }
+
+Step 4:
+ Configure GreeterModule inside AppModule.
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { AppService } from "./app.service";
+import { GreeterModule } from "./greeter/greeter.module";
+
+
+//in order to qualify this is Module object
+@Module({
+  imports: [GreeterModule], // if AppModule has any submodules as dependency
+  controllers: [AppController], // if AppModule has controller as dependency
+  providers: [AppService]  // if AppModule has Service as Dependency.
+})
+export class AppModule { }
+
+....................................................................................
+eg:
+nest g mo users
+
+CREATE src/users/users.module.ts (82 bytes)
+UPDATE src/app.module.ts (313 bytes)
+
+src/users/users.module.ts
+import { Module } from '@nestjs/common';
+
+@Module({})
+export class UsersModule {}
+
+src/app.module.tsimport { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { GreeterModule } from "./greeter/greeter.module";
+import { UsersModule } from './users/users.module';
+
+@Module({
+  imports: [GreeterModule, UsersModule],
+  controllers: [AppController]
+})
+export class AppModule { }
+
+Service:
+nest g s users/user --flat
+CREATE src/users/user.service.ts (88 bytes)
+CREATE src/users/user.service.spec.ts (446 bytes)
+UPDATE src/users/users.module.ts (241 bytes)
+
+
+controller:
+G:\Marsh\nodejs\nest-app>nest g co customer/customer --flat
+CREATE src/customer/customer.controller.ts (109 bytes)
+CREATE src/customer/customer.controller.spec.ts (524 bytes)
+UPDATE src/customer/customer.module.ts (272 bytes)
+
+In the above steps , still we have to run multiple commands 
+...................................................................................
+....................................................................................
+			    Building REST API
+...................................................................................	
+
+Controllers
+Routing
+Request Objects
+Resources
+Status and Headers
+Request Parameters
+Request Payload
+
+Controllers:
+  Controllers are responsible for handling client request and generate responses..
+
+Routing:
+  The Routing is mechanism controls which controller receives which requests.
+  Generally a Controller can have more than one Route , different route can perfrom   different actions.
+
+Decorators:
+ @Controller() => without parameter
+ @Controller('users') => root route
+
+HTTP method decorators
+ @Get => get req => GET /rootRoute eg  ; GET /users
+ @Post=> POST req
+ @Put => Update req
+ @Delete => Delete Req.
+
+....................................................................................
+			 CURD operations
+....................................................................................
+Eg:
+
+user/user.service.ts
+import { Injectable } from '@nestjs/common';
+
+@Injectable()
+export class UserService {
+  constructor() {}
+  //users api
+  //CURD operations
+  public findAll(): string {
+    return 'users';
+  }
+  public save(): string {
+    return 'save';
+  }
+  public update(): string {
+    return 'update';
+  }
+  public remove(): string {
+    return 'remove';
+  }
+}
+
+user/user.controller.ts
+import { Controller, Delete, Get, Post, Put } from '@nestjs/common';
+import { UserService } from './user.service';
+
+@Controller('users')
+export class UserController {
+    constructor(private userService: UserService) { }
+    // Get /users
+    @Get()
+    findAll(): string {
+        return this.userService.findAll()
+    }
+    @Post()
+    save(): string {
+        return this.userService.save()
+    }
+    @Delete()
+    remove(): string {
+        return this.userService.remove()
+    }
+    @Put()
+    update(): string {
+        return this.userService.update()
+    }
+}
+			 
+.....................................................................................
+			   Nest CURD Generator
+...................................................................................
+
+Resource:
+  In RestFull web services, apis are defined or structured as resources.
+  Resource represents domain eg: "UserResource,ProduceResource,CustomerResource"
+
+Why CURD Generator?
+
+ Without Curd generator for a domain/resource,you have to write so many steps
+
+  => Generate module -> nest g mo
+  => Generate a controller -> nest g co 
+  => Generate a service -> nest g s
+  => Generate a generate entity 
+
+ With Curd generator you can do every thing with single command.
+
+Generate a new Resource
+
+ nest g resource 
+   =>creates a module,controller,service,entity class,DTO ,spec files...
+
+eg
+nest g resource products
+? What transport layer do you use? REST API
+? Would you like to generate CRUD entry points? Yes
+CREATE src/products/products.controller.ts (957 bytes)
+CREATE src/products/products.controller.spec.ts (596 bytes)
+CREATE src/products/products.module.ts (268 bytes)
+CREATE src/products/products.service.ts (651 bytes)
+CREATE src/products/products.service.spec.ts (474 bytes)
+CREATE src/products/dto/create-product.dto.ts (33 bytes)
+CREATE src/products/dto/update-product.dto.ts (181 bytes)
+CREATE src/products/entities/product.entity.ts (24 bytes)
+UPDATE package.json (1975 bytes)
+UPDATE src/app.module.ts (707 bytes)
+√ Packages installed successfully.
+.....................................................................................
+.....................................................................................
+			 Status Code,Headers,Responses
+...................................................................................
+
+Status Code :
+   By default Nest returns status code based on http operations
+ Get - 200
+ Post -201
+if you want to change the status, you can use @HttpCode decorator.
+
+import { Controller,Get, HttpCode } from '@nestjs/common';
+
+@Controller('users')
+export class UserController {
+
+    @Get()
+    @HttpCode(200)
+    public findAll():string {
+        return 'Users'
+    }
+    //
+    @Get("list")
+    public listAll():string {
+        return 'user list'
+    }
+}
+.....................................................................................					Headers
+
+There are two types of headers
+
+1.Response header which is sent by server
+2.Request Header which is sent by client to the server
+
+Nest sends default headers automatically.
+
+x-Powered-By:express  -  the underlying web container of nest 
+content-type - the type of value we return
+ based on data type , the contenttype would be changed
+etc...
+
+What if i want to send headers?
+
+it can be custome header, or built in header.
+
+We have @Header decorator
+    @Get()
+    @HttpCode(200)
+    @Header("secret","abc#239a")
+    public findAll(): string {
+        return 'Users'
+    }
+.....................................................................................
+				Response types
+.....................................................................................
+
+Nest automatically parses the content based on the return type
+ Primitives -  string 
+  default would be 
+      content-type text/html; charset=utf-8
+
+  Object
+     if you send object, nest converts into json, adds header 
+   application/json
+
+How to return object?
+
+    @Get("user")
+    public findUser(): any {
+        return {
+            id: 1,
+            name: 'Subramanian'
+        }
+    }
+Here return type is any, we need to change the return type.
+
+users/user.type.ts
+
+export class User {
+    id: number
+    name: string
+}
+
+ @Get("user")
+ public findUser(): User {
+        return {
+            id: 1,
+            name: 'Subramanian'
+        }
+  }		
+
+How to return array of users?
+    @Get("list")
+    public listAll(): Array<User> {
+        return [
+            {
+                id: 1,
+                name: 'Subramanian'
+            },
+            {
+                id: 2,
+                name: 'Ram'
+            },
+            {
+                id: 3,
+                name: 'Arun'
+            }
+        ]
+    }
+....................................................................................
+				Payload
+....................................................................................
+
+As of now we have sent data over "URL" 
+  => /users/1
+  => /users/filter?order=asc
+
+if you want to send data over payload - like customers,payments,products as json
+thats where payload comes into picture.
+
+
+@Body - reads data
+req.body -reads data
+
+
+Steps:
+
+1.
+@Post("create")
+public create(){
+   return "user created"
+}
+
+2.read payload
+ @Post("create")
+  public create(@Body() payload){
+        console.log(payload)
+        return "user created"
+    }
+}
+
+3.if you are using ts, you need to create type for incoming payload
+ DTO - Data transfer object
+
+A DTO is an object that defines how the data will be sent over the network.
+We can define DTO schema by using ts interface,class or type keyword.
+Nest recommends only classes because classes are part of es 6 standard, suppose if later if you want to migrate code to js stack it will not be any issues
+
+src/users/create-user.dto.ts
+
+export class CreateUserDto {
+    id: number;
+    name: string;
+    age: number;
+    status: boolean
+}
+  //read body
+    @Post("create")
+    public create(@Body() createUserDto: CreateUserDto) {
+        console.log(createUserDto)
+        return "user created"
+    }
+........
+import { Injectable } from '@nestjs/common';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './user.type';
+
+@Injectable()
+export class UserService {
+  constructor() { }
+  //users api
+  //CURD operations
+  public findAll(): Array<User> {
+    return [
+      { id: 1, name: 'Subramanian Murugan', email: 'subu@gmail.com' },
+      { id: 1, name: 'admin', email: 'admin@gmail.com' }
+    ]
+  }
+  public save(user: CreateUserDto): string {
+    console.log(user)
+    return 'save';
+  }
+  public update(): string {
+    return 'update';
+  }
+  public remove(): string {
+    return 'remove';
+  }
+}
+.................................................................................
+................................................................................				Asynchronicity -Async Respsonse
+..................................................................................
+
+By default node is async,so we can send responses asyncly.
+
+if you talk to database, it may delay...
+
+Styles of async programming:
+1.callbacks
+2.Promises 
+3.Promises with async and await
+4.Rxjs => Nest has integrated rxjs for advanced async operations with streaming           support
+
+
+If response type is String or object or Array - Which is sync call
+if response type is Promise or Rxjs-Observable - Which is async call
+
+eg:
+type:
+
+export class User {
+    id: number;
+    name: string;
+    email?: string
+    status?:boolean
+}
+
+service
+user.service.ts
+import { Injectable } from '@nestjs/common';
+import { filter, Observable, of, map } from 'rxjs';
+import { CreateUserDto } from './dto/create-user.dto';
+import { User } from './user.type';
+
+//mock data
+const USERS: User[] = [
+  { id: 1, name: 'Subramanian Murugan', email: 'subu@gmail.com',status:true },
+  { id: 2, name: 'admin1', email: 'admin1@gmail.com',status:false  },
+  { id: 3, name: 'admin2', email: 'admin2@gmail.com',status:true  },
+  { id: 4, name: 'admin3', email: 'admin3@gmail.com',status:false  },
+  { id: 5, name: 'admin4', email: 'admin4@gmail.com',status:true  },
+
+];
+@Injectable()
+export class UserService {
+  constructor() { }
+  //users api
+  //CURD operations
+  //sync api
+  public findAll(): Array<User> {
+    return [
+      { id: 1, name: 'Subramanian Murugan', email: 'subu@gmail.com',status:true },
+      { id: 2, name: 'admin1', email: 'admin1@gmail.com',status:false  },
+      { id: 3, name: 'admin2', email: 'admin2@gmail.com',status:true  },
+      { id: 4, name: 'admin3', email: 'admin3@gmail.com',status:false  },
+      { id: 5, name: 'admin4', email: 'admin4@gmail.com',status:true  },
+
+    ];
+  }
+
+  //return promise
+  public findAllAsync(): Promise<Array<User>> {
+    return new Promise((resolve, reject) => {
+      setTimeout(resolve, 100, USERS);
+    });
+  }
+  //return Observable
+  public findAllReactive(): Observable<User[]> {
+    return of(USERS).pipe(map(results => results.filter(user => {
+      return user.status ===true
+    })));
+  }
+  public save(user: CreateUserDto): string {
+    console.log(user);
+    return 'save';
+  }
+  public update(): string {
+    return 'update';
+  }
+  public remove(): string {
+    return 'remove';
+  }
+}
+
+controller:
+import {
+    Controller,
+    Delete,
+    Get,
+    Post,
+    Put,
+    HttpCode,
+    Header,
+    Res,
+    Param,
+    Query,
+    Body,
+} from '@nestjs/common';
+import { Observable } from 'rxjs';
+import { CreateUserDto } from './dto/create-user.dto';
+import { UserService } from './user.service';
+import { User } from './user.type';
+
+@Controller('users')
+export class UserController {
+    constructor(private userService: UserService) { }
+    // Get /users
+    @Get()
+    @HttpCode(200)
+    @Header('secret', 'A$%#$3434') // custom header
+    findAll(): Array<User> {
+        return this.userService.findAll();
+    }
+
+    //async api 
+    @Get('async')
+    findAllAsync(): Promise<User[]> {
+        return this.userService.findAllAsync();
+    }
+    @Get('reactive')
+    findAllReactive(): Observable<User[]> {
+        return this.userService.findAllReactive();
+    }
+
+    //express way of writting.
+    @Get('express')
+    //@Res will get Express Response Object as dependency
+    public findAllUsingExpress(@Res() response) {
+        //express style code:
+        return response.status(200).json({ id: 1, name: 'something' });
+    }
+    @Get('query')
+    public query(@Query() queryparams): any {
+        console.log(queryparams)
+        return queryparams
+    }
+
+    //path parameters
+    //   @Get(':id') // which is dynamic value
+    //   findOne(@Param() params):string{
+    //       console.log(params)
+    //      return `${params.id}`;
+    //   }
+    @Get(':id') // which is dynamic value
+    findOne(@Param('id') id: string): string {
+        return `${id}`;
+    }
+
+    //return a user
+    @Get('user')
+    getUser(): User {
+        //object is returned
+        //nest converts this object into json.
+        return {
+            id: 1,
+            name: 'Subramanian Murugan',
+            email: 'sasubramanian_md@hotmail.com',
+        };
+    }
+
+    @Post()
+    save(@Body() user: CreateUserDto): string {
+        return this.userService.save(user);
+    }
+    @Delete()
+    remove(): string {
+        return this.userService.remove();
+    }
+    @Put()
+    update(): string {
+        return this.userService.update();
+    }
+}
+.....................................................................................
+			 Handling Errors 
+.....................................................................................
+
+How to handle errors in Nest?
+ Nest comes with built in exception layer which is used for processing all unhandled exceptions across application.
+ Nest provides global exception handler.
+ if exception is not handled in the application code, it is caught by this layer which then automatically sends an appropriate userfriendly responses.
+
+Filters:
+  Filter is a code gets executed automatically when some thing happens
+  Errors/Exceptions are handled by "Filters".
+
+ There is a built in filter provided by Nest to handle global Errors and its type is
+ "HttpException"
+
+Global Error handler throws an error in form of json
+
+  { 
+   "statusCode":500,
+    "message" : "Internal Server error"
+ }
+
+How to throw exception?
+
+simple 
+ @Get('error')
+    doSomething() {
+        throw new HttpException("You are restricted to access this resource", HttpStatus.FORBIDDEN)
+    }
+
+With Biz logic
+  @Get(':id') // which is dynamic value
+    findOne(@Param('id') id: number): string {
+        //biz logic to ensure that id must be greater than 5
+        if (id >= 5) {
+            return `${id}`;
+        } else {
+            throw new HttpException('The id which is requested not found',HttpStatus.NOT_FOUND)
+        }
+
+With Promise:
+
+Controller:
+
+ @Get(':id') // which is dynamic value
+  async findOne(@Param('id') id: number): Promise<any> {
+    //biz logic to ensure that id must be greater than 5
+    // if (id >= 5) {
+    //     return `${id}`;
+    // } else {
+    //     throw new HttpException('The id which is requested not found',HttpStatus.NOT_FOUND)
+    // }
+    try {
+      const res = await this.userService.findById(id);
+      return res;
+    } catch (err) {
+      throw new HttpException(
+        { status: HttpStatus.NOT_FOUND, error: 'something went wrong' },
+        HttpStatus.NOT_FOUND,
+        { cause: err },
+      );
+    }
+  }
+
+Service api:
+ public findById(id: number): Promise<any> {
+    return new Promise((resolve, reject) => {
+      if (id >= 5) {
+        setTimeout(resolve, 100, id)
+      } else {
+        setTimeout(reject, 100, 'Id Not found')
+      }
+    })
+  }
+.....................................................................................
+.....................................................................................
+				Built in Exception Classes
+
+Nest provides lot built in exception classes
+
+HttpException is a base class for all Exception
+
+eg:
+ BadRequestException
+ RequestTimeoutException
+ NotAcceptableException
+ etc........
+
+Apart from these exceptions i want to write Biz Exceptions we call custom exceptions
+
+useridnotfound.exception.ts
+
+import { HttpException } from "@nestjs/common";
+
+
+export class UserIdNotFoundException extends HttpException {
+    constructor(message: string, status) {
+        super(message, status)
+    }
+}
+
+How to use this?
+ @Get(':id') // which is dynamic value
+  async findOne(@Param('id') id: number): Promise<any> {
+    //biz logic to ensure that id must be greater than 5
+    // if (id >= 5) {
+    //     return `${id}`;
+    // } else {
+    //     throw new HttpException('The id which is requested not found',HttpStatus.NOT_FOUND)
+    // }
+    try {
+      const res = await this.userService.findById(id);
+      return res;
+    } catch (err) {
+      // throw new HttpException(
+      //   { status: HttpStatus.NOT_FOUND, error: 'something went wrong' },
+      //   HttpStatus.NOT_FOUND,
+      //   { cause: err },
+      // );
+      throw new UserIdNotFoundException('User id Not Found',HttpStatus.NOT_FOUND)
+    }
+  }
+
+....................................................................................
+			 Customization of Error Messages
+				(Filters)
+....................................................................................
+
+Generally Error Messages are generated by Nest Exception layer.
+if you want to controll or alter the Exception layer for eg i want to add logging feature or i want different JSON schema based on some biz logic.
+
+Solution is Exception Filters
+
+if you want to alter the flow of exception handling, you need to capture request and response underlying objects
+
+How to write filter?
+
+1.write a class 
+2.implement an interface called "ExceptionFilter"
+
+import { ArgumentsHost, Catch, ExceptionFilter, HttpException } from "@nestjs/common";
+import { Response, Request } from 'express'
+
+
+@Catch(HttpException)
+export class HttpExceptionFilter implements ExceptionFilter {
+    catch(exception: HttpException, host: ArgumentsHost) {
+        //read host(express/fastify) parameters
+        const ctx = host.switchToHttp();
+        const response = ctx.getResponse<Response>()
+        const request = ctx.getRequest<Request>()
+        const status = exception.getStatus()
+
+        //prepare custom error response 
+        response.status(status)
+        .json({ statusCode: status, timesStamp: new Date().toISOString(), path: request.url })
+
+    }
+}
+
+How to use this filter in your code? How to bind filter?
+
+ @Get('error')
+  @UseFilters(new HttpExceptionFilter())
+  doSomething() {
+    throw new ForbiddenException();
+  }
+.....................................................................................
+			   Middlewares
+....................................................................................
+
+What is Middleware?
+  Middleware is a function which is called before the route handler.
+ 
+Client request----------------->Router---Handles req and send Response
+
+Client request--------Middleware--------->Router---Handles req and send Response
+
+Role of Middlewares:
+1.execute any code
+2.if you want request and response objects
+3.terminate request-response cycle
+4.you can chain the middlewares
+
+Use Cases:
+=>logging
+=>Authentication token processing
+=>location based access
+
+Steps:
+
+1.write a class 
+2.implement an interface called "NestMiddleware"
+3.over ride method called "use"
+4.use method takes "express request,response,next" args.
+
+Note:
+ Middleware can be written for specific routes or global routes.
+
+import { Injectable, NestMiddleware } from '@nestjs/common';
+import { Request, Response, NextFunction } from 'express';
+
+@Injectable()
+export class LoggerMiddleware implements NestMiddleware {
+  use(req: Request, res: Response, next: NextFunction) {
+    //middleware logic : logging
+    console.log(`URL => ${req.url}`);
+    console.log(`Method=> ${req.method}`);
+    console.log(`Date =>`, new Date().toISOString);
+    //you must call next : function  moving to next middleware
+    next();
+  }
+}
+How to activate middlewares?
+
+ Incase of global middleware
+
+Global Middlewares:
+if you want to apply middlewares for every request and every method in the application -  Global Middlewares
+
+Global Middlewares are registeried in the main that means application object.
+
+import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { GreeterModule } from './greeter/greeter.module';
+import { UsersModule } from './users/users.module';
+import { ProductsModule } from './products/products.module';
+import { LoggerMiddleware } from './middlewares/logger.middleware';
+
+//in order to qualify this is Module object
+@Module({
+  imports: [GreeterModule, UsersModule, ProductsModule], // if AppModule has any submodules as dependency
+  controllers: [AppController], // if AppModule has controller as dependency
+  providers: [AppService], // if AppModule has Service as Dependency.
+})
+export class AppModule implements NestModule {
+  configure(consumer: MiddlewareConsumer) {
+    console.log('middleware');
+    consumer.apply(LoggerMiddleware).forRoutes('*');
+  }
+}
+....................................................................................
+				....................................................................................
+			  Database Integration
+....................................................................................
+
+Nest js is database independant.
+You can integrate any database including sql and nosql.
+You can select any database based on your client or project req.
+
+			     Basic Arch
+
+				Nest App
+				   |
+			        Database Drivers
+				   |
+				Node Runtime
+				    |
+				 DataBase
+
+Database drivers are just js npm packages.
+
+if you are working in plain js node app or express app.
+  https://expressjs.com/en/guide/database-integration.html#mysql
+
+In in the begining in nodejs database access was very hard because we have to write all database operations in imperative way.
+.....................................................................................
+				ORM Frameworks
+.....................................................................................
+What is ORM?
+  Object Relational Mapping is  a concept to map database operations in object oriented way.
+ Object Relational Mapping (ORM) is a technique used in creating a "bridge" between object-oriented programs and, in most cases, relational databases.
+
+ORM is a spec helps to access database informations in object oriented way.
+
+Implementation of ORM:
+.....................
+ The very first ORM was implemented in "java EJB System".
+ Later the framework was created called "Hibernate"
+ Later the ORM standarized by spec called "JPA" -java Persistency Api.
+ Other Languages and frameworks started introducing orm frameworks..
+
+Node js javascript(typescript) based ORMs:
+.........................................
+ Now a days we have so many frameworks available in the market.
+ Nest js provides abstractions on the top of most popular orm frameworks
+
+Nest js ORM framework:
+......................
+=>MikroORM
+=>Sequelize
+=>TypeORM
+=>Prisma => It is more popular today..
+=>Knex => for suitable for oracle integration
+=>mongoose=>ODM framework fro Mongodb
+
+You can consider 
+=>TypeOrm
+=>Sequelize
+=>Prisma
+=>Mongoose
+.....................................................................................
+			Mongoose Integration
+....................................................................................
+
+Steps:
+
+1.create new app
+G:\Marsh\nodejs>nest new mongo-nest
+2.start mongodb
+
+3.install database drivers
+  npm i @nestjs/mongoose mongoose
+
+4.We have configure Mongodb connections, via module
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
+import { MongooseModule } from '@nestjs/mongoose';
+
+@Module({
+  imports: [MongooseModule.forRoot('mongodb://localhost:27017/myDb')],
+  controllers: [AppController],
+  providers: [AppService],
+})
+export class AppModule {}
+
+5.defin schema
+import { Schema, Prop, SchemaFactory } from "@nestjs/mongoose";
+import { HydratedDocument } from "mongoose";
+
+export type UserDocument = HydratedDocument<User>
+
+@Schema()
+export class User {
+    //fields
+    @Prop()
+    name: string
+    @Prop()
+    email: string
+}
+export const UserSchema = SchemaFactory.createForClass(User)
+
+6.dto classes
+src/user/dto/user-create-dto.ts
+export class CreateUserDto {
+    name: string
+    email: string
+}
+src/user/dto/user-update-dto.ts
+export class UpdateUserDto {
+    email: string
+}
+
+7.module
+import { Module } from "@nestjs/common";
+import { MongooseModule,} from "@nestjs/mongoose";
+import { UserSchema, User } from "src/schemas/user.schema";
+
+
+@Module({
+    imports: [MongooseModule.forFeature([{ name: User.name, schema: UserSchema }])],
+    controllers: [],
+    providers: []
+})
+export class UserModule {
+
+}
+
+8.Service:
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { User } from "src/schemas/user.schema";
+
+@Injectable()
+export class UserService {
+    constructor(@InjectModel(User.name) private userModel: Model<User>) { }
+
+    async findAll(): Promise<User[]> {
+        return this.userModel.find().exec()
+    }
+}
+
+9.Controller:
+import { Controller, Get } from "@nestjs/common";
+import { UserService } from "./user.service";
+import { User } from "src/schemas/user.schema";
+
+
+@Controller('users')
+export class UserController {
+    constructor(private readonly userService: UserService) { }
+
+    @Get()
+    public findAll(): Promise<User[]> {
+        return this.userService.findAll()
+    }
+
+} 
+...................................................................................
+			save,findByid,delete
+..................................................................................
+import { Injectable } from "@nestjs/common";
+import { InjectModel } from "@nestjs/mongoose";
+import { Model } from "mongoose";
+import { User } from "src/schemas/user.schema";
+import { CreateUserDto } from "./dto/create-user-dto";
+
+@Injectable()
+export class UserService {
+    constructor(@InjectModel(User.name) private userModel: Model<User>) { }
+
+    async findAll(): Promise<User[]> {
+        return this.userModel.find().exec()
+    }
+    async findOne(id: string): Promise<User> {
+        return this.userModel.findOne({ _id: id }).exec()
+    }
+
+    async create(createUserDto: CreateUserDto): Promise<User> {
+        const createdUser = await this.userModel.create(createUserDto)
+        return createUserDto
+    }
+    async delete(id: string) {
+        const deletedUser = await this.userModel.findByIdAndDelete({ _id: id }).exec()
+        return deletedUser
+    }
+}
+
+import { Body, Controller, Delete, Get, HttpCode, Param, Post } from "@nestjs/common";
+import { UserService } from "./user.service";
+import { User } from "src/schemas/user.schema";
+import { CreateUserDto } from "./dto/create-user-dto";
+
+
+@Controller('users')
+export class UserController {
+    constructor(private readonly userService: UserService) { }
+
+    @Get()
+    public findAll(): Promise<User[]> {
+        return this.userService.findAll()
+    }
+
+    @Get(":id")
+    async findById(@Param("id") id: string): Promise<User> {
+        return this.userService.findOne(id)
+    }
+
+    @Post()
+    @HttpCode(201)
+    public create(@Body() createUserDto: CreateUserDto): Promise<User> {
+        return this.userService.create(createUserDto)
+    }
+
+    @Delete(":id")
+    async remove(@Param("id") id: string) {
+        return this.userService.delete(id)
+    }
+} 
