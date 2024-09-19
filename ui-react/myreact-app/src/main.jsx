@@ -1,10 +1,10 @@
+
+import React from 'react'
 import { createRoot } from 'react-dom/client'
+import { Page } from './page'
 
-//create dom element
-// const Heading = document.createElement('h1') //plain js
-const Heading = <h1>Hello React</h1>  // react jsx code
+const App = () => {
+    return <Page />
+}
 
-// const rootElemement = document.getElementById('root')
-// createRoot(rootElemement).render(Heading)
-
-createRoot(document.getElementById('root')).render(Heading)
+createRoot(document.getElementById('root')).render(<App />)

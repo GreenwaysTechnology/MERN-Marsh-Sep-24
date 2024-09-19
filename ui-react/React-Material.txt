@@ -569,17 +569,418 @@ createRoot(rootElemement).render(Heading)
 or 
 createRoot(document.getElementById('root')).render(Heading)
 ....................................................................................
+.....................................................................................
+	JSX - java script and XML - langugage to create User interfaces
+.....................................................................................
+
+React uses declarative dom programing using a mini language invented by facebook : JSX
+
+JSX : - javascript xml
+
+ 1.PL language built by face book to write user interfaces.
+ 2.JSX is collection of html markup and javascript.
+ 3.JSX is dsl and declarative.
+ 4.Every device has its own jsx language syntax.
+ 5.Browsers jsx can't be used for building mobile application.
+
+Since jsx  is a language cant be executed on browser /mobile directly.
+.....................................................................................
+JSX compilation model:
+
+                   layout.js / layout.jsx
+		       |
+		    compiler - babel.js 
+			|
+		    plain js code
+			|-----------------------Dev cycle
+	----------------------------------------- -- Excution cycles Starts
+  Runtime : React Engine  compiled code feed into react engine
+			|
+		     Excute compiled js code : function calls
+			|
+	     create virtual Object tree (in browser V-dom)
+		        |
+		     Render Engine ; will convert react object tree into js dom object tree
+			|
+		   Flush the tree into target
+			|
+	--------------------------------------------
+        |      |
+     Browser  Mobile
+
+JSX is used to create dom elements.
+...................................................................................
+				   Component
+...................................................................................
+
+What is Component ?
+  Component is Object , Coined by MS in 1989.
+
+What is Component ?
+  Component is Object , Coined by MS in 1989.
+
+According to ms, Component is object which has state(data),behaviour(methods) + User interface(Visual).
+ eg:Button,TextBox,Grid,Menu,MenuBar,Layout,Table.....
+
+
+"React apps are made out of components. A Component is piece of the UI that has its own logic and appearance,
+
+Threre two libs 
+1.react.js  => to create component and manages all features related component.
+2.react-dom => Render engine
+react.js
+
+1.React
+  It top level class which provides all apis to create,delete,update components.
+
+
+react-dom.js
+
+2.ReactDOM
+   It is top level class which provides api to flush the v.dom into real dom.onent can be small as a button or as large as an entire Page"
+			..................................................................................
+			Component Creational patterns
+...................................................................................
+
+
+1.variable pattern
+2.functional pattern
+3.es 6 class pattern
+
+Components can be created any one or mixed way  style.
+		
+          "functional Pattern" is more popular and recommended pattern....
+
+
+
+import { createRoot } from 'react-dom/client'
+
+
+//Heading is just variable
+// <h1>Hello React</h1> is component
+const Heading = <h1>Hello React</h1>  // react jsx code
+createRoot(document.getElementById('root')).render(Heading)
+.....................................................................................
+
+
+import { createRoot } from 'react-dom/client'
+
+
+//functional component
+// function Heading() {
+//     return <h1>
+//         Hello React
+//    </h1>
+
+// }
+// const Heading = () => {
+//     return <h1>
+//         Hello React
+//     </h1>
+// }
+const Heading = () => <h1>
+    Hello React
+</h1>
+
+
+//createRoot(document.getElementById('root')).render(Heading())
+createRoot(document.getElementById('root')).render(<Heading></Heading>)
+
+createRoot(document.getElementById('root')).render(Hello())
+
+Here you are calling function "Hello()", which in returns dom element.
+
+This way of calling function is called "Imperative way".
+
+We need to call function using "Declarative way" - Readable way.
+
+React recommends to call function using html(xml) syntax. <Hello></Hello>
+
+....................................................................................
+			 class components
+...................................................................................
+
+Using ES6 Classes we can create components, now a days class components been deprecated.
+
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+
+class Heading extends React.Component {
+
+    render() {
+        return <h1>Hello React!!</h1>
+    }
+
+}
+
+createRoot(document.getElementById('root')).render(<Heading></Heading>)
+.....................................................................................
+.....................................................................................
+			Exploring JSX
+.....................................................................................
+
+JS-Javascript
+X -  XML
+
+Since HTML parser is weak, but when y write react code, we need consistent code generation.
+
+So that react team, developed compiler follows basic xml rules.
+
+
+Basic XML  rules:
+
+1.every opened element must be closed
+  <h1>Hello</h1>
+  <Welcome></Welcome>
+ some elements may not have closing tag
+  <img /> : image element has no child elements : self closing. 
+
+eg:
+
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+
+const Heading = ()=>{
+
+    return <h1>Hello 
+}
+
+createRoot(document.getElementById('root')).render(<Heading></Heading>)
+
+self closing:
+
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+
+const Heading = ()=>{
+    return <h1>Hello </h1>
+}
+
+createRoot(document.getElementById('root')).render(<Heading/>)
+....................................................................................
+
+2. In xml you must have one single root element.
+  all elements must be organized under single root element.
+
+ <h1>Welcome to React</h1>
+ <p>Path finder</p>
+
+In html what can be root element
+ <div>,<span>,all html 5 layout elements header,footer,section,aside...
+
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+
+const Heading = () => {
+    return <div><h1>Marsh McLennan</h1>
+        <p>Marsh McLennan is the world’s leading professional services firm in risk, strategy and people</p>
+    </div>
+}
+
+createRoot(document.getElementById('root')).render(<Heading />)
+
+
+In the above code, i have to use "div" element manually, if not ,it will throw error, some times i dont want root element
+
+.....................................................................................
+			  Fragments
+....................................................................................
+
+Fragements are used to wrap elements invisible way.
+
+Suppose if i dont want any root element, then we can use Fragement.
+
+Fragements are used to escape from compiler.
+		
+
+
+Syntax:
+
+ <React.Fragment></React.Fragement>
+
+ <Fragment></Fragement>
+
+ <></>
+
+const Heading = () => {
+    return <>
+        <h1>Marsh McLennan</h1>
+        <p>Marsh McLennan is the world’s leading professional services firm in risk, strategy and people</p>
+    </>
+}
+createRoot(document.getElementById('root')).render(<Heading />)
+
+....................................................................................
+
+Rule 3:
+    Every Component name must start with Uppercase, should be Noun.
+
+
+
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+
+const heading = () => {
+    return <>
+        <h1>Marsh McLennan</h1>
+        <p>Marsh McLennan is the world’s leading professional services firm in risk, strategy and people</p>
+    </>
+}
+createRoot(document.getElementById('root')).render(<heading />)
+
+Warning: The tag <heading> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
+    at heading
+.....................................................................................				UI Structure and React Components
+			 Component Composition
+.....................................................................................
+
+Components are created indivually, organized as tree.
+
+
+
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+
+const Heading = () => {
+
+    return <header>
+        <h1> Marsh McLennan</h1>
+    </header>
+}
+const Body = () => {
+
+    return <section>
+        <p>
+            Marsh McLennan is the world’s leading professional services firm in risk, strategy and people.
+        </p>
+        <p>
+            We bring together experts from across our four global businesses — Marsh, Guy Carpenter, Mercer and Oliver Wyman — to help make organizations more successful and societies more resilient
+        </p>
+    </section >
+}
+const Footer = () => {
+    return <footer>
+        <h3>Marsh McLennan is the leader in risk, strategy and people, helping clients navigate a dynamic environment through four global businesses</h3>
+    </footer>
+}
+
+const Page = () => {
+    return <>
+        <Heading />
+        <Body />
+        <Footer />
+    </>
+}
+const App = () => {
+    return <Page />
+}
+
+
+createRoot(document.getElementById('root')).render(<App/>)
+
+....................................................................................
+			Structuring React apps
+		  Component Composition and Modularity
+.....................................................................................
+
+Every Component will go into separate folders and files, through es 6 modules you can import export components..
+
+
+Every Component will go into separate folders and files, through es 6 modules you can import export components..
+
+https://legacy.reactjs.org/docs/faq-structure.html
+
+Is there a recommended way to structure React projects?
+
+React doesn’t have opinions on how you put files into folders. That said there are a few common approaches popular in the ecosystem you may want to consider.
+
+Grouping by features or routes
+
+common/
+  Avatar.js
+  Avatar.css
+  APIUtils.js
+  APIUtils.test.js
+feed/
+  index.js
+  Feed.js
+  Feed.css
+  FeedStory.js
+  FeedStory.test.js
+  FeedAPI.js
+profile/
+  index.js
+  Profile.js
+  ProfileHeader.js
+  ProfileHeader.css
+  ProfileAPI.js
+
+Grouping by file type
+api/
+  APIUtils.js
+  APIUtils.test.js
+  ProfileAPI.js
+  UserAPI.js
+components/
+  Avatar.js
+  Avatar.css
+  Feed.js
+  Feed.css
+  FeedStory.js
+  FeedStory.test.js
+  Profile.js
+  ProfileHeader.js
+  ProfileHeader.css
 
 
 
 
+const Page = () => {
+    return <div>
+        <Heading />
+        <Body />
+        <Footer />
+    </div>
+}
+const App = () => {
+    return <Page />
+}
+
+
+createRoot(document.getElementById('root')).render(<App/>)
+.....................................................................................
+				
+src/header/Header.jsx
+
+export const Heading = () => {
+    return <header>
+        <h1> Marsh McLennan</h1>
+    </header>
+}
+
+src/footer/Footer.jsx
+
+export const Footer = () => {
+    return <footer>
+        <h3>Marsh McLennan is the leader in risk, strategy and people, helping clients navigate a dynamic environment through four global businesses</h3>
+    </footer>
+}
+
+src/body/Body.jsx
+export const Body = () => {
+
+    return <section>
+        <p>
+            Marsh McLennan is the world’s leading professional services firm in risk, strategy and people.
+        </p>
+        <p>
+            We bring together experts from across our four global businesses — Marsh, Guy Carpenter, Mercer and Oliver Wyman — to help make organizations more successful and societies more resilient
+        </p>
+    </section >
+}
 
 
 
 
-
-
-
-
-
+		
 
