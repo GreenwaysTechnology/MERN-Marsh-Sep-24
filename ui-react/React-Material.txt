@@ -1164,24 +1164,504 @@ createRoot(document.getElementById('root')).render(
     </StrictMode>,
 )
 
+What if i use declarative syntax - <Profile >
+
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+//Profile Component : Profile information.
+//props is just variable Name, it can be any name
+//props value is just object, which collects all data sent from the parent component
+const Profile = (props) => {
+    console.log(props)
+    return <div>
+        <p>Id : {props.id}</p>
+        <p>Name:  {props.name}</p>
+        <p>Gender:  {props.gender}</p>
+        <p>Status : {props.status ? "Available" : "Not Available"}</p>
+    </div>
+}
+//Gallery Component : Displays many profiles
+
+const Gallery = () => {
+    //profile data
+    const id = 1
+    const name = "Subramanian"
+    const gender = "Male"
+    const status = true
+    return <>
+            <h1>Profile Information</h1>
+
+        {/* {Profile(id, name, gender, status)}
+        {Profile(2, 'Murugan', "Male", false)} */}
+        <Profile id={id} name={name} gender={gender} status={status} />
+        <Profile id={2} name="Murugan" gender="Male" status={true} />
+        <Profile id={3} name="Karthik" gender="Male" status={true} />
+        <Profile id={4} name="Arun" gender="Male" status={true} />
+        <Profile id={5} name="John" gender="Male" status={true} />
+        <Profile id={5} name="Ahmed" gender="Male" status={true} />
+
+    </>
+}
+
+const App = () => {
+    return <>
+        <Gallery />
+    </>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+.....................................................................................
+			  Default Props
+.....................................................................................
+
+if property not passed you can supply default props.
+
+How to supply default props?
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+//old way
+// const Profile = (props) => {
+//     return <div>
+//         <p>Id : {props.id}</p>
+//         <p>Name:  {props.name}</p>
+//         <p>Gender:  {props.gender}</p>
+//         <p>Status : {props.status ? "Available" : "Not Available"}</p>
+//     </div>
+// }
+// //default Profile Props
+// Profile.defaultProps = {
+//     id: 0,
+//     name: 'name',
+//     gender: 'Male',
+//     status: false
+// }
+
+//new way
+const Profile = ({ id = 0, name = "name", gender = "Male", status = true }) => {
+    return <div>
+        <p>Id : {id}</p>
+        <p>Name:  {name}</p>
+        <p>Gender:  {gender}</p>
+        <p>Status : {status ? "Available" : "Not Available"}</p>
+    </div>
+}
+
+
+const Gallery = () => {
+    const id = 1
+    const name = "Subramanian"
+    const gender = "Male"
+    const status = true
+    return <>
+        <h1>Profile Information</h1>
+
+        <Profile id={id} name={name} gender={gender} status={status} />
+        <Profile id={2} name="Murugan" gender="Male" status={true} />
+        <Profile id={3} name="Karthik" gender="Male" status={true} />
+        <Profile id={4} name="Arun" gender="Male" status={true} />
+        <Profile id={5} name="John" gender="Male" status={true} />
+        <Profile id={5} name="Ahmed" gender="Male" status={true} />
+        <Profile name="Marsh" />
+    </>
+}
+
+const App = () => {
+    return <>
+        <Gallery />
+    </>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+.....................................................................................
+			ES 6 Feature - Object destructuring
+....................................................................................
+
+
+// function display(profile) {
+//     //display values
+//     console.log(`Id ${profile.id}`)
+//     console.log(`Name ${profile.name}`)
+//     console.log(`Id ${profile.address.city}`)
+// }
+
+//using object destructuring , we can simplify object property display
+// function display(profile) {
+//     //syntax
+//     const { id, name, address } = profile
+//     console.log(`Id ${id}`)
+//     console.log(`Name ${name}`)
+//     console.log(`Id ${address.city}`)
+// }
+
+// function display(profile) {
+//     //syntax
+//     const { id, name, address: { city } } = profile
+//     console.log(`Id ${id}`)
+//     console.log(`Name ${name}`)
+//     console.log(`Id ${city}`)
+// }
+
+
+// function display({ id, name, address: { city } }) {
+//     console.log(`Id ${id}`)
+//     console.log(`Name ${name}`)
+//     console.log(`Id ${city}`)
+// }
+const display = ({ id, name, address: { city } }) => {
+    console.log(`Id ${id}`)
+    console.log(`Name ${name}`)
+    console.log(`Id ${city}`)
+}
+
+display({ id: 1, name: 'Subramanian', address: { city: 'Coimbatore' } })
+
+
+//return objects and destructuring
+
+// function getStockValues() {
+//     return {
+//         id: 1,
+//         name: 'google',
+//         value: 1000,
+//         qty: 100000
+//     }
+// }
+
+// function getStockValues(id = 1, name = 'google', value = 0, qty = 0) {
+//     return {
+//         id: id,
+//         name: name,
+//         value: value,
+//         qty: qty
+//     }
+// }
+// function getStockValues(id = 1, name = 'google', value = 0, qty = 0) {
+
+//     //key:variable if it is same, remove one variable and :
+//     return {
+//         id,
+//         name,
+//         value,
+//         qty
+//     }
+// }
+// const getStockValues = (id = 1, name = 'google', value = 0, qty = 0) => {
+//     return {
+//         id,
+//         name,
+//         value,
+//         qty
+//     }
+// }
+const getStockValues = (id = 1, name = 'google', value = 0, qty = 0) => ({
+    id,
+    name,
+    value,
+    qty
+})
+console.log(getStockValues(1, "google", 2000, 1222))
+console.log(getStockValues())
+
+.....................................................................................
+			 How to apply property destructuring
+.....................................................................................
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+// const Profile = (props) => {
+//     return <div>
+//         <p>Id : {props.id}</p>
+//         <p>Name:  {props.name}</p>
+//         <p>Gender:  {props.gender}</p>
+//         <p>Status : {props.status ? "Available" : "Not Available"}</p>
+//     </div>
+// }
+// const Profile = (props) => {
+//     const { id, name, gender, status } = props
+//     return <div>
+//         <p>Id : {id}</p>
+//         <p>Name:  {name}</p>
+//         <p>Gender:  {gender}</p>
+//         <p>Status : {status ? "Available" : "Not Available"}</p>
+//     </div>
+// }
+const Profile = ({ id, name, gender, status }) => <div>
+    <p>Id : {id}</p>
+    <p>Name:  {name}</p>
+    <p>Gender:  {gender}</p>
+    <p>Status : {status ? "Available" : "Not Available"}</p>
+</div>
+
+const Gallery = () => {
+    const id = 1
+    const name = "Subramanian"
+    const gender = "Male"
+    const status = true
+    return <>
+        <h1>Profile Information</h1>
+
+        {/* {Profile(id, name, gender, status)}
+        {Profile(2, 'Murugan', "Male", false)} */}
+        <Profile id={id} name={name} gender={gender} status={status} />
+        <Profile id={2} name="Murugan" gender="Male" status={true} />
+        <Profile id={3} name="Karthik" gender="Male" status={true} />
+        <Profile id={4} name="Arun" gender="Male" status={true} />
+        <Profile id={5} name="John" gender="Male" status={true} />
+        <Profile id={5} name="Ahmed" gender="Male" status={true} />
+
+    </>
+}
+
+const App = () => {
+    return <>
+        <Gallery />
+    </>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+......................................................................................			 Property Rethrow
+....................................................................................
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+// const Profile = props => <div>
+//     {/* Here we pass every prop manually, this is complex */}
+//     <ProfileDashboard id={props.id} name={props.name} status={props.status} />
+// </div>
+
+//Property Rethrow is a concept through which we can simplify property passing
+const Profile = props => <div>
+    {/* passing entire props via es6 spread noation */}
+    <ProfileDashboard {...props} title="Your Profile" />
+</div>
+
+const ProfileDashboard = ({ id = 1, title = "", name = 'Subramaian', gender = 'Male', status = true }) => {
+    return <>
+        <h3>{title}</h3>
+        <p>Id : {id}</p>
+        <p>Name:  {name}</p>
+        <p>Gender:  {gender}</p>
+        <p>Status : {status ? "Available" : "Not Available"}</p>
+    </>
+}
+
+const Gallery = () => {
+    const id = 1
+    const name = "Subramanian"
+    const gender = "Male"
+    const status = true
+    return <>
+        <h1>Profile Information</h1>
+        <Profile id={id} name={name} gender={gender} status={status} />
+        <Profile id={2} name="Murugan" gender="Male" status={true} />
+        <Profile id={3} name="Karthik" gender="Male" status={true} />
+        <Profile id={4} name="Arun" gender="Male" status={true} />
+        <Profile id={5} name="John" gender="Male" status={true} />
+        <Profile id={5} name="Ahmed" gender="Male" status={true} />
+        <Profile />
+    </>
+}
+
+const App = () => {
+    return <>
+        <Gallery />
+    </>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+
+.....................................................................................				Inline Styling
+....................................................................................
+
+<div class="cssClass">
+
+<div style={}>
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+
+const Header = () => {
+
+    return <div>
+        <h1 style={styles.heading}>Header</h1>
+        <h2 style={{ color: 'blue', fontFamily: "sans-serif" }}>Your Company Goes Here</h2>
+    </div>
+}
+const styles = {
+    heading: {
+        color: 'red'
+    }
+}
+
+
+const App = () => {
+    return <Header>
+
+    </Header>
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+)
+
+.....................................................................................
+				What can be prop
+.....................................................................................
+
+1.Prop can be data
+2.Prop can another component or element
+..
+3.Prop can be function
+4.Prop can be state(dynamic prop)
 
 
 
+		
+			Prop can another component or element
+			.....................................
+
+How to render component
+
+ <Grid>
+   //here you can pass something
+ </Grid> -  Grid can have children: passing prop
+ 
+ <Grid/> -  Grid has no children
+ 
+Parent-Child Relation ship:
+............................
+
+Way 1:
+
+cont A = ()=>{
+  return <B/>
+}
+cont B = ()=>{
+  return <h1>test</h1>
+}
+
+Here A is parent and B is child
+
+Way 2: pass child component as prop
+
+Parent-Child Relation ship:
+ via props
+
+<Layout> -parent
+	<Page>-child
+		<Header> -child
+		   <Logo> -child
+
+		   </Image>
+		</Header>
+	</Page>
+</Layout>
+
+eg:
+
+Parent-Child without props;
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+const Title = props => {
+    return <h2>Title goes</h2>
+}
+
+const Header = () => {
+    return <div>
+        <Title />
+    </div>
+}
 
 
+const App = () => {
+    return <>
+        <Header />
+    </>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+
+Here , what is draback of Header, Header is having Title, but is tightly coupled,
+what if i want to replace title with Different Component in future, you have to change the Header Component.
+
+What if Header component is from third party, then how to change it?
+  It is not possible.
+
+If component wants to display child components dynamically, loosly coupled way, then we have to pass component as prop.
+
+eg:
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+const Title = props => {
+    return <h2>Title goes</h2>
+}
+
+const Header = ({ children }) => {
+    return <div>
+        {/* <Title /> */}
+        {/* {props.children} */}
+        {children}
+    </div>
+}
+const Carousel = props => {
+    return <div>
+        <h1>Carousel</h1>
+    </div>
+}
 
 
+const App = () => {
+    return <>
+        {/* <Header /> */}
+        <Header>
+            {/* Component as prop */}
+            {/* <Title /> */}
+            <Carousel />
+        </Header>
+    </>
+}
 
-
-
-
-
-
-
-
-
-
-
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
 
 
 
