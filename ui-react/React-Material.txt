@@ -831,7 +831,7 @@ createRoot(document.getElementById('root')).render(<heading />)
 Warning: The tag <heading> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.
     at heading
 .....................................................................................				UI Structure and React Components
-			 Component Composition
+			    Component Composition
 .....................................................................................
 
 Components are created indivually, organized as tree.
@@ -978,9 +978,210 @@ export const Body = () => {
         </p>
     </section >
 }
+src/page.jsx
+import { Heading } from './heading/Heading'
+import { Body } from './body/Body'
+import { Footer } from './footer/Footer'
+
+export const Page = () => {
+    return <>
+        <Heading />
+        <Body />
+        <Footer />
+    </>
+}
+
+src/main.jsx
+
+import React from 'react'
+import { createRoot } from 'react-dom/client'
+import { Page } from './page'
+
+const App = () => {
+    return <Page />
+}
+
+createRoot(document.getElementById('root')).render(<App />)
+
+.....................................................................................
+			 React Dev tool
+.....................................................................................
+
+It is tool part of browser as plugin, used to insepect the structure of app.
+https://react.dev/learn/react-developer-tools
+
+.....................................................................................
+			How to add css in react
+.....................................................................................
+
+
+1.Your own css
+2.thrid party css frameworks - bootstrap
+
+class
+style - This will see later
+
+if yo want to use bootstrap
+
+npm i bootstrap
+
+src/main.jsx
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.jsx'
+// import './index.css'
+import 'bootstrap/dist/css/bootstrap.css'
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)
+
+.....................................................................................
+			 Data && React
+....................................................................................
+
+Data Binding:
+
+Data can be attached in react using {}
+
+How to represent data?
+->primitives - string,numbers,boolean
+->objects - object,arrays
+
+How to bind data?
+  {variable} {expression}
+ 
+  {a} {fun()} {10*2} {isHidden ? 'Show':'Hide'} 
+
+..................................................................................
+			   Data Binding Patterns
+
+1.property binding aka props pattern
+2.State binding aka state pattern.
+
+props Pattern:
+
+npm create vite@latest
+
+props-pattern
+.....................................................................................
+
+	When you think about component , you should thing about resuablity..
+
+Basic Data binding:
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+//Profile Component : Profile information.
+
+const Profile = () => {
+    //profile data
+    const id = 1
+    const name = "Subramanian"
+    const gender = "Male"
+    const status = true
+    return <div>
+        <h1>Profile Information</h1>
+        <p>Id : {id}</p>
+        <p>Name:  {name}</p>
+        <p>Gender:  {gender}</p>
+        <p>Status : {status ? "Available" :"Not Available"}</p>
+    </div>
+}
+//Gallery Component : Displays many profiles
+
+const Gallery = () => {
+    return <>
+        <Profile />
+    </>
+}
+
+const App = () => {
+    return <>
+        <Gallery />
+    </>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+
+In the above code, the profile components shows only "Subramnaian" data , what if i want to show different profile informations.
+
+			Apply Resuablity Pattern
+
+Solution Property Pattern:
+
+ Passing data to the component as parameter, so that the component will display different data.
+
+How to pass data to the component from parent component?
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+//Profile Component : Profile information.
+
+const Profile = (id, name, gender, status) => {
+    return <div>
+        <h1>Profile Information</h1>
+        <p>Id : {id}</p>
+        <p>Name:  {name}</p>
+        <p>Gender:  {gender}</p>
+        <p>Status : {status ? "Available" : "Not Available"}</p>
+    </div>
+}
+//Gallery Component : Displays many profiles
+
+const Gallery = () => {
+    //profile data
+    const id = 1
+    const name = "Subramanian"
+    const gender = "Male"
+    const status = true
+    return <>
+        {/* <Profile /> */}
+        {Profile(id, name, gender, status)}
+        {Profile(2, 'Murugan', "Male", false)}
+    </>
+}
+
+const App = () => {
+    return <>
+        <Gallery />
+    </>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
 
 
 
 
-		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
