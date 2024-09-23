@@ -2720,14 +2720,231 @@ const App = () => {
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(<App />);
 .....................................................................................
+...................................................................................
+			 Component Life cycles
+.....................................................................................
+
+React Component life cycle can be classified into three major phases
+
+1.Mount
+
+2.Update
+
+3.UnMount
+
+1.Mount :
+  Incase of class component
+
+ 1.constructor
+     Called only once in the component initalization
+     constructors are not used very much...
+ 2.render
+    Called for creating object tree-component tree-Virtual DOM
+
+ 3.componentDidMount
+    Called after render method, once the dom is ready- once ui is compltly loaded
+
+    This method is used heavily  used in react all versions.
+
+   It is used to inital data fetching from the apis
+   It is used to write any async task
+   It is used to write websocket connections
 
 
+2.Update
+    When user starts interacting
+   when state is mutated  -setState,forceUpdate
+   when new props are supplied -state as prop
+  
+   render
+      method is called after state mutation, in order to update ui with new state/
+   during render call,it creates vdom, apply an algorthim called "diff", to compute    old tree and new tree, update dom accordingly.
+  
+   componentDidUpdate
+     It is method which is called after render is completed in update cycle.
+    incase if you want fetch data from api after dom updates
+    incase if you want to do any async tasks.
+    
+3.UnMount
+  When component is removed from memory
+ ComponentWillunMount
+   any resource clean up task...
 
 
+Mount Phase:
+...........
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css'
+
+class LifeCycleHooks extends React.Component {
+
+    constructor() {
+        super();
+        console.log('constructor is called')
+    }
+    componentDidMount() {
+        console.log('ComponentDid Mount is called')
+    }
+
+    render() {
+        console.log('render is called')
+        return <>
+            <h1>Component Life Cycle</h1>
+        </>
+    }
+}
 
 
+const App = () => {
+    return <>
+        <LifeCycleHooks />
+    </>
+}
 
 
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+Update Phase:
+ when you change /mutate state
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css'
+
+class LifeCycleHooks extends React.Component {
+
+    state = {
+        value: 0
+    }
+    constructor() {
+        super();
+        console.log('constructor is called')
+    }
+    componentDidMount() {
+        console.log('ComponentDid Mount is called')
+    }
+
+    componentDidUpdate(){
+        console.log('Component Did Update is called')
+    }
+    render() {
+        console.log('render is called')
+        return <>
+            <h1>Component Life Cycle {this.state.value}</h1>
+            <button onClick={() => {
+                this.setState((oldState) => {
+                    return {
+                        value: oldState.value + 1
+                    }
+                })
+            }}>+</button>
+        </>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <LifeCycleHooks />
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+
+
+...................................................................................
+			Component Lifes and API Call
+...................................................................................
+
+In order to talk to REST API, react has no any opinion regarding which ajax libs should be used
+
+componentDidMount is used for initaling any async task such as api calls,timers...
+
+Popular ajax libs used inside react
+
+1.fetch
+2.axios
+
+
+import React, { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import { produce } from 'immer'
+
+class Products extends React.Component {
+
+    state = {
+        products: [],
+        isLoading: false, //to show spinner
+        error: null
+    }
+
+    render() {
+        const { products, error, isLoading } = this.state
+        //conditional rendering: how to use if...else..elseif
+        if (error) {
+            return <div>
+                <h1>Error : {error.message}</h1>
+            </div>
+        } else if (!isLoading) {
+            return <h2>Loading...</h2>
+        } else {
+            return <div>
+                <h1>Products</h1>
+                <hr />
+                <div>
+                    {
+                        products.map(product => {
+                            return <section>
+                                <img src={product.category.image} height={200} width={200} />
+                                <h1>{product.title} </h1>
+                                <p>{product.description}</p>
+                                <h5>{product.price}</h5>
+                            </section>
+                        })
+                    }
+                </div>
+            </div>
+        }
+
+    }
+    async componentDidMount() {
+        try {
+            const url = `https://api.escuelajs.co/api/v1/products`
+            const response = await fetch(url)
+            const products = await response.json()
+            console.log(products)
+            this.setState(prevState => {
+                return produce(prevState, (draft) => {
+                    draft.products = products
+                    draft.isLoading = true
+                })
+            })
+        }
+        catch (err) {
+            console.log(err)
+            this.setState(prevState => {
+                return produce(prevState, (draft) => {
+                    draft.err = err
+                    draft.isLoading = true
+                })
+            })
+        }
+    }
+}
+const App = () => {
+    return <Products />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
 
 
 
