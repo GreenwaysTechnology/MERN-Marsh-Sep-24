@@ -1072,6 +1072,7 @@ props-pattern
 	When you think about component , you should thing about resuablity..
 
 Basic Data binding:
+
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
@@ -1739,9 +1740,683 @@ createRoot(document.getElementById('root')).render(
         <App />
     </StrictMode>,
 )
+...................................................................................
+			   State Pattern
+		       (Dynamic User Interface)
+			 (Event Handling)
+....................................................................................
+
+What is state?
+  State is another way of representing data in React.
+
+As of we have seen data is not changing or updating...
+
+How to introduce State?
+
+There are two ways
+
+1.class pattern 
+   It is legacy way of representing state and Managining state
+   It is not recommended..
+
+2.Function pattern
+    It is modern way of representing state
+    State is represented via "Hooks".
+
+
+1.class pattern 
+
+Declare class:
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+
+class Review extends React.Component {
+
+    render() {
+        return <div>
+            <h1>Review Component</h1>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review></Review>
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />
+);
+..................................................................................
+Declare data:
+
+React.Component is super class , which is having properites and methods
+
+Methods:
+
+1.lifecycle methods
+2.setState
+3.forceUpdate()
+
+Instance Properties
+
+1.state
+2.props
+
+state default value is null, that means we need to initalize state variable with data.
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+
+class Review extends React.Component {
+
+    render() {
+        console.log(this.state)
+        return <div>
+            <h1>Review Component</h1>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review></Review>
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />
+);
+
+here out put would be "null"
+
+...
+
+How to declare state?
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+
+class Review extends React.Component {
+
+    //state declaration
+    state = {
+        //application data/ui data
+        like: 0
+    }
+
+    render() {
+        console.log(this.state)
+        return <div>
+            <h1>Review Component</h1>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review></Review>
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />
+);
+..............
+How to bind state in UI, what is initial state.
+
+Initial state means, the state(data) is associated with UI during first rendering.
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+
+class Review extends React.Component {
+
+    //state declaration
+    state = {
+        //application data/ui data
+        like: 10
+    }
+
+    render() {
+        console.log(this.state)
+        return <div>
+            <h1>Review Component</h1>
+            <h5>Like {this.state.like}</h5>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review></Review>
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />
+);
+
+....................................................................................
+			  Event Handler
+....................................................................................
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+
+
+class Review extends React.Component {
+
+    //state declaration
+    state = {
+        //application data/ui data
+        like: 10
+    }
+    //listener: arrow function
+    onLike = () => {
+        console.log('like')
+    }
+    render() {
+        console.log(this.state)
+        return <div>
+            <h1>Review Component</h1>
+            <h5>Like {this.state.like}</h5>
+            <button onClick={this.onLike}>😁</button>
+        </div>
+    }
+}
+
+
+const App = () => {
+    return <>
+        <Review></Review>
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />
+);
 
 
 
+.................................................................................
+		Before writing code, we need to learn the concept
+....................................................................................
+			Functional Programming principles
+....................................................................................
+Programming paradigms:
+ any programming language is built on the top of programming paradigms
+ Collections of set of principles and concepts.
+
+Most popular programming paradigms.
+1.Object oriented
+   C++,java,C#......
+2.Procedural oriented
+   C
+3.Functional Programming 
+   LISP,Clojure,scheme,js
+
+Some languages follow multiple paradigms (hybrid) , some follow single paradigm (solo)
+
+javascript is object based, functional style programming language.
+java is object oriented,functional style programming...
+
+What is functional programming?
+
+  It is type of programming paradigm.
+
+functional programming is the first programming paradagim introduced in 1935, as part of Mathmetics called "Lambda Calculs".
+
+The first functional programming language called "LISP" was created in 1955.
+
+React uses fp principles:
+
+1.Pure functions
+2.Immuablity
+
+
+Pure Functions:
+
+Pure functions are defined by two rules..
+
+Rule A:
+  if function receives input, the function returns the input without any mutation...
+
+//fp principles : rule A:
+
+
+//is this function is pure or not : pure 
+function Hello(message) {
+    return message
+}
+console.log(Hello('hello'))
+
+//is this function is pure or not: impure function
+function doubleIt(value) {
+    return value * 2
+}
+console.log(doubleIt(20))
+
+Are we applying pure function rule a in React?
+
+
+Yes,With Respect to "props" every function is pure.
+
+//Pure function rule A in react.
+import ReactDOM from 'react-dom/client';
+
+//Every component is  based on pure function with respect to "props"
+const Welcome = props => {
+    //props.message = 'hai' // props are read only
+     return <div>
+        <h1>{props.message}</h1>
+    </div>
+}
+
+const App = () => {
+    return <>
+        <Welcome message="hello" />
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+.....................................................................................
+				Pure Function Rule B
+....................................................................................
+Rule B:
+.......
+ if function receives input, what if i want to change(mutate),We can apply rule b.
+ 
+if function receives input,and modify input , we should return new object every time, which is called immutablity.
+ 
+
+
+
+//pure function Rule B
+
+
+function updateProfile(city, profile) {
+    //update profile city 
+    profile.city = city
+ 
+    return profile
+}
+
+let profile = {
+    name: 'Subramanian',
+    city: 'Coimbatore'
+}
+
+console.log('before update', profile)
+const result = updateProfile('Chennai', profile)
+console.log(profile === result ? "Same Object" : "Different Object")
+console.log('after update', result)
+
+Result:
+before update {name: 'Subramanian', city: 'Coimbatore'}
+index.js:18 Same Object
+index.js:19 after update {name: 'Subramanian', city: 'Chennai'}
+
+The above code is pure or not?
+
+The above is not pure, it is impure.
+
+ "I need to mutate state(data), but at the same time, i need purity"
+			
+	                  Apply Immutablity Principle
+
+
+What is immutability?
+
+  When ever you update the data(object), you have to create new object every time.
+
+In order to write immutable code, js supports many patterns
+
+1. Plain js pattern.
+//pure function Rule B
+
+function updateProfile(city, profile) {
+    //return new object
+    return {
+        name: profile.name,
+        city: city
+    }
+}
+
+let profile = {
+    name: 'Subramanian',
+    city: 'Coimbatore'
+}
+
+console.log('before update', profile)
+const result = updateProfile('Chennai', profile)
+console.log(profile === result ? "Same Object" : "Different Object")
+console.log('after update', result)
+
+Plain js pattern has some drawback, we have to copy all the properties manually...
+
+2.Object.assign pattern
+//pure function Rule B
+
+function updateProfile(city, profile) {
+    //Object.assign 
+    return Object.assign({}, profile, { city: city })
+}
+
+let profile = {
+    name: 'Subramanian',
+    city: 'Coimbatore'
+}
+
+console.log('before update', profile)
+const result = updateProfile('Chennai', profile)
+console.log(profile === result ? "Same Object" : "Different Object")
+console.log('after update', result)
+
+3.ES 7 Spread operator 
+//pure function Rule B
+
+function updateProfile(city, profile) {
+      return { ...profile, city }
+}
+
+let profile = {
+    name: 'Subramanian',
+    city: 'Coimbatore'
+}
+
+console.log('before update', profile)
+const result = updateProfile('Chennai', profile)
+console.log(profile === result ? "Same Object" : "Different Object")
+console.log('after update', result)
+
+.....................................................................................
+.....................................................................................
+			Arrays -Pure functions (immutablity)
+.....................................................................................
+
+Array pure functions:
+
+1.map
+  map is pure function , which returns new array when you iterate.
+
+2.filter
+  filter is also function, which returns new array when you iterate.
+
+map:
+
+
+function transform(data) {
+
+    return data.map(item => item)
+}
+
+let list = ['subramanian', 'ram', 'murugan']
+
+const response = transform(list)
+
+console.log(list === response ? "Same" : "Different")
+
+filter:
+
+
+function filter(data) {
+
+    return data.filter(item => item.status === true)
+}
+
+let employees = [{
+    id: 1,
+    name: 'subramanian',
+    status: true
+},
+{
+    id: 2,
+    name: 'Ram',
+    status: false
+},
+{
+    id: 3,
+    name: 'Karthik',
+    status: true
+},
+{
+    id: 4,
+    name: 'Murugan',
+    status: false
+}
+
+]
+
+const response = filter(employees)
+
+console.log(employees === response ? "Same" : "Different")
+.....................................................................................
+
+Add Item:
+
+push
+
+
+//is it pure or not
+function add(todos, todo) {
+    return todos.push(todo)
+}
+let todos = [{
+    title: 'Learn react',
+    done: true
+}];
+
+//Testing 
+Object.freeze(todos)
+
+console.log(add(todos, { title: 'Learn Microservices', done: false }));
+
+
+Response:
+Uncaught TypeError: Cannot add property 1, object is not extensible
+
+You are trying to add  on exiting memory... which is not pure and immutable...
+
+so "array.push" is not pure function.
+
+How to add item into array with purity:
+
+Solution:
+
+1.concat
+   it is pure and immutable method..
+
+//is it pure or not
+function add(todos, todo) {
+   // return todos.push(todo)
+   return todos.concat(todo)
+}
+let todos = [{
+    title: 'Learn react',
+    done: true
+}];
+
+//Testing 
+Object.freeze(todos)
+
+console.log(add(todos, { title: 'Learn Microservices', done: false }));
+
+2.Using spread operator
+
+//is it pure or not
+function add(todos, todo) {
+    // return todos.push(todo)
+    //  return todos.concat(todo)
+    return [...todos, todo]
+}
+let todos = [{
+    title: 'Learn react',
+    done: true
+}];
+
+//Testing 
+Object.freeze(todos)
+
+console.log(add(todos, { title: 'Learn Microservices', done: false }));
+....................................................................................
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+
+class Like extends React.Component {
+
+    state = {
+        value: 0
+    }
+    //Event Listener
+    onIncrement = () => {
+        //through pure function only we can mutate the state
+        //prevState is just variable holding "State Object"
+        this.setState((prevState) => {
+            //return immutable object
+            // return {
+            //     value: prevState.value+1
+            // }
+            // return Object.assign({}, prevState, { value: prevState.value + 1 })
+            return { ...prevState, value: prevState.value + 1 }
+        })
+    }
+
+    render() {
+        console.log(this.state)
+        const { value } = this.state
+        return <div>
+            {/* <h1>Like {this.state.value}</h1> */}
+            <h1>Like {value}</h1>
+            <button onClick={this.onIncrement}>Like</button>
+        </div>
+    }
+}
+
+const App = () => {
+    return <>
+        <Like />
+    </>
+
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+)
+.....................................................................................
+			  Multi state
+....................................................................................
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+
+class Review extends React.Component {
+
+    state = {
+        like: 0,
+        dislike: 0
+    }
+    //listener
+    onLike = () => {
+        this.setState((prevState) => {
+            //return immutable object
+            return { ...prevState, like: prevState.like + 1 }
+        })
+    }
+    onDislike = () => {
+        this.setState((prevState) => {
+            //return immutable object
+            return { ...prevState, dislike: prevState.dislike + 1 }
+        })
+    }
+
+    render() {
+        console.log(this.state)
+        return <>
+            <h1>Review</h1>
+            <h2>Like: {this.state.like} Dislike: {this.state.dislike}</h2>
+            <button onClick={this.onLike}>Like</button>
+            <button onClick={this.onDislike}>Dislike</button>
+
+        </>
+    }
+}
+
+const App = () => {
+    return <Review />
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+)
+......................................................................................
+				Inline Listener
+.....................................................................................
+
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import './index.css'
+
+class Review extends React.Component {
+
+    state = {
+        like: 0,
+        dislike: 0
+    }
+
+    render() {
+        console.log(this.state)
+        return <>
+            <h1>Review</h1>
+            <h2>Like: {this.state.like} Dislike: {this.state.dislike}</h2>
+            {/* inline listener */}
+            <button onClick={() => {
+                this.setState((prevState) => {
+                    //return immutable object
+                    return { ...prevState, like: prevState.like + 1 }
+                })
+            }}>Like</button>
+            <button onClick={() => {
+                this.setState((prevState) => {
+                    //return immutable object
+                    return { ...prevState, dislike: prevState.dislike + 1 }
+                })
+            }}>Dislike</button>
+
+        </>
+    }
+}
+
+const App = () => {
+    return <Review />
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(
+    <React.StrictMode>
+        <App />
+    </React.StrictMode>,
+)
+.....................................................................................
 
 
 
