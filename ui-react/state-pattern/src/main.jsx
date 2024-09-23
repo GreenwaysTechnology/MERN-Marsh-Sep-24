@@ -1,47 +1,38 @@
 import React, { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import './index.css'
+import { produce } from 'immer'
 
-class Customer extends React.Component {
+class Review extends React.Component {
     state = {
-        customer: {
-            id: 1,
-            name: 'Subramanian',
-            contact: {
-                address: {
-                    city: 'Chennai'
-                },
-                communcation: {
-                    mobileNo: '9000000'
-                }
-            }
+        house: {
+            name: 'RavenClaw',
+            points: 10
         }
     }
+    onUpdate = () => {
+        this.setState((prevState) => {
+            return produce(prevState, (draft) => {
+                draft.house.points += 1
+            })
+        })
+    }
     render() {
-        return <div>
-            <h1>Customer info</h1>
-            <h2>Name : {this.state.customer.name}</h2>
-            <h2>Phone : {this.state.customer.contact.communcation.mobileNo}</h2>
-            <button onClick={() => {
-                this.setState((prevState) => {
-                    return {
-                        ...prevState,
-                        customer: {
-                            ...prevState.customer,
-                            contact: {
-                                ...prevState.customer.contact,
-                                mobileNo: '8888882323'
-                            }
-                        },
-
-                    }
-                })
-            }}>Update Mobile No</button>
-        </div>
+        return <ReviewDashBoard {...this.state} onUpdate={this.onUpdate} />
     }
 }
+
+const ReviewDashBoard = (props) => {
+    return <div>
+        <h1>House Review</h1>
+        <h2>House Name : {props.house.name}</h2>
+        <h2>Review Pointers : {props.house.points}</h2>
+        <button onClick={props.onUpdate}>Rate</button>
+    </div>
+}
+
 const App = () => {
-    return <Customer />
+    return <Review />
 }
 
 createRoot(document.getElementById('root')).render(

@@ -2496,6 +2496,241 @@ Assigment:
 
 How to update mobileNo - 834343434
 
+.....................................................................................
+		      Complxity of Immutable Objects 
+				 and 
+			How to solve  them using 
+			     immer.js
+.....................................................................................
+What is immer?
+  immer is simple js lib, which helps to write complex immutable code in "mutable way" like regular javascript way.
+
+immutable syntax to update object property:
+
+    state = {
+        house: {
+            name: 'RavenClaw',
+            points: 10
+        }
+    }
+
+     return {
+                ...prevState, //level -0 copy
+                house: {
+                    ...prevState.house, // level-1 copy
+                    points: prevState.house.points + 2
+                }
+        }
+
+js syntax:
+
+    state = {
+        house: {
+            name: 'RavenClaw',
+            points: 10
+        }
+    }
+
+update state:
+
+state.house.points +=2
+
+immer is lib which takes care of writing immutable code on behalf of us, developer writes mutable code, immer converts into immutable code.
+
+Immer core concept:
+
+immer provides a function called "produce"
+
+produce(state,(draft)=>{
+  draft.house.points +=2
+})
+
+Getting started:
+
+steps:
+
+1.install immer lib
+
+npm i immer
+
+import React, { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import { produce } from 'immer'
+
+class Review extends React.Component {
+    state = {
+        house: {
+            name: 'RavenClaw',
+            points: 10
+        }
+    }
+
+    render() {
+        return <div>
+            <h1>House Review</h1>
+            <h2>House Name : {this.state.house.name}</h2>
+            <h2>Review Pointers : {this.state.house.points}</h2>
+            <button onClick={() => {
+                this.setState((prevState) => {
+                    //old way : using raw immutable logic
+                    // return {
+                    //     ...prevState, // level-0 copy: copy all outside keys
+                    //     house: {
+                    //         ...prevState.house, //level-1 Copy: copy all house keys
+                    //         points: prevState.house.points + 1
+                    //     }
+                    // }
+                    return produce(prevState, (draft) => {
+                        draft.house.points += 1
+                    })
+                })
+            }}>Rate</button>
+        </div>
+    }
+}
+const App = () => {
+    return <Review />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+
+............
+
+import React, { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import { produce } from 'immer'
+
+class Customer extends React.Component {
+    state = {
+        customer: {
+            id: 1,
+            name: 'Subramanian',
+            contact: {
+                address: {
+                    city: 'Chennai'
+                },
+                communcation: {
+                    mobileNo: '9000000'
+                }
+            }
+        }
+    }
+    render() {
+        return <div>
+            <h1>Customer info</h1>
+            <h2>Name : {this.state.customer.name}</h2>
+            <h2>Phone : {this.state.customer.contact.communcation.mobileNo}</h2>
+            <button onClick={() => {
+                this.setState((prevState) => {
+                    // return {
+                    //     ...prevState, // leve-0 copy
+                    //     customer: {
+                    //         ...prevState.customer, // level-1 copy
+                    //         contact: {
+                    //             ...prevState.customer.contact, // level-2 copy
+                    //             communcation: {
+                    //                 ...prevState.customer.communcation,
+                    //                 mobileNo: '4444444'
+                    //             }
+                    //         }
+                    //     }
+                    // };
+                    return produce(prevState, (draft) => {
+                        draft.customer.contact.communcation.mobileNo = '8888888'
+                    })
+
+                })
+            }}>Update Mobile No</button>
+        </div>
+    }
+}
+const App = () => {
+    return <Customer />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+...........................&&&&&&&&&&&&&&...........................................
+
+....................................................................................
+			 State and function as prop
+..................................................................................
+....................................................................................
+			 State and function as prop
+..................................................................................
+
+
+
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { produce } from 'immer';
+import './index.css'
+
+class HouseRating extends React.Component {
+
+    state = {
+        house: {
+            name: 'RavenClaw',
+            points: 10
+        }
+    }
+    onIncreasePointsByTwo = () => {
+        this.setState((prevState) => {
+            return produce(prevState, (draft) => {
+                draft.house.points += 2
+            })
+
+        })
+    }
+    render() {
+        return <>
+            {/* here state as prop(dynamic prop) and function as prop */}
+            <HouseRatingDashBoard {...this.state} onIncrement={this.onIncreasePointsByTwo} />
+        </>
+    }
+}
+
+const HouseRatingDashBoard = props => {
+    console.log
+    return <div>
+        <h1>House Rating Component</h1>
+        <h3>House Name : {props.house.name}</h3>
+        <h3>Points : {props.house.points}</h3>
+        <button onClick={props.onIncrement}>Rate</button> 
+    </div>
+}
+
+
+const App = () => {
+    return <>
+        <HouseRating />
+    </>
+}
+
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+.....................................................................................
+
+
+
+
+
+
+
+
+
+
+
 
 
 
