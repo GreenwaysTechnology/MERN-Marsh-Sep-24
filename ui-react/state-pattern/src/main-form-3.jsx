@@ -5,13 +5,12 @@ import './index.css'
 const Form = () => {
     const [firstName, setFirstName] = useState('')
     const [lastName, setLastName] = useState('')
-    const [role, setRole] = useState('Developer')
 
     //form handler
     const handleSubmit = (evt) => {
         evt.preventDefault()
         //collect data from the state and submit to back end
-        console.log(firstName, lastName,role)
+        console.log(firstName,lastName)
     }
     return <div>
         <form onSubmit={handleSubmit}  >
@@ -26,17 +25,6 @@ const Form = () => {
                 <input type="text" value={lastName} onChange={(evt) => {
                     setLastName(evt.target.value)
                 }} />
-            </div>
-            <div>
-                <label>Role:</label>
-                <select value={role} onChange={(evt) => {
-                    setRole(evt.target.value)
-                }}>
-                    <option value="Admin">Admin</option>
-                    <option value="Developer">Developer</option>
-                    <option value="Hr">Hr</option>
-                    <option value="FullStack">FullStack</option>
-                </select>
             </div>
             <div>
                 <input type="submit" value="save" />
