@@ -2660,12 +2660,7 @@ createRoot(document.getElementById('root')).render(
     </StrictMode>,
 )
 ...........................&&&&&&&&&&&&&&...........................................
-
-....................................................................................
-			 State and function as prop
-..................................................................................
-....................................................................................
-			 State and function as prop
+		 State and function as prop
 ..................................................................................
 
 
@@ -2946,11 +2941,240 @@ createRoot(document.getElementById('root')).render(
     </StrictMode>,
 )
 
+.....................................................................................
+			Functional components, state,life cycle methods
+					(Hooks)
+....................................................................................
 
 
+What is hooks and why?
+
+Hooks are simple javascript function which holds Component's logic outside component.
+
+"Incase of class component , if you define a biz logic, the similar logic if you have in another component, we can't reuse."
+
+React 16 introduced a feature called hooks, by using hooks you can eleminate class components completly, by keeping functional components
+
+Hooks abstract complex  biz logic in reusable mannager.
+
+React provides lot of built in hooks to build app , as simple as possible , mean time you can create your own hooks (custom hooks).
+
+Hooks features:
+
+1.hook is simple js function
+2.hook can take input and also return values
+3.every hook function starts with "useHookName"
 
 
+Common Built in Hooks
 
+1.useState
+   To declare state and mutation inside functions
+2.useEffect
+   It represents "Life Methods" - compoentDidMount,componentDidUpdate
+3.useContext
+4.useRef
+5.useMemo
+6.useCallback
+etc......
+
+Thanks to class components,goodbye to class components....
+.....................................................................................
+State declaration,mutation:
+...........................
+
+useState:
+
+Syntax:
+
+const [state,setState]=useState(initalState)
+
+state -is just variable it could be any thing,represents current state
+setState -  pure function its name generally setVariableName, A function that updates state
+
+const [counter,setCounter]=useState(initalState)
+
+initalState could be
+
+1.primitive values numbers,string,boolean
+2.objects
+3.arrays
+
+const [counter,setCounter]=useState(0)
+const [state,setState]=useState('hello')
+const [state,setState]=useState(false)
+const [state,setState]=useState(null)
+const [state,setState]=useState({count:0})
+const [state,setState]=useState([])
+			
+
+
+import React, { StrictMode, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+const Review = () => {
+    const [like, setLike] = useState(0)
+
+    // const onLike = () => {
+    //     //immutable object internally
+    //     // setLike((prevState) => {
+    //     //     return prevState + 1
+    //     // })
+    //     // setLike((prevState) => prevState + 1)
+    //     setLike(like + 1)
+
+    // }
+    return <div>
+        <h1>Review</h1>
+        <h2>Like : {like}</h2>
+        <button onClick={() => setLike(like + 1)}>like</button>
+    </div>
+}
+
+const App = () => {
+    return <Review />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+....................................................................................
+				Multi State
+.....................................................................................
+import React, { StrictMode, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+const Review = () => {
+    const [like, setLike] = useState(0)
+    const [dislike, setDislike] = useState(0)
+    return <div>
+        <h1>Review</h1>
+        <h2>Like : {like}  Dislike : {dislike}</h2>
+        <button onClick={() => setLike(like + 1)}>like</button>
+        <button onClick={() => setDislike(dislike + 1)}>Dislike</button>
+    </div>
+}
+
+const App = () => {
+    return <Review />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+....................................................................................
+			 Hooks and Objects
+...................................................................................
+import React, { StrictMode, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import { produce } from 'immer'
+import './index.css'
+
+const Review = () => {
+    const [review, setReview] = useState({ like: 0, dislike: 0 })
+
+    const onLike = () => {
+        // setReview(prevState => {
+        //     return {
+        //         ...prevState, like: prevState.like + 1
+        //     }
+        // })
+        setReview(prevState => produce(prevState, (draft) => {
+            draft.like += 1
+        }))
+    }
+    return <div>
+        <h1>Review</h1>
+        <h2>Like : {review.like}  Dislike : {review.dislike}</h2>
+        <button onClick={onLike}>like</button>
+        <button onClick={() => setReview(prevState => produce(prevState, (draft) => {
+            draft.dislike += 1
+        }))}>Dislike</button>
+    </div>
+}
+
+const App = () => {
+    return <Review />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+....................................................................................
+			Strings update in Hooks
+....................................................................................
+import React, { StrictMode, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import { produce } from 'immer'
+import './index.css'
+
+const DashBoard = () => {
+    const [color, setColor] = useState('red')
+
+    return <div>
+        <h1>Color is {color}</h1>
+        <button onClick={() => {
+            setColor('blue')
+        }}>Blue</button>
+    </div>
+
+}
+
+const App = () => {
+    return <DashBoard />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+....................................................................................
+			Arrays and useState
+.....................................................................................
+import React, { StrictMode, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import { produce } from 'immer'
+import './index.css'
+
+const DashBoard = () => {
+    const [colors, setColors] = useState(['yellow'])
+
+    return <div>
+        <button onClick={() => {
+            setColors((prevState) => {
+                return produce(prevState, draft => {
+                    draft.push('red')
+                })
+            })
+
+        }}>Add Colors</button>
+        <ul>
+            {colors.map(color => {
+                return <li>{color}</li>
+            })}
+        </ul>
+    </div>
+
+}
+
+const App = () => {
+    return <DashBoard />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
 
 
 

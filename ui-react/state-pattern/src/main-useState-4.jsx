@@ -4,22 +4,13 @@ import { produce } from 'immer'
 import './index.css'
 
 const DashBoard = () => {
-    const [colors, setColors] = useState(['yellow'])
+    const [color, setColor] = useState('red')
 
     return <div>
+        <h1>Color is {color}</h1>
         <button onClick={() => {
-            setColors((prevState) => {
-                return produce(prevState, draft => {
-                    draft.push('red')
-                })
-            })
-
-        }}>Add Colors</button>
-        <ul>
-            {colors.map(color => {
-                return <li>{color}</li>
-            })}
-        </ul>
+            setColor('blue')
+        }}>Blue</button>
     </div>
 
 }
