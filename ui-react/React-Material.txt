@@ -3175,9 +3175,383 @@ createRoot(document.getElementById('root')).render(
         <App />
     </StrictMode>,
 )
+.....................................................................................
+		   component Life Cycles and Hooks
+.....................................................................................
+
+render,componentDidMount,componentDidMount,componentWillUnMount
+
+useEffect:
+comonentDidMount,componentDidupdate,componentWillUnMount
+    =>useEffect
+
+componentDidMount:
+useEffect(()=>{},[]) - useEffect(function,<dependency>)
+useEffect(()=>{})    - useEffect(function)
+
+ComponentDidUpdate
+useEffect(()=>{},[state])
+ here if state is updated, then this hook will be called
 
 
+import React, { StrictMode, useEffect, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+const Timer = () => {
+    const [count, setCount] = useState(0)
+
+    useEffect(() => {
+        setTimeout(() => {
+            setCount(count + 1)
+        }, 1000)
+    })
+
+    return <h1>{count} times rendered</h1>
+
+}
+
+const App = () => {
+    return <Timer />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+
+The output it keeps on counting even though it should only count once.
+
+useEffect runs on every render, that means that when the count changes, a render happens, which triggers another effect.
+
+This is not what we want,There are serveral ways to control when side effects run.
+
+We should always include the second parameter which access, an array.
+
+useEffect(()=>{
+   //Runs on every render (re-render)
+})
+...................................................................................
+			Runs only First Render
+....................................................................................
+
+useEffect(()=>{
+ //runs only first render
+},[])
+
+import React, { StrictMode, useEffect, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+const Timer = () => {
+    const [count, setCount] = useState(0)
+
+    useEffect(() => {
+        setTimeout(() => {
+            setCount(count + 1)
+        }, 1000)
+    }, [])
+
+    return <h1>{count} times rendered</h1>
+
+}
+
+const App = () => {
+    return <Timer />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+....................................................................................
+			 call useEffect based on either state or prop
+....................................................................................
+import React, { StrictMode, useEffect, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+const Counter = () => {
+    const [count, setCount] = useState(0)
+    const [calculation, setCalculation] = useState(0)
+
+    //call this every re render : componentDidUpdate
+    useEffect(() => {
+        setCalculation(calculation + 2)
+    }, [count])
+
+    return <>
+        <h1>Count : {count}</h1>
+        <button onClick={() => setCount(count + 1)}>+</button>
+        <h1>Calculation : {calculation}</h1>
+    </>
+
+}
+
+const App = () => {
+    return <Counter />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+....................................................................................
+			componentWillunMount
+...................................................................................
+
+To clean up resources...
+
+import React, { StrictMode, useEffect, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+const Timer = () => {
+    const [count, setCount] = useState(0)
+
+    useEffect(() => {
+        let timer = setTimeout(() => {
+            setCount(count + 1)
+        }, 1000)
+        //componentWillUnMount
+        return () => {
+            //clean up code
+            clearTimeout(timer)
+        }
+
+    }, [])
+
+    return <h1>{count} times rendered</h1>
+
+}
+
+const App = () => {
+    return <Timer />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+....................................................................................
+			API Calls and useEffect
+....................................................................................
+import React, { StrictMode, useEffect, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import { produce } from 'immer'
+import './index.css'
+
+const Products = () => {
+    const initialState = {
+        products: [],
+        isLoading: false, //to show spinner
+        error: null
+    }
+    const [state, setState] = useState(initialState)
 
 
+    //api function
+    const getProducts = async () => {
+        try {
+            const url = `https://api.escuelajs.co/api/v1/products`
+            const response = await fetch(url)
+            const products = await response.json()
+            setState(prevState => {
+                return produce(prevState, (draft) => {
+                    draft.products = products
+                    draft.isLoading = true
+                })
+            })
+        }
+        catch (err) {
+            console.log(err)
+            setState(prevState => {
+                return produce(prevState, (draft) => {
+                    draft.err = err
+                    draft.isLoading = true
+                })
+            })
+        }
+    }
+    useEffect(() => {
+        //api call
+        getProducts()
+    }, [])
+
+    //conditional rendering: how to use if...else..elseif
+    if (state.error) {
+        return <div>
+            <h1>Error : {error.message}</h1>
+        </div>
+    } else if (!state.isLoading) {
+        return <h2>Loading...</h2>
+    } else {
+        return <div>
+            <h1>Products</h1>
+            <hr />
+            <div>
+                {
+                    state.products.map(product => {
+                        return <section>
+                            <img src={product.category.image} height={200} width={200} />
+                            <h1>{product.title} </h1>
+                            <p>{product.description}</p>
+                            <h5>{product.price}</h5>
+                        </section>
+                    })
+                }
+            </div>
+        </div>
+    }
+
+}
+
+const App = () => {
+    return <Products />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+.....................................................................................
+			useContext
+.....................................................................................
+
+How to share state from parent component to nested child components?
+
+There are two solutions
+
+1.via props
+  In this way, props need to be passed manually at every level of component
+  this is called "Prop drilling"
+
+2.via context 
+   Context is object , using context object you can share state(data), to nested child components or to the app globally.
+
+
+Props Drilling Eg:
+.................
+import React, { StrictMode, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+const Parent = () => {
+    const [message, setMessage] = useState('hello')
+
+    return <>
+        <h1>Parent : {message}</h1>
+        <ChildOne message={message} />
+    </>
+}
+const ChildOne = (props) => {
+    return <>
+        <h1>ChildOne : {props.message}</h1>
+        <ChildTwo message={props.message}/>
+    </>
+}
+
+const ChildTwo = (props) => {
+    return <>
+        <h1>ChildOne : {props.message}</h1>
+        <ChildThree message={props.message}/>
+
+    </>
+}
+const ChildThree = (props) => {
+    return <>
+        <h1>ChildOne : {props.message}</h1>
+        <ChildFour message={props.message}/>
+
+    </>
+}
+const ChildFour = (props) => {
+    return <>
+        <h1>ChildFour : {props.message}</h1>
+        <ChildFive message={props.message}/>
+
+    </>
+}
+const ChildFive = (props) => {
+    return <>
+        <h1>ChildFive : {props.message}</h1>
+    </>
+}
+const App = () => {
+    return <Parent />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+
+
+Using Context Object, how to share data across the app or the tree?
+
+import React, { createContext, StrictMode, useContext, useState } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+
+//create context object
+const MessageContext = createContext()
+
+const Parent = () => {
+    const [message, setMessage] = useState('hai')
+
+    return <>
+        <MessageContext.Provider value={message}>
+            <h1>Parent : {message}</h1>
+            <ChildOne />
+        </MessageContext.Provider>
+    </>
+}
+const ChildOne = (props) => {
+    return <>
+        <ChildTwo />
+    </>
+}
+
+const ChildTwo = (props) => {
+    return <>
+        <ChildThree />
+
+    </>
+}
+const ChildThree = (props) => {
+    const message = useContext(MessageContext)
+    return <>
+        <h1>ChildThree Message : {message}</h1>
+        <ChildFour />
+    </>
+
+}
+const ChildFour = (props) => {
+    return <>
+        <ChildFive />
+
+    </>
+}
+const ChildFive = (props) => {
+    const message = useContext(MessageContext)
+    return <>
+        <h1>ChildFive Message : {message}</h1>
+    </>
+}
+const App = () => {
+    return <Parent />
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
 
 

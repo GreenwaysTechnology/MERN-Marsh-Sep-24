@@ -1,31 +1,54 @@
-import React, { StrictMode, useState } from 'react'
+import React, { createContext, StrictMode, useContext, useState } from 'react'
 import { createRoot } from 'react-dom/client'
-import { produce } from 'immer'
 import './index.css'
 
-const DashBoard = () => {
-    const [colors, setColors] = useState(['yellow'])
+//create context object
+const MessageContext = createContext()
 
-    return <div>
-        <button onClick={() => {
-            setColors((prevState) => {
-                return produce(prevState, draft => {
-                    draft.push('red')
-                })
-            })
+const Parent = () => {
+    const [message, setMessage] = useState('hai')
 
-        }}>Add Colors</button>
-        <ul>
-            {colors.map(color => {
-                return <li>{color}</li>
-            })}
-        </ul>
-    </div>
-
+    return <>
+        <MessageContext.Provider value={message}>
+            <h1>Parent : {message}</h1>
+            <ChildOne />
+        </MessageContext.Provider>
+    </>
+}
+const ChildOne = (props) => {
+    return <>
+        <ChildTwo />
+    </>
 }
 
+const ChildTwo = (props) => {
+    return <>
+        <ChildThree />
+
+    </>
+}
+const ChildThree = (props) => {
+    const message = useContext(MessageContext)
+    return <>
+        <h1>ChildThree Message : {message}</h1>
+        <ChildFour />
+    </>
+
+}
+const ChildFour = (props) => {
+    return <>
+        <ChildFive />
+
+    </>
+}
+const ChildFive = (props) => {
+    const message = useContext(MessageContext)
+    return <>
+        <h1>ChildFive Message : {message}</h1>
+    </>
+}
 const App = () => {
-    return <DashBoard />
+    return <Parent />
 }
 
 createRoot(document.getElementById('root')).render(
