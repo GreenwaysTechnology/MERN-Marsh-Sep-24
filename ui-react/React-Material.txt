@@ -4285,9 +4285,551 @@ createRoot(document.getElementById('root')).render(
         <App />
     </StrictMode>,
 )
+.....................................................................................
+		      Action Constants
+.....................................................................................
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import { configureStore } from '@reduxjs/toolkit'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+
+//action constants are just variables
+export const counterIncrement = 'counter/increment'
+export const counterDecrement = 'counter/decrement'
+export const counterIncrementBy = 'counter/incrementBy'
+export const reviewLike = 'review/like'
+export const reviewDislike = 'review/dislike'
+
+
+export const CounterReducer = (counter = { value: 0 }, action) => {
+    switch (action.type) {
+        case counterIncrement:
+            return { ...counter, value: counter.value + 1 }
+        case counterDecrement:
+            return { ...counter, value: counter.value + 1 }
+        case counterIncrementBy:
+            return { ...counter, value: counter.value + action.payload }
+        default:
+            return counter;
+    }
+}
+
+export const ReivewReducer = (review = { like: 0, dislike: 0 }, action) => {
+    switch (action.type) {
+        case reviewLike:
+            return { ...review, like: review.like + 1 }
+        case reviewDislike:
+            return { ...review, dislike: review.dislike + 1 }
+        default:
+            return review;
+    }
+}
+
+export const appStore = configureStore({
+    reducer: {
+        counter: CounterReducer,
+        review: ReivewReducer
+    }
+})
+///////////////////////////////////////////////////////////////////////////////////////
+export const Counter = (props) => {
+    const result = useSelector(state => {
+        return state.counter
+    })
+
+    const dispatch = useDispatch()
+
+    const onIncrement = () => {
+        const incrementAction = {
+            type: counterIncrement
+        }
+        dispatch(incrementAction)
+    }
+    return <div>
+        <h1>React Redux-Counter</h1>
+        <h2>Counter {result.value}</h2>
+        <button onClick={onIncrement}>+</button>
+        <button onClick={() => {
+            dispatch({ type: counterDecrement })
+        }}>-</button>
+        <button onClick={() => {
+            dispatch({ type: counterIncrementBy, payload: 2 })
+        }}>IncrementBy</button>
+
+    </div>
+}
+
+const Review = (props) => {
+    const result = useSelector(state => {
+        return state.review
+    })
+
+    const dispatch = useDispatch()
+    return <div>
+        <h1>React Redux - Review</h1>
+        <h2>Like {result.like} Dislike : {result.dislike}</h2>
+        <button onClick={() => {
+            dispatch({ type: reviewLike })
+        }}>Like</button>
+        <button onClick={() => {
+            dispatch({ type: reviewDislike })
+        }}>dislike</button>
+    </div>
+}
+
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+        <hr />
+        <Review />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+.....................................................................................
+			  Action Creator
+.....................................................................................
+
+action creator is function which returns action object.
+action creators are use full when you pass dynamic input to the reducer.
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import { configureStore } from '@reduxjs/toolkit'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+
+//action constants are just variables
+export const counterIncrement = 'counter/increment'
+export const counterDecrement = 'counter/decrement'
+export const counterIncrementBy = 'counter/incrementBy'
+export const reviewLike = 'review/like'
+export const reviewDislike = 'review/dislike'
+
+
+export const CounterReducer = (counter = { value: 0 }, action) => {
+    switch (action.type) {
+        case counterIncrement:
+            return { ...counter, value: counter.value + 1 }
+        case counterDecrement:
+            return { ...counter, value: counter.value + 1 }
+        case counterIncrementBy:
+            return { ...counter, value: counter.value + action.payload }
+        default:
+            return counter;
+    }
+}
+
+export const ReivewReducer = (review = { like: 0, dislike: 0 }, action) => {
+    switch (action.type) {
+        case reviewLike:
+            return { ...review, like: review.like + 1 }
+        case reviewDislike:
+            return { ...review, dislike: review.dislike + 1 }
+        default:
+            return review;
+    }
+}
+
+export const appStore = configureStore({
+    reducer: {
+        counter: CounterReducer,
+        review: ReivewReducer
+    }
+})
+///////////////////////////////////////////////////////////////////////////////////////
+export const Counter = (props) => {
+    const result = useSelector(state => {
+        return state.counter
+    })
+
+    const dispatch = useDispatch()
+
+    const onIncrement = () => {
+        const incrementAction = {
+            type: counterIncrement
+        }
+        dispatch(incrementAction)
+    }
+
+    //action creator
+    // function incrementBy(payload) {
+    //     //returns action object
+    //     return {
+    //         type: counterIncrementBy,
+    //         //payload:payload
+    //         payload
+    //     }
+    // }
+    const incrementBy = payload => ({
+        type: counterIncrementBy,
+        payload
+    })
+
+
+    return <div>
+        <h1>React Redux-Counter</h1>
+        <h2>Counter {result.value}</h2>
+        <button onClick={onIncrement}>+</button>
+        <button onClick={() => {
+            dispatch({ type: counterDecrement })
+        }}>-</button>
+        <button onClick={() => {
+            dispatch(incrementBy(5))
+        }}>IncrementBy</button>
+
+    </div>
+}
+
+const Review = (props) => {
+    const result = useSelector(state => {
+        return state.review
+    })
+
+    const dispatch = useDispatch()
+    return <div>
+        <h1>React Redux - Review</h1>
+        <h2>Like {result.like} Dislike : {result.dislike}</h2>
+        <button onClick={() => {
+            dispatch({ type: reviewLike })
+        }}>Like</button>
+        <button onClick={() => {
+            dispatch({ type: reviewDislike })
+        }}>dislike</button>
+    </div>
+}
+
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+        <hr />
+        <Review />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+.....................................................................................
+.....................................................................................
+			 Modern Reducer syntax
+....................................................................................
+
+
+Old way:
+
+const IncrementReducer = (state = { counter: 10 }, action) => {
+    //biz logic
+    switch (action.type) {
+        case incrementBy:
+            return produce(state, (draft) => {
+                draft.counter += action.payload
+            })
+        default:
+            //default state
+            return state;
+    }
+
+}
+
+Redux Toolkit way:
+
+1.using createReducer function
+2.using createSlice function
+
+2.1.Using createReducer api
+
+1.It is utillity function from redux-toolkit.
+2.It reduces lot of boiler plate code , provides standards based coding
+3.It is offering built in immer js api,so, no need of using "produce" directly..
+4.No need of switch..case and actions...
+
+createReducer api coding has  pattern
+
+1.builder pattern
+
+Syntax:
+
+const reducer= createReducer(initialState,(builder)=>{
+
+     builder.addCase(actionName,(state,action)=>{
+     //immer js code: produce function is built in
+      state.value++
+    }).addCase(actionName,(state,action)=>{
+     //immer js code: produce function is built in
+      state.value++
+   }).addDefaultCase((state,action)=>{})
+
+})
+
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+
+const counterSlice = createSlice({
+    name: 'counter',
+    initialState: { value: 0 },
+    reducers: {
+        //plain js function
+        increment(state, action) {
+            //immer js produce logic
+            state.value++
+        },
+        decrement(state, action) {
+            state.value--
+        }
+    }
+})
+//extract reducers
+const CounterReducer = counterSlice.reducer
+//Extract actions (actionCreator) from the slice
+const { increment, decrement } = counterSlice.actions
+
+//create store object
+const appStore = configureStore({
+    reducer: {
+        counter: CounterReducer
+    }
+})
+///////////////////////////////////////////////////////////////////////////////////////
+//React component layer
+const Counter = (props) => {
+    const counter = useSelector(state => {
+        return state.counter
+    })
+    const dispatch = useDispatch()
+    return <div>
+        <h1>React Redux</h1>
+        <h2>Counter {counter.value}</h2>
+        <button onClick={() => {
+            dispatch({ type: increment })
+        }}>+</button>
+        <button onClick={() => {
+            dispatch({ type: decrement })
+        }}>-</button>
+    </div>
+}
 
 
 
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+.....................................................................................
+	....................................................................................
+			     Middlewares
+...................................................................................
+What is middleware?
+ Middleware is collection of functions, used for some cross cutting concerns...
+
+eg:
+logging
+TimeTravel
+async task
+
+configureStore(middleware:[])
+/**
+   * An array of Redux middleware to install. If not supplied, defaults to
+   * the set of middleware returned by `getDefaultMiddleware()`.
+   */
+middleware?: ((getDefaultMiddleware: CurriedGetDefaultMiddleware<S>) => M) | M
+
+This function has already default middlewars
+1.Immutability check middleware
+2.Serializability check middleware
+3.Action creator check middleware
+4.thunk
+
+ +
+
+Your middlewares
+
+To add Middleware
+
+Way 1:
+
+const middlewares = [thunk,immutableStateInvariant,seralizableStateInvariant]
+
+configureStore({
+ middleware: middlewares
+})
+
+way 2:
+configureStore({
+ middleware: (getDefaultMiddleware)=>getDefaultMiddleware().concat(yourMiddleware)
+})
+
+import { StrictMode } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import { configureStore, createSlice } from '@reduxjs/toolkit'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+import logger from 'redux-logger'
+
+const counterSlice = createSlice({
+    name: 'counter',
+    initialState: { value: 0 },
+    reducers: {
+        //plain js function
+        increment(state, action) {
+            //immer js produce logic
+            state.value++
+        },
+        decrement(state, action) {
+            state.value--
+        }
+    }
+})
+//extract reducers
+const CounterReducer = counterSlice.reducer
+//Extract actions (actionCreator) from the slice
+const { increment, decrement } = counterSlice.actions
+
+//create store object
+const appStore = configureStore({
+    reducer: {
+        counter: CounterReducer
+    },
+    middleware: (getDefaultMiddleware => getDefaultMiddleware().concat(logger))
+})
+///////////////////////////////////////////////////////////////////////////////////////
+//React component layer
+const Counter = (props) => {
+    const counter = useSelector(state => {
+        return state.counter
+    })
+    const dispatch = useDispatch()
+    return <div>
+        <h1>React Redux</h1>
+        <h2>Counter {counter.value}</h2>
+        <button onClick={() => {
+            dispatch({ type: increment })
+        }}>+</button>
+        <button onClick={() => {
+            dispatch({ type: decrement })
+        }}>-</button>
+    </div>
+}
+
+
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Counter />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
+....................................................................................
+			 REST API CALLS INSIDE Redux
+....................................................................................
+After integrating redux with react, all api logic should be part of redux
+
+import { StrictMode, useEffect } from 'react'
+import { createRoot } from 'react-dom/client'
+import './index.css'
+import { configureStore, createSlice, createAsyncThunk } from '@reduxjs/toolkit'
+import { Provider, useDispatch, useSelector } from 'react-redux'
+import logger from 'redux-logger'
+
+
+const initialState = {
+    entities: [],
+    loading: false,
+}
+
+//thunk middleware
+const getPosts = createAsyncThunk('posts/getPosts', async (thunkAPI) => {
+    const res = await fetch('https://jsonplaceholder.typicode.com/posts')
+    const posts = await res.json()
+    return posts
+})
+
+//slice
+const postSlice = createSlice({
+    name: 'posts',
+    initialState,
+    reducers: {},
+    extraReducers(builder) {
+        builder.addCase(getPosts.pending, (state, action) => {
+            state.loading = true
+        }).addCase(getPosts.fulfilled, (state, { payload }) => {
+            state.loading = false
+            state.entities = payload
+        }).addCase(getPosts.rejected, (state, action) => {
+            state.loading = false
+        })
+    }
+
+})
+
+const postReducer = postSlice.reducer
+
+
+//create store object
+const appStore = configureStore({
+    reducer: {
+        posts: postReducer
+    },
+    middleware: (getDefaultMiddleware => getDefaultMiddleware().concat(logger))
+})
+///////////////////////////////////////////////////////////////////////////////////////
+//React component layer
+
+const Post = () => {
+    const dispatch = useDispatch()
+    const { entities, loading } = useSelector((state) => state.posts)
+
+    useEffect(() => {
+        dispatch(getPosts())
+    }, [])
+
+    return (
+        <div>
+            <h2>Blog Posts</h2>
+            {entities.map((post) => (
+                <p key={post.id}>{post.title}</p>
+            ))}
+        </div>
+    )
+}
+
+
+const App = () => {
+    return <Provider store={appStore}>
+        <Post />
+    </Provider>
+}
+
+createRoot(document.getElementById('root')).render(
+    <StrictMode>
+        <App />
+    </StrictMode>,
+)
 
 
 
