@@ -1,0 +1,591 @@
+				Next.js
+.....................................................................................
+....................................................................................
+			Next js 
+....................................................................................
+What is Next?
+	 Next is a flexible React framework that gives you building blocks to create fast "web applications".
+
+What is React?
+         React is javascript lib to build "Single Page Web applications"/SPA 
+
+What is web app?
+  Type of distributed app,deployed at server , accessed over network(internet) vi various network protocals like http,tcp,smtp...
+  
+  Web apps works based on request and response model.
+  Web apps are hosted on server called web server.
+
+Web server receives request , runs a program, that program returns response to the client.
+
+Response would be document.
+=>HTML
+
+other responses types
+XML,JSON,Documents,images,vidoes.........
+
+What is web and why it was created?
+
+  Tim Berners-Lee, a British scientist, invented the World Wide Web (WWW) in 1989, while working at CERN. The web was originally conceived and developed to meet the demand for automated information-sharing between scientists in universities and institutes around the world.
+
+
+The first Web browser is line mode web browser,launched in 1992.
+The first web server is NeXT computer
+The first web page , lanuched http://info.cern.ch/hypertext/WWW/TheProject.html
+
+
+Technology stack:
+................
+1.HTML
+2.Webserver - Next Computer
+3.LineMode Web Browser
+4.HTTP protocal.
+
+Types of Web application:
+
+1.Static web applications - 1989 to 1995
+    Hard coded html pages, Prepared html pages kept at server, the web server will send those html pages to clients - browsers
+
+Do you think Static web applications still exits?
+  Yes!, but we dont prepare the html pages by hand.. rather we ask the server to prepare..
+
+2.Dynamic Content generation application(1996 to till date)
+
+  After 1995, many people thought that how we can use web for biz information system
+
+ How to share biz informations via internet?
+ Generally biz data is stored in databases , how to embed database data into html pages.
+
+
+ 1.web server need to talk to database
+ 2.web server need to prepare html pages based on database records
+ 3.Those information must be transported to web clients.
+
+
+Web server core design to get client request and send html response to the client.
+
+Along with web server, something was introduced called "Programming language runtime"
+
+Tech stacks:
+
+1.CGI With C language and perl script.
+2.Java Servlets and JSP
+3.Active Server pages - ASP
+4.PHP
+
+3.Web services-1998 to till date
+
+ Rise of ECommerce, using internet and web how to exchange data between two biz organizations.
+ The existing html technology was not suitable to send and recive data because html is just user interface document language.
+
+ We need , data to be exechanged, thats where new data model was created called 'XML'
+xml based web apps called web services.
+
+SOAP protocal was created to transfer XML based documents "SOAP based webservices"
+
+After 2005 SOAP based web services, started failing due to mobile computing.
+
+New Web services  were designed called "RestFull Web services"
+
+Restfull web services were used to build any type of data formats like json,xml,pdf,html etc...
+
+4.Client side web apps called "Single Page Web Apps"(2007 to till date)
+
+Single page web apps are built using javascript at client side where as server side web services(REST apis) are used.
+
+SPA Tech stack:
+HTML 5,CSS 3, Javascript.
+
+Frameworks build based on SPA
+
+1.Angular js |Angular
+2.react js
+3.vue js
+...................................................................................
+.....................................................................................
+				React as SPA lib
+.....................................................................................
+
+Reactjs was created by facebook , in order to build SPA applications for browsers.
+
+
+Advantages of SPA:
+1.Pages are created  at client side, so server load is completly removed
+2.SPA reduces the lot of phsyical pages after deployment.
+3.Clear separations of concerns.
+
+Drawbacks of SPA:
+.................
+
+Pure client SPAs are problematic when the app is senstive to SEO and
+Time-to concept ,This is because the browser will recive a large empty HTML page and has to wait until the javascript is loaded before rendering any thing.
+
+	    The brith of new Technology called  "SSR" -  Server Side Rendering
+    ..................................................................................
+			Server side Rendering
+...................................................................................
+
+I need SEO but at the same time, i want to use SPA as well.
+
+We provide first class api to "render"  an SPA app into HTML strings on the server.
+
+This allows server to send back already rendered HTML, allowing end users to see the content immediately while the javascript is being downloaded.
+
+Hydration:
+  This process is called "hydration", the app is compiled at server side and sent to the client which will be  interactive.
+
+.....................................................................................			           Rendering Types
+.....................................................................................
+
+What is Rendering?
+   Render means preparation,HTML Page prepartion...
+
+Rendering Types:
+1.CSR- Client side Rendering.
+   HTML Pages are prepared at client side - SPA Applications
+2.SSR  -Server Side rendering
+   HTML Pages are prepared at server side - Dynamic Content Generation applications.
+		 
+
+Based on these rendering type, we can classify other rendering
+
+1.Universal rendering /Hybrid Rendering
+  Server + Client side , coimbing both rendering 
+
+2.Full SSR and Partial SSR
+    Partial SSR is nothing but only "index.html" is compiled at server , rest of the application is rendered at client side.
+   Full SSR is nothing but "index.html" and other pages are compiled at server....
+
+.....................................................................................
+			When Rendering can happen
+		     (when html pages are parepared)
+....................................................................................
+1.Request time
+2.Build time
+
+1.Request time :
+ When user types url 
+
+  http://www.example.com/product--------------->Server Receives Request----Prepares Page--send   that page to client.
+ Technologies : jsp,asp,php
+
+
+2.Build time
+    Build is nothing but, preparing app for production.. before hosting we have to prepare the   app
+  During build phase, we can prepare html pages/render html pages 
+
+SSG -  Static Site Generations:
+...............................
+
+Building web sites/apps during build phase is called SSG.
+
+Why SSG?
+  Super fast page access
+
+Based On SSG , There is specfication is available "JAM Stack"
+.....................................................................................
+			Drawback of SSG(JAMStack App)
+..........................................................................................
+If page has data, which is keep on changing, preparing a page "ahead of time", that causes problem. that means we cant generate page on demand...
+
+Data changes rapidly , we need to enable request time page prepartion.
+.....................................................................................
+			    SSR + SSG
+
+During build process, we have to enable SSG, during runtime not for all pages we need to enable SSR (Request Time page Preparation)
+
+....................................................
+			ISR - Incremental Static Rendenering
+.....................................................................................
+
+SSG - Build time or ahead of time
+SSR - Request time
+
+ISR = SSG + SSR - Build time + request time 
+.....................................................................................
+
+What is Nextjs?
+
+  Next js is a framework that helps to build web apps of all types
+
+ you can build Full SSR apps..
+ you can build SSR With Request time
+ you can build SSG with Build time -  JAMStacks
+ you can build SSR with CSR  - Server + SPA - Hybrid rendering
+ you can build rest apis also - Web services
+ You cant build pure SPA apps like react with redux.
+
+Using Next you can build 
+ Pure server side apps with database access, other external api access.....
+.....................................................................................
+	               Next js UI layer - Next JS APP architecture
+.....................................................................................
+Next js uses "react core features" to build UI layer...
+
+React core features:
+1.React compoent driven
+2.React uses data mutation techniques like props and state
+3.React uses event listeners for interactions
+4.React hooks
+
+
+Nextjs tech stack:
+
+1.React as ui layer
+2.Next does not recommend to use "redux"
+3.Next uses api layer- rest api development
+4.Next can talk to any database via orm frameworks...
+
+.....................................................................................
+			Next js framework and Runtime Architecture:
+.....................................................................................
+
+Next js uses "Rust based build system" where as react uses web pack build ....
+
+What is Rust?
+ It is programming langugage, used to build Nextjs apps. Next core engine is written in Rust only.
+
+Next.js Compiler:
+..................
+ Next js Compiler is written using RUST Using SWC (Speedy Web Compiler).
+https://swc.rs/docs/getting-started
+
+SWC allows next js to transform and minify the js code for production. This replaces babel.
+
+SWC is 17x faster than Babel, it is embeded inside next js
+
+....................................................................................
+		NEXT JS Getting Started
+.....................................................................................
+
+How to install next js and how to create app?
+
+System Req:
+
+1.Node.js 18 or later
+2.OS - any os
+3.vs code.
+
+How to create nextjs project?
+G:\Marsh\ui-nextjs>npx create-next-app@latest
+Need to install the following packages:
+create-next-app@14.2.13
+Ok to proceed? (y) y
+
+√ What is your project named? ... next-coreapp
+√ Would you like to use TypeScript? ... No / Yes
+√ Would you like to use ESLint? ... No / Yes
+√ Would you like to use Tailwind CSS? ... No / Yes
+√ Would you like to use `src/` directory? ... No / Yes
+√ Would you like to use App Router? (recommended) ... No / Yes
+√ Would you like to customize the default import alias (@/*)? ... No / Yes
+√ What import alias would you like configured? ... @/*
+Creating a new Next.js app in G:\Marsh\ui-nextjs\next-coreapp.
+
+Using npm.
+
+Initializing project with template: app-tw
+
+
+Installing dependencies:
+- react
+- react-dom
+- next
+
+Installing devDependencies:
+- postcss
+- tailwindcss
+
+
+added 131 packages, and audited 132 packages in 23s
+
+31 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+Initialized a git repository.
+
+Success! Created next-coreapp at G:\Marsh\ui-nextjs\next-coreapp
+...................................................................................
+			Next.js Application Architecture
+.....................................................................................
+
+Next.js app is server side app, so for each web page ,the html page is created.
+...................................................................................
+	  Next App is conventional over Configuration based
+.....................................................................................
+
+             "In Next every folder and files are predefined"
+
+1.In next, there is no predefined index.html, because index.html is generated by next server during request time or build time.
+
+File Names:
+  src/app
+
+1.page.js
+2.layout.js
+
+	 These file names are predefined, we cant change file names as we wish.
+
+File Names have been designed based on conventional over configuration,meaning every file has meaning.
+
+
+page.js
+   It is holding user interface, if the page.js is part of "src/app" folder which has root file(index.html) called as landing page.
+
+layout.js
+   It is going to hold root layout,Which is a required file.
+
+        "Every Nextjs app must have this "src/app/layout.js" file
+
+
+
+What is this files are all about?
+
+ "React Components"
+
+Page Component - page.js
+Layout Component - layout.js
+
+.....................................................................................
+			 React core features inside next js
+.....................................................................................
+1.Component:
+   In react every thing is component, in next also the component driven arch is followed.
+
+2.Props
+    In react data is passed to the component via props.
+
+Types of Props:
+1.Data as prop
+2.State as Prop -Dynamic Prop
+3.function as Prop- Listeners as Prop
+4.Component as Prop
+
+Component as Prop syntax we use heavily.
+
+Component Rendering:
+
+function Tab(props){
+   return <> {props.children} </>
+}
+
+<Tab/> - Self Closing
+ There is no child elemement
+
+<Tab>
+    <Grid/> -  Component as Prop
+<Tab>
+.....................................................................................
+			 Every thing is component  in Next.js
+.....................................................................................
+Page Component:
+  It is place holder component which displays ui.
+
+Layout Component:
+  It is container component which holds Page Component
+
+
+           layout - parent
+	  ------------------------------
+          |                             |
+                      Page -child       |
+          |                             |
+          |                             |
+          |                             |
+           -----------------------------
+
+How to declare compoents?
+
+ 1.every component must be "functional component" - No Class Component.
+ 2.every component must be exported using "export default" only.
+ 3.Every Next application must have "root layout" src/app/layout.js
+ 4.Every Next application must have  "home/landing page" src/app/page.js
+ 5.Component Name can be any thing like HomePage,Home,MyHomePage.
+
+How to create Page and layout Components ?
+
+src/page.js
+
+//index.html - landing page
+
+export default function HomePage(){
+    
+  return <div id="homePage">
+       <h1>Home Page</h1>
+  </div>
+}
+
+src/layout.js
+
+
+//Layout is root component
+
+// export default function RootLayout(props) {
+
+//   return <html lang="en">
+//     <body>
+//       <div id="rootLayout">
+//         {props.children}
+//       </div>
+//     </body>
+//   </html>
+// }
+
+export default function RootLayout({ children }) {
+  return <html lang="en">
+    <body>
+      <div id="rootLayout">
+        {children}
+      </div>
+    </body>
+  </html>
+}
+.....................................................................................
+			  File Conventions- Types of files
+.....................................................................................
+
+1.layout.js
+  Shared UI for a segment(page/router) and its children
+  if a layout.js presents inside src/app folder which is called root layout.
+  every next.js app must have one layout.js which is root layout file.
+
+2.nestedlayout -layout.js
+   Shared UI for a a segement and its children
+  when you define routing, that time we may or not use layout...
+
+  root layout vs nested layout:
+     root layout must have <html>,nested layout <div> or section elements
+
+
+Root Layout:
+
+ <html>
+  <head></head>
+  <title>title</title> 
+   <body>
+	<nested Layout>Insert Page</nestedLayout>
+   </body>
+ </html>
+
+3.page.js
+  Unique UI of a route,meaning the page is mapped against routing like "/",index,products,users,customers
+
+4.loading.js
+   Loading UI (Spinner) for a segement and its children
+
+5.not-found.js
+   Not Found UI for a segment and for its children
+   if routing is failed to map against a page, then next.js will show error page.
+
+6.error.js
+  It is used to show custom component logic errors.
+
+Note:
+  All error files are represented by "React Error Boundary".
+
+7.global-error.js
+  It is to show app level errors.
+
+8.template.js:
+   Specailzied re-rendered layout UI.
+
+9.route.js
+   you can write "restfull" web services".
+
+10.default.js
+    Fallback UI for "Parrel Routes"
+
+Note:
+ When we write next application, every thing is component
+  Error is component
+  Loading is Compoent
+  Page is component
+  Layout is compoent.
+
+Since Everything is compoent , which forms component hierachy.
+
+React dev tool can used to look into the component hiearchy....
+
+Using react dev tool we can look , next application....
+
+Component Structure/Hierarchy:
+..............................
+
+<Layout>  - layout.js
+   <Template> -template.js
+	<ErrorBoundary fallback={<Error/>}> global-error.js
+	   <Suspense fallback={<Loading/>}> -loading.js
+		<ErrorBoundary fallback={<NotFound/>} -not-found.js
+		    <Page/> -page.js	
+		<ErrorBoundary>
+           <Suspense>	
+        </ErrorBoundary>
+   </Template>	
+</Layout>
+....................................................................................
+			   Routing
+		       Pages and Layouts
+....................................................................................
+
+
+.....................................................................................
+
+				Nested Folders and Routing:
+.....................................................................................
+
+1.src/app/welcome/page.js
+
+export default function WelcomePage(){
+    return <h1>Welcome Page</h1>
+}
+
+http://localhost:3000/welcome -----> it will show page.js content of welcome/page.js
+
+
+Nested Layout:
+  
+src/app/layout.js - Root Layout.
+ Every Next app must have one single root layout.	
+
+src/app/welcome/layout.js  -Nested layout.
+//nested layout.
+
+export default function WelcomeLayout({ children }) {
+    return <div id="welcome layout">
+        {children}
+    </div>
+}
+
+.....................................................................................
+			       Deep Nesting
+.....................................................................................
+
+src/app/welcome/hello/page.js
+
+export default function Hello(){
+    return <h1>Hello</h1>
+}
+
+src/app/welcome/hello/layout.js
+export default function HelloLayout({children}){
+
+    return <div id="hellolayout">
+            {children}
+    </div>
+}
+
+Use Case:
+  dashboard/settings
+  dashboard/analytics
+  dashboard/settings/profile
+  dashboard/settings/password
+  
+  /dashboard/settings
+...................................................................................
+
+
+
+
+
+
+
